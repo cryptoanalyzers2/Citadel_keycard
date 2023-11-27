@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "9KCTyg5a+QZlpTekFC81b+auCHpnXNCcZQnx5P3wNzUP2kjwCeE0tMZDLia71Wq/z96W8npN7F6/fwy9eKiNCw==",
+  "success": true,
+  "projectFilePath": "C:\\Citadel_keycard\\emulator\\apdu_server\\apdu_server\\apdu_server.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\andra\\.nuget\\packages\\pcsc\\6.1.3\\pcsc.6.1.3.nupkg.sha512",
+    "C:\\Users\\andra\\.nuget\\packages\\pcsc.iso7816\\6.1.3\\pcsc.iso7816.6.1.3.nupkg.sha512"
+  ],
+  "logs": []
+}
