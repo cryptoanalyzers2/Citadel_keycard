@@ -245,9 +245,9 @@ public class MainActivity extends AppCompatActivity {
 
         CardChannel netchannel = new netCardChannel();
 
-        if(netchannel.isConnected())
-        {
-            displayMesssage("connected to card via netCardChannel");
+      //  if(netchannel.isConnected())
+     //   {
+     //       displayMesssage("connected to card via netCardChannel");
 
             APDUCommand cmd = new APDUCommand((int)0x00,(int)0x0A,(int)0x04,(int)0x00,null);
             try {
@@ -258,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        }
+    //    }
 
 
 
@@ -280,21 +280,27 @@ public class MainActivity extends AppCompatActivity {
 
         static final String TAG0= "NetCardChannel";
 
-        static HttpURLConnection urlConnection=null;
-        URL url = null;
+        //static HttpURLConnection urlConnection=null;
+        //URL url = null;
 
-        public netCardChannel(){
-        try
+        public boolean connect(HttpURLConnection urlConnection )
+        {
+            if(isConnected==true)
+            {
+                 return true;
+            }
+
+            try
             {
 
                 //connection at start
                 //url = new URL("http://" + HOSTNAME + ":" + PORT);
-                url = new URL("http://" + LOCALHOST + ":" + PORT);
+               URL url = new URL("http://" + LOCALHOST + ":" + PORT);
                 urlConnection = (HttpURLConnection) url.openConnection();
                 isConnected= true;
 
             }
-        catch(Exception ex)
+            catch(Exception ex)
             {
 
                 isConnected= false;
@@ -302,6 +308,14 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG0, ex.getMessage());
 
             }
+
+            return isConnected;
+        }
+
+
+        public netCardChannel(){
+
+
 
         }
 
@@ -327,8 +341,8 @@ public class MainActivity extends AppCompatActivity {
             postDataParams.put("req", Base64.encodeToString(apdu_in,Base64.NO_WRAP | Base64.URL_SAFE));
 
             out.writeBytes(getPostDataString(postDataParams));
-            out.writeBytes("data=test");
-            out.flush();
+           //out.writeBytes("data=test");
+            //out.flush();
 
         }
 
@@ -337,18 +351,40 @@ public class MainActivity extends AppCompatActivity {
             protected Long doInBackground(byte[]... data) {
                try {
 
+                   byte[] apdu_in = data[0];
+                   HashMap<String, String> postDataParams = new HashMap<String, String>();
+                   postDataParams.put("req", Base64.encodeToString(apdu_in,Base64.NO_WRAP | Base64.URL_SAFE));
+
+
+
+                   HttpURLConnection urlConnection =null;
+                 // boolean res= connect(urlConnection)
+
+
+                   //connection at start
+                   //url = new URL("http://" + HOSTNAME + ":" + PORT);
+                   URL url = new URL("http://" + LOCALHOST + ":" + PORT+"?"+getPostDataString(postDataParams));
+                   urlConnection = (HttpURLConnection) url.openConnection();
+                   isConnected= true;
+
+
                     urlConnection.setDoInput(true);
                     urlConnection.setDoOutput(true);
                     urlConnection.setChunkedStreamingMode(1024);
-                   urlConnection.setReadTimeout(15000);
-                   urlConnection.setConnectTimeout(15000);
-                    urlConnection.setRequestMethod("GET");
-                   DataOutputStream out = new DataOutputStream(urlConnection.getOutputStream());
-                   writeStream(out, data[0]);
-                   //writeStream(out, new byte[4096]);
+                    urlConnection.setReadTimeout(15000);
+                    urlConnection.setConnectTimeout(15000);
+                    urlConnection.setRequestMethod("POST");
+                    DataOutputStream out = new DataOutputStream(urlConnection.getOutputStream());
+                    //writeStream(out, data[0]);
+                    //writeStream(out, new byte[4096]);
                     //out.writeBytes("req=data");
                     //out.flush();
+
+                   out.writeBytes(getPostDataString(postDataParams));
+                   out.flush();
                     out.close();
+                    urlConnection.disconnect();
+
 
                }
                catch(Exception ex)
@@ -369,24 +405,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        public void   sendapduNetwork(byte[] apdu_in) throws IOException
-        {
 
-            urlConnection.setDoOutput(true);
-            urlConnection.setChunkedStreamingMode(0);
-
-            DataOutputStream out = new DataOutputStream(urlConnection.getOutputStream());
-            writeStream(out, apdu_in);
-
-        }
 
         @Override
         public APDUResponse send(APDUCommand cmd) throws IOException {
 
-            if(isConnected==false)
-            {
-                return null;
-            }
+
 
             byte CLA =(byte) cmd.getCla();
             byte INS =(byte)  cmd.getIns();
