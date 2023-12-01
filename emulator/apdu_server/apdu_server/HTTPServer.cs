@@ -94,7 +94,7 @@ public class HttpServer
 
                 String command = s;
 
-                char[] apdu_command=Encoding.UTF8.GetChars(Convert.FromBase64String(command));
+                byte[] apdu_command=Convert.FromBase64String(command);
 
                 //CLA - INS - P1 -P2 -Lc
                 
@@ -191,9 +191,11 @@ public class HttpServer
 
                         using (var isoReader = new IsoReader(ctx, emulator_reader, SCardShareMode.Shared, SCardProtocol.Any, false))
                         {
-                            res = isoReader.Transmit(apdu_select);
 
-                            Console.WriteLine("Response from select : 0x{0:X2} 0x{1:X2} ", res[0].SW1, res[0].SW2);
+                         //no select prior to apdu commands
+                         //  res = isoReader.Transmit(apdu_select);
+
+                         //   Console.WriteLine("Response from select : 0x{0:X2} 0x{1:X2} ", res[0].SW1, res[0].SW2);
 
                             res = isoReader.Transmit(apdu);
                             if (res[0].GetData() != null)
@@ -213,8 +215,7 @@ public class HttpServer
                     String response;
                     List<byte> data = new List<byte>();
 
-                    data.AddRange(new byte[] { 0xFF, 0xFF, res[0].SW1, res[0].SW2 });
-
+                   
                     if (res[0].GetData() != null)
                     {
 
@@ -222,10 +223,11 @@ public class HttpServer
                         data.AddRange(res[0].GetData());
                         
                     }
+                    data.AddRange(new byte[] { res[0].SW1, res[0].SW2 });
 
 
 
-                    s=Convert.ToBase64String(data.ToArray());
+                    s = Convert.ToBase64String(data.ToArray());
 
                     s = s.Split('=')[0]; // Remove any trailing '='s
                     s = s.Replace('+', '-'); // 62nd char of encoding

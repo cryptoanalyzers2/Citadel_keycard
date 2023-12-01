@@ -23,6 +23,7 @@ import org.bouncycastle.util.encoders.Hex;
 import android.view.View;
 
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
@@ -33,7 +34,9 @@ import 	java.net.HttpURLConnection;
 import 	java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -47,6 +50,31 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     AlertDialog.Builder builder;
 
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+
+    public static String msg0="";
+
+    static byte[] Bytes2bytes(Byte[] oBytes)
+    {
+
+        byte[] bytes = new byte[oBytes.length];
+        for(int i = 0; i < oBytes.length; i++){
+            bytes[i] = oBytes[i];
+        }
+        return bytes;
+
+    }
+
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
     public void displayMesssage(String msg)
     {
 
@@ -57,6 +85,136 @@ public class MainActivity extends AppCompatActivity {
         builder.show();
 
     }
+
+    void test_keycard(CardChannel cardChannel)
+    {
+try
+{
+        // Applet-specific code
+        KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
+
+        Log.i(TAG, "Applet selection successful");
+
+        // First thing to do is selecting the applet on the card.
+        ApplicationInfo info = new ApplicationInfo(cmdSet.select().checkOK().getData());
+
+        // If the card is not initialized, the INIT apdu must be sent. The actual PIN, PUK and pairing password values
+        // can be either generated or chosen by the user. Using fixed values is highly discouraged.
+        if (!info.isInitializedCard()) {
+            Log.i(TAG, "Initializing card with test secrets");
+            displayMesssage("Initializing card with test secrets");
+            cmdSet.init("000000", "123456789012", "KeycardTest").checkOK();
+            info = new ApplicationInfo(cmdSet.select().checkOK().getData());
+        }
+
+        Log.i(TAG, "Instance UID: " + Hex.toHexString(info.getInstanceUID()));
+        Log.i(TAG, "Secure channel public key: " + Hex.toHexString(info.getSecureChannelPubKey()));
+        Log.i(TAG, "Application version: " + info.getAppVersionString());
+        Log.i(TAG, "Free pairing slots: " + info.getFreePairingSlots());
+        if (info.hasMasterKey()) {
+            Log.i(TAG, "Key UID: " + Hex.toHexString(info.getKeyUID()));
+        } else {
+            Log.i(TAG, "The card has no master key");
+        }
+        Log.i(TAG,  String.format("Capabilities: %02X", info.getCapabilities()));
+        Log.i(TAG, "Has Secure Channel: " + info.hasSecureChannelCapability());
+        Log.i(TAG, "Has Key Management: " + info.hasKeyManagementCapability());
+        Log.i(TAG, "Has Credentials Management: " + info.hasCredentialsManagementCapability());
+        Log.i(TAG, "Has NDEF capability: " + info.hasNDEFCapability());
+
+        if (info.hasSecureChannelCapability()) {
+            // In real projects, the pairing key should be saved and used for all new sessions.
+            cmdSet.autoPair("KeycardTest");
+            Pairing pairing = cmdSet.getPairing();
+
+            // Never log the pairing key in a real application!
+            Log.i(TAG, "Pairing with card is done.");
+            displayMesssage("Pairing with card is done");
+            Log.i(TAG, "Pairing index: " + pairing.getPairingIndex());
+            Log.i(TAG, "Pairing key: " + Hex.toHexString(pairing.getPairingKey()));
+
+            // Opening a Secure Channel is needed for all other applet commands
+            cmdSet.autoOpenSecureChannel();
+
+            Log.i(TAG, "Secure channel opened. Getting applet status.");
+        }
+
+        // We send a GET STATUS command, which does not require PIN authentication
+        ApplicationStatus status = new ApplicationStatus(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_APPLICATION).checkOK().getData());
+
+        Log.i(TAG, "PIN retry counter: " + status.getPINRetryCount());
+        Log.i(TAG, "PUK retry counter: " + status.getPUKRetryCount());
+        Log.i(TAG, "Has master key: " + status.hasMasterKey());
+
+        if (info.hasKeyManagementCapability()) {
+            // A mnemonic can be generated before PIN authentication. Generating a mnemonic does not create keys on the
+            // card. a subsequent loadKey step must be performed after PIN authentication. In this example we will only
+            // show how to convert the output of the card to a usable format but won't actually load the key
+            Mnemonic mnemonic = new Mnemonic(cmdSet.generateMnemonic(KeycardCommandSet.GENERATE_MNEMONIC_12_WORDS).checkOK().getData());
+
+            // We need to set a wordlist if we plan using this object to derive the binary seed. If we just need the word
+            // indexes we can skip this step and call mnemonic.getIndexes() instead.
+            mnemonic.fetchBIP39EnglishWordlist();
+
+            Log.i(TAG, "Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase());
+            Log.i(TAG, "Binary seed: " + Hex.toHexString(mnemonic.toBinarySeed()));
+        }
+
+        if (info.hasCredentialsManagementCapability()) {
+            // PIN authentication allows execution of privileged commands
+            cmdSet.verifyPIN("000000").checkAuthOK();
+
+            Log.i(TAG, "Pin Verified.");
+        }
+
+        // If the card has no keys, we generate a new set. Keys can also be loaded on the card starting from a binary
+        // seed generated from a mnemonic phrase. In alternative, we could load the generated keypair as shown in the
+        // commented line of code.
+        if (!status.hasMasterKey() && info.hasKeyManagementCapability()) {
+            cmdSet.generateKey();
+            //cmdSet.loadKey(mnemonic.toBIP32KeyPair());
+        }
+
+        // Get the current key path using GET STATUS
+        KeyPath currentPath = new KeyPath(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_KEY_PATH).checkOK().getData());
+        Log.i(TAG, "Current key path: " + currentPath);
+
+        if (!currentPath.toString().equals("m/44'/0'/0'/0/0")) {
+            // Key derivation is needed to select the desired key. The derived key remains current until a new derive
+            // command is sent (it is not lost on power loss).
+            cmdSet.deriveKey("m/44'/0'/0'/0/0").checkOK();
+            Log.i(TAG, "Derived m/44'/0'/0'/0/0");
+        }
+
+        // We retrieve the wallet public key
+        BIP32KeyPair walletPublicKey = BIP32KeyPair.fromTLV(cmdSet.exportCurrentKey(true).checkOK().getData());
+
+        Log.i(TAG, "Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey()));
+        Log.i(TAG, "Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress()));
+
+        byte[] hash = "thiscouldbeahashintheorysoitisok".getBytes();
+
+        RecoverableSignature signature = new RecoverableSignature(hash, cmdSet.sign(hash).checkOK().getData());
+
+        Log.i(TAG, "Signed hash: " + Hex.toHexString(hash));
+        Log.i(TAG, "Recovery ID: " + signature.getRecId());
+        Log.i(TAG, "R: " + Hex.toHexString(signature.getR()));
+        Log.i(TAG, "S: " + Hex.toHexString(signature.getS()));
+
+        if (info.hasSecureChannelCapability()) {
+            // Cleanup, in a real application you would not unpair and instead keep the pairing key for successive interactions.
+            // We also remove all other pairings so that we do not fill all slots with failing runs. Again in real application
+            // this would be a very bad idea to do.
+            cmdSet.unpairOthers();
+            cmdSet.autoUnpair();
+
+            Log.i(TAG, "Unpaired.");
+        }
+    } catch (Exception e) {
+        Log.e(TAG, e.getMessage());
+    }
+
+}
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,133 +231,8 @@ public class MainActivity extends AppCompatActivity {
         cardManager.setCardListener(new CardListener() {
             @Override
             public void onConnected(CardChannel cardChannel) {
-                try {
 
-                    displayMesssage("Connected to card");
-
-                    // Applet-specific code
-                    KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
-
-                    Log.i(TAG, "Applet selection successful");
-
-                    // First thing to do is selecting the applet on the card.
-                    ApplicationInfo info = new ApplicationInfo(cmdSet.select().checkOK().getData());
-
-                    // If the card is not initialized, the INIT apdu must be sent. The actual PIN, PUK and pairing password values
-                    // can be either generated or chosen by the user. Using fixed values is highly discouraged.
-                    if (!info.isInitializedCard()) {
-                        Log.i(TAG, "Initializing card with test secrets");
-                        displayMesssage("Initializing card with test secrets");
-                        cmdSet.init("000000", "123456789012", "KeycardTest").checkOK();
-                        info = new ApplicationInfo(cmdSet.select().checkOK().getData());
-                    }
-
-                    Log.i(TAG, "Instance UID: " + Hex.toHexString(info.getInstanceUID()));
-                    Log.i(TAG, "Secure channel public key: " + Hex.toHexString(info.getSecureChannelPubKey()));
-                    Log.i(TAG, "Application version: " + info.getAppVersionString());
-                    Log.i(TAG, "Free pairing slots: " + info.getFreePairingSlots());
-                    if (info.hasMasterKey()) {
-                        Log.i(TAG, "Key UID: " + Hex.toHexString(info.getKeyUID()));
-                    } else {
-                        Log.i(TAG, "The card has no master key");
-                    }
-                    Log.i(TAG,  String.format("Capabilities: %02X", info.getCapabilities()));
-                    Log.i(TAG, "Has Secure Channel: " + info.hasSecureChannelCapability());
-                    Log.i(TAG, "Has Key Management: " + info.hasKeyManagementCapability());
-                    Log.i(TAG, "Has Credentials Management: " + info.hasCredentialsManagementCapability());
-                    Log.i(TAG, "Has NDEF capability: " + info.hasNDEFCapability());
-
-                    if (info.hasSecureChannelCapability()) {
-                        // In real projects, the pairing key should be saved and used for all new sessions.
-                        cmdSet.autoPair("KeycardTest");
-                        Pairing pairing = cmdSet.getPairing();
-
-                        // Never log the pairing key in a real application!
-                        Log.i(TAG, "Pairing with card is done.");
-                        displayMesssage("Pairing with card is done");
-                        Log.i(TAG, "Pairing index: " + pairing.getPairingIndex());
-                        Log.i(TAG, "Pairing key: " + Hex.toHexString(pairing.getPairingKey()));
-
-                        // Opening a Secure Channel is needed for all other applet commands
-                        cmdSet.autoOpenSecureChannel();
-
-                        Log.i(TAG, "Secure channel opened. Getting applet status.");
-                    }
-
-                    // We send a GET STATUS command, which does not require PIN authentication
-                    ApplicationStatus status = new ApplicationStatus(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_APPLICATION).checkOK().getData());
-
-                    Log.i(TAG, "PIN retry counter: " + status.getPINRetryCount());
-                    Log.i(TAG, "PUK retry counter: " + status.getPUKRetryCount());
-                    Log.i(TAG, "Has master key: " + status.hasMasterKey());
-
-                    if (info.hasKeyManagementCapability()) {
-                        // A mnemonic can be generated before PIN authentication. Generating a mnemonic does not create keys on the
-                        // card. a subsequent loadKey step must be performed after PIN authentication. In this example we will only
-                        // show how to convert the output of the card to a usable format but won't actually load the key
-                        Mnemonic mnemonic = new Mnemonic(cmdSet.generateMnemonic(KeycardCommandSet.GENERATE_MNEMONIC_12_WORDS).checkOK().getData());
-
-                        // We need to set a wordlist if we plan using this object to derive the binary seed. If we just need the word
-                        // indexes we can skip this step and call mnemonic.getIndexes() instead.
-                        mnemonic.fetchBIP39EnglishWordlist();
-
-                        Log.i(TAG, "Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase());
-                        Log.i(TAG, "Binary seed: " + Hex.toHexString(mnemonic.toBinarySeed()));
-                    }
-
-                    if (info.hasCredentialsManagementCapability()) {
-                        // PIN authentication allows execution of privileged commands
-                        cmdSet.verifyPIN("000000").checkAuthOK();
-
-                        Log.i(TAG, "Pin Verified.");
-                    }
-
-                    // If the card has no keys, we generate a new set. Keys can also be loaded on the card starting from a binary
-                    // seed generated from a mnemonic phrase. In alternative, we could load the generated keypair as shown in the
-                    // commented line of code.
-                    if (!status.hasMasterKey() && info.hasKeyManagementCapability()) {
-                        cmdSet.generateKey();
-                        //cmdSet.loadKey(mnemonic.toBIP32KeyPair());
-                    }
-
-                    // Get the current key path using GET STATUS
-                    KeyPath currentPath = new KeyPath(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_KEY_PATH).checkOK().getData());
-                    Log.i(TAG, "Current key path: " + currentPath);
-
-                    if (!currentPath.toString().equals("m/44'/0'/0'/0/0")) {
-                        // Key derivation is needed to select the desired key. The derived key remains current until a new derive
-                        // command is sent (it is not lost on power loss).
-                        cmdSet.deriveKey("m/44'/0'/0'/0/0").checkOK();
-                        Log.i(TAG, "Derived m/44'/0'/0'/0/0");
-                    }
-
-                    // We retrieve the wallet public key
-                    BIP32KeyPair walletPublicKey = BIP32KeyPair.fromTLV(cmdSet.exportCurrentKey(true).checkOK().getData());
-
-                    Log.i(TAG, "Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey()));
-                    Log.i(TAG, "Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress()));
-
-                    byte[] hash = "thiscouldbeahashintheorysoitisok".getBytes();
-
-                    RecoverableSignature signature = new RecoverableSignature(hash, cmdSet.sign(hash).checkOK().getData());
-
-                    Log.i(TAG, "Signed hash: " + Hex.toHexString(hash));
-                    Log.i(TAG, "Recovery ID: " + signature.getRecId());
-                    Log.i(TAG, "R: " + Hex.toHexString(signature.getR()));
-                    Log.i(TAG, "S: " + Hex.toHexString(signature.getS()));
-
-                    if (info.hasSecureChannelCapability()) {
-                        // Cleanup, in a real application you would not unpair and instead keep the pairing key for successive interactions.
-                        // We also remove all other pairings so that we do not fill all slots with failing runs. Again in real application
-                        // this would be a very bad idea to do.
-                        cmdSet.unpairOthers();
-                        cmdSet.autoUnpair();
-
-                        Log.i(TAG, "Unpaired.");
-                    }
-                } catch (Exception e) {
-                    Log.e(TAG, e.getMessage());
-                }
+                test_keycard(cardChannel);
 
             }
 
@@ -239,8 +272,13 @@ public class MainActivity extends AppCompatActivity {
             nfcAdapter.disableReaderMode(this);
         }
     }
+    public void test2(View view) {
 
-    public void test1(View view) {
+        displayMesssage(msg0);
+
+    }
+
+        public void test1(View view) {
 
 
         CardChannel netchannel = new netCardChannel();
@@ -249,7 +287,11 @@ public class MainActivity extends AppCompatActivity {
      //   {
      //       displayMesssage("connected to card via netCardChannel");
 
-            APDUCommand cmd = new APDUCommand((int)0x00,(int)0x0A,(int)0x04,(int)0x00,null);
+           // APDUCommand cmd = new APDUCommand((int)0x00,(int)0xA4,(int)0x04,(int)0x00,null);
+
+            test_keycard(netchannel);
+            displayMesssage("test keycard completed");
+            /*
             try {
                 netchannel.send(cmd);
                 displayMesssage("test command sent to card");
@@ -257,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
                 displayMesssage(e.getMessage());
 
             }
+             */
 
     //    }
 
@@ -277,6 +320,8 @@ public class MainActivity extends AppCompatActivity {
         static final String LOCALHOST="10.0.2.2";
         static final int PORT=38099;
         static boolean isConnected=false;
+
+        byte[] apdu_out;
 
         static final String TAG0= "NetCardChannel";
 
@@ -382,6 +427,33 @@ public class MainActivity extends AppCompatActivity {
 
                    out.writeBytes(getPostDataString(postDataParams));
                    out.flush();
+                   DataInputStream in = new DataInputStream(urlConnection.getInputStream());
+
+                   List<Byte> b = new ArrayList<Byte>();
+
+                   try {
+                       while(true) {
+                           byte b0 = in.readByte();
+
+                           b.add(b0);
+                       }
+                   }
+                   catch(Exception ex)
+                   {
+                     //  Log.e(TAG0, ex.getMessage());
+                   }
+
+                   byte[] b1= new byte[b.toArray().length];
+                  for(int i=0;i<b.toArray().length;i++)
+                  {
+                      b1[i]=(byte)b.toArray()[i];
+                  }
+
+
+                   apdu_out=Base64.decode(b1,Base64.NO_WRAP | Base64.URL_SAFE);
+
+                   Log.i(TAG0, "answer from card="+bytesToHex(apdu_out));
+                   msg0+="\nanswer from card="+bytesToHex(apdu_out);
                     out.close();
                     urlConnection.disconnect();
 
@@ -389,7 +461,9 @@ public class MainActivity extends AppCompatActivity {
                }
                catch(Exception ex)
                {
+                   msg0=ex.getMessage();
                    Log.e(TAG0, ex.getMessage());
+                   apdu_out=null;
                }
 
                return 0L;
@@ -417,13 +491,53 @@ public class MainActivity extends AppCompatActivity {
             byte P1 =(byte)  cmd.getP1();
             byte P2 = (byte) cmd.getP2();
 
-            byte[] apdu_in= {CLA,INS,P1,P2};
+            ArrayList<Byte> apdu_list = new ArrayList<>();
+
+            // byte[] apdu_header= {CLA,INS,P1,P2};
+            apdu_list.add(CLA);
+            apdu_list.add(INS);
+            apdu_list.add(P1);
+            apdu_list.add(P2);
+
+            if((cmd.getData()!=null)&&(cmd.getData().length>0))
+            {
+
+                apdu_list.add((byte)cmd.getData().length);
+                for(int i=0;i<cmd.getData().length;i++)
+                {
+                    apdu_list.add(cmd.getData()[i]);
+                }
+            }
+
+            byte[] apdu = new byte[apdu_list.toArray().length];
+            //the joy of Java...
+            for(int i=0;i<apdu_list.toArray().length;i++)
+            {
+                apdu[i]= (byte) apdu_list.toArray()[i];
+            }
+
+
+
 
             try {
                // sendapduNetwork(apdu_in);
-                new sendDataNetTask().execute(apdu_in);
 
-                return null;
+                apdu_out= null;
+
+                 new sendDataNetTask().execute(apdu);
+                 //50x100=5secs timeout
+                for(int i=0;i<100;i++)
+                {
+                    Thread.sleep(50);
+                    if(apdu_out!=null)
+                    {
+                        break;
+                    }
+                }
+
+                APDUResponse response = new APDUResponse(apdu_out);
+
+                return response;
             }
             catch(Exception ex)
             {
