@@ -5,6 +5,8 @@ using System.IO;
 using System.Text;
 using PCSC.Iso7816;
 using PCSC;
+using System.Formats.Asn1;
+using GS.SCard;
 
 public class HttpServer
 {
@@ -16,6 +18,45 @@ public class HttpServer
     string emulator_reader = "Identive SCR33xx v2.0 USB SC Reader 0";
     CommandApdu apdu_select;
 
+
+    public static void WriteRedLine(String msg)
+    {
+
+
+        //Console.BackgroundColor = ConsoleColor.Blue;
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(msg);
+        Console.ResetColor();
+
+    }
+
+    public static void WriteGreenLine(String msg)
+    {
+
+
+        //Console.BackgroundColor = ConsoleColor.Blue;
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine(msg);
+        Console.ResetColor();
+
+    }
+
+    public static void WriteBlueLine(String msg)
+    {
+
+
+        //Console.BackgroundColor = ConsoleColor.Blue;
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.WriteLine(msg);
+        Console.ResetColor();
+
+    }
+
+
+    //  SCardContext ctx;
+    // IsoReader isoReader;
+    WinSCard scard = new WinSCard();
+
     public void Start()
     {
         _listener = new HttpListener();
@@ -23,6 +64,7 @@ public class HttpServer
         _listener.Start();
         Receive();
 
+        /*
         apdu_select = new CommandApdu(IsoCase.Case3Short, PCSC.SCardProtocol.T1);
 
         apdu_select.CLA = 0x00;
@@ -31,12 +73,36 @@ public class HttpServer
         apdu_select.P2 = 0x00;
 
         apdu_select.Data = new byte[] {0x50 ,0x4B, 0x49, 0x41, 0x50, 0x50, 0x4C, 0x45, 0x54, 0x00 };
-       
+
+        */
+
+        try
+        {
+
+            //this is error-prone
+            /*
+            ctx = (SCardContext)contextFactory.Establish(SCardScope.System);
+            isoReader = new IsoReader(ctx, emulator_reader, SCardShareMode.Exclusive, SCardProtocol.T1, false);
+           */
+            scard.EstablishContext();
+            scard.WaitForCardPresent();
+            scard.Connect(emulator_reader);
+
+            WriteGreenLine("connected to reader " + emulator_reader);
+        }
+        catch (Exception ex) {
+
+            WriteRedLine("cannot connect to reader " + emulator_reader);
+            Stop();
+
+        }
+
     }
 
     public void Stop()
     {
         _listener.Stop();
+        WriteBlueLine("APDU server stopped");
     }
 
     private void Receive()
@@ -120,7 +186,7 @@ public class HttpServer
                     {
                        Lc =  (byte)apdu_command[4];
                     }
-
+                    WriteBlueLine("sending APDU :");
                     Console.WriteLine("CLA=0x{0:X2}", CLA);
                     Console.WriteLine("INS=0x{0:X2}", INS);
                     Console.WriteLine("P1=0x{0:X2}", P1);
@@ -139,16 +205,11 @@ public class HttpServer
                         apdu = new CommandApdu(IsoCase.Case3Short, PCSC.SCardProtocol.T1);
                     }
 
-                    if(INS==0x44)
-                    {
-                        apdu = new CommandApdu(IsoCase.Case4Short, PCSC.SCardProtocol.T1);
-                        apdu.Le = 0x08;
-                    }
 
                 
 
 
-                apdu.CLA = CLA;
+                    apdu.CLA = CLA;
                     apdu.INS = INS;
                     apdu.P1 = P1;
                     apdu.P2 = P2;
@@ -160,13 +221,14 @@ public class HttpServer
                        
                         if(apdu_command.Length<5+Lc)
                         {
-                            Console.WriteLine("wrong apdu command");
+                            WriteRedLine("wrong apdu command");
                             context.Response.OutputStream.Flush();
                             context.Response.Close();
                             goto __RECEIVE;
                         }
 
                         List<byte> data_ = new List<byte>();
+                        WriteBlueLine("sending " + Lc + " bytes of data");
                         Console.Write("data ->:");
                         for (int i=0;i<Lc;i++)
                         {
@@ -186,37 +248,61 @@ public class HttpServer
 
                     Response res;
 
-                    using (var ctx = contextFactory.Establish(SCardScope.System))
+
+                    //no select prior to apdu commands
+                    //  res = isoReader.Transmit(apdu_select);
+
+                    //   Console.WriteLine("Response from select : 0x{0:X2} 0x{1:X2} ", res[0].SW1, res[0].SW2);
+                    //need to change to something else as it follows some weird ISO7816 rules and may create errors
+                    //      res = isoReader.Transmit(apdu);
+
+
+                    byte[] response = new byte[256];
+                    int l_res = response.Length;
+
+
+                    scard.Transmit(apdu.ToArray(), apdu.ToArray().Length, response, ref l_res);
+
+                    WriteBlueLine("->" + BitConverter.ToString(apdu.ToArray()).Replace("-", ""));
+
+                    String SW = "SW1 SW2 = " + BitConverter.ToString(new byte[] { response[l_res - 2], response[l_res - 1] }).Replace("-", "");
+
+
+                    
+
+                    WriteBlueLine("Receving APDU :");
+
+                    if (l_res>2)
                     {
+                        WriteBlueLine("Receving " + (l_res-2) +" bytes of data");
 
-                        using (var isoReader = new IsoReader(ctx, emulator_reader, SCardShareMode.Shared, SCardProtocol.Any, false))
-                        {
-
-                         //no select prior to apdu commands
-                         //  res = isoReader.Transmit(apdu_select);
-
-                         //   Console.WriteLine("Response from select : 0x{0:X2} 0x{1:X2} ", res[0].SW1, res[0].SW2);
-
-                            res = isoReader.Transmit(apdu);
-                            if (res[0].GetData() != null)
-                            {
-                                for (int b = 0; b < res[0].GetData().Count(); b++)
+                        for (int b = 0; b <( l_res-2) ; b++)
                                 {
-                                    Console.Write(" {0:X2}", res[0].GetData()[b]);
+                                    Console.Write(" {0:X2}", response[b]);
                                 }
                                 Console.WriteLine("");
-                            }
-
-
-                            Console.WriteLine("Response from command : 0x{0:X2} 0x{1:X2} ", res[0].SW1, res[0].SW2);
-                        }
                     }
 
-                    String response;
-                    List<byte> data = new List<byte>();
 
+                    if ((response[l_res - 2] != 0x90) && (response[l_res - 2] != 0x6C) && (response[l_res - 2] != 0x61))
+                    {
+                        WriteGreenLine(String.Format("Response from command : 0x{0:X2} 0x{1:X2} ", response[l_res - 2], response[l_res - 1]));
+
+                    }
+                    else
+                    {
+                        WriteRedLine(String.Format("Response from command : 0x{0:X2} 0x{1:X2} ", response[l_res - 2], response[l_res - 1]));
+                    }
+
+                    // }
+                    //  }
+
+                    String response_;
+                   // List<byte> data = new List<byte>();
+
+                    /*
                    
-                    if (res[0].GetData() != null)
+                    if( l_res>2)
                     {
 
 
@@ -224,21 +310,22 @@ public class HttpServer
                         
                     }
                     data.AddRange(new byte[] { res[0].SW1, res[0].SW2 });
+                    */
 
 
 
-                    s = Convert.ToBase64String(data.ToArray());
+                    s = Convert.ToBase64String(response.Take(l_res).ToArray());
 
                     s = s.Split('=')[0]; // Remove any trailing '='s
                     s = s.Replace('+', '-'); // 62nd char of encoding
                     s = s.Replace('/', '_'); // 63rd char of encoding
 
-                    response = s;
+                    response_ = s;
 
 
-                    Console.WriteLine("sending base64 response: -->" + response+"<--");
+                    Console.WriteLine("sending base64 response: -->" + response_+"<--");
 
-                    context.Response.OutputStream.Write(Encoding.UTF8.GetBytes(response));
+                    context.Response.OutputStream.Write(Encoding.UTF8.GetBytes(response_));
                     context.Response.OutputStream.Flush();
                     context.Response.Close();
                 }
@@ -248,7 +335,7 @@ public class HttpServer
             catch(Exception ex)
             {
                 //context.Response.OutputStream.Write(Encoding.UTF8.GetBytes(Convert.ToBase64String(Encoding.UTF8.GetBytes(ex.Message))));
-                Console.WriteLine("error=" + ex.Message);
+                WriteRedLine("error=" + ex.Message);
             }
 
             __RECEIVE:

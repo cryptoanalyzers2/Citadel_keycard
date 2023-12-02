@@ -34,3 +34,8 @@ C:\Citadel_keycard\emulator\apdu_server\apdu_server\obj\Debug\net6.0\refint\apdu
 C:\Citadel_keycard\emulator\apdu_server\apdu_server\obj\Debug\net6.0\apdu_server.pdb
 C:\Citadel_keycard\emulator\apdu_server\apdu_server\obj\Debug\net6.0\apdu_server.genruntimeconfig.cache
 C:\Citadel_keycard\emulator\apdu_server\apdu_server\obj\Debug\net6.0\ref\apdu_server.dll
+C:\Citadel_keycard\emulator\apdu_server\apdu_server\bin\Debug\net6.0\GS.Apdu.dll
+C:\Citadel_keycard\emulator\apdu_server\apdu_server\bin\Debug\net6.0\GS.CSharpPCSC.dll
+C:\Citadel_keycard\emulator\apdu_server\apdu_server\bin\Debug\net6.0\GS.HexLibrary.dll
+C:\Citadel_keycard\emulator\apdu_server\apdu_server\bin\Debug\net6.0\ClassLibrary1.dll
+C:\Citadel_keycard\emulator\apdu_server\apdu_server\bin\Debug\net6.0\COM_APDU.dll

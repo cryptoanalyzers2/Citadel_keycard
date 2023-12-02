@@ -12,4 +12,16 @@
     <PackageReference Include="PCSC.Iso7816" Version="6.1.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="GS.Apdu">
+      <HintPath>backup_gs_dll\backup_gs_dll\GS.Apdu.dll</HintPath>
+    </Reference>
+    <Reference Include="GS.CSharpPCSC">
+      <HintPath>backup_gs_dll\backup_gs_dll\GS.CSharpPCSC.dll</HintPath>
+    </Reference>
+    <Reference Include="GS.HexLibrary">
+      <HintPath>backup_gs_dll\backup_gs_dll\GS.HexLibrary.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
