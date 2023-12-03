@@ -286,12 +286,12 @@ public class HttpServer
 
                     if ((response[l_res - 2] != 0x90) && (response[l_res - 2] != 0x6C) && (response[l_res - 2] != 0x61))
                     {
-                        WriteGreenLine(String.Format("Response from command : 0x{0:X2} 0x{1:X2} ", response[l_res - 2], response[l_res - 1]));
+                        WriteRedLine(String.Format("Response from command : 0x{0:X2} 0x{1:X2} ", response[l_res - 2], response[l_res - 1]));
 
                     }
                     else
                     {
-                        WriteRedLine(String.Format("Response from command : 0x{0:X2} 0x{1:X2} ", response[l_res - 2], response[l_res - 1]));
+                        WriteGreenLine(String.Format("Response from command : 0x{0:X2} 0x{1:X2} ", response[l_res - 2], response[l_res - 1]));
                     }
 
                     // }
