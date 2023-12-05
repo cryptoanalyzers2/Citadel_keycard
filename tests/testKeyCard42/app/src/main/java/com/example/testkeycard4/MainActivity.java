@@ -3,6 +3,9 @@ package com.example.testkeycard4;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.nfc.NfcAdapter;
@@ -41,6 +44,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static String msg0="";
 
+    public static String txtInfo="";
+
     static byte[] Bytes2bytes(Byte[] oBytes)
     {
 
@@ -65,6 +71,20 @@ public class MainActivity extends AppCompatActivity {
             bytes[i] = oBytes[i];
         }
         return bytes;
+
+    }
+
+    public static String generateRandomWord(int letters)
+    {
+
+        Random random = new Random();
+
+            char[] word = new char[letters]; // words of length 3 through 10. (1 and 2 letter words are boring.)
+            for(int j = 0; j < word.length; j++)
+            {
+                word[j] = (char)('a' + random.nextInt(26));
+            }
+           return new String(word);
 
     }
 
@@ -109,10 +129,94 @@ public class MainActivity extends AppCompatActivity {
 return null;
     }
 
+    void test_keycard6(CardChannel cardChannel) {
+
+        msg0 = "";
+        txtInfo="";
+        try {
+            TextView txtsecret = (TextView) findViewById(R.id.txt_secret);
+            String SECRET = (String) txtsecret.getText().toString();
+
+            TextView txtPIN = (TextView) findViewById(R.id.txt_PIN);
+            String PIN = (String) txtPIN.getText().toString();
+
+
+            KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
+            ApplicationInfo info = new ApplicationInfo(cmdSet.select().checkOK().getData());
+            if (!info.isInitializedCard()) {
+                displayMesssage("Initialize Card First!");
+                return;
+            }
+
+            //cmdSet.autoPair("KeycardTest");
+            cmdSet.autoPair(SECRET);
+            msg0 += "\n" + "Pairing done";
+            //cmdSet.pair((byte) 0x00,"KeycardTest".getBytes());
+            Pairing pairing = cmdSet.getPairing();
+            //pairing.getPairingIndex();
+
+            cmdSet.autoOpenSecureChannel();
+            msg0 += "\n" + "Secure Channel opened";
+
+            //cmdSet.verifyPIN("000000").checkAuthOK();
+            cmdSet.verifyPIN(PIN).checkAuthOK();
+            msg0 += "\n" + "PIN verified";
+
+
+            KeyPath currentPath = new KeyPath(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_KEY_PATH).checkOK().getData());
+            Log.i(TAG, "Current key path: " + currentPath);
+            msg0 += "\n" + "Current key path: " + currentPath;
+            txtInfo+="\n"+ "Current key path: " + currentPath;
+
+            if (!currentPath.toString().equals("m/44'/0'/0'/0/0")) {
+                // Key derivation is needed to select the desired key. The derived key remains current until a new derive
+                // command is sent (it is not lost on power loss).
+                cmdSet.deriveKey("m/44'/0'/0'/0/0").checkOK();
+                Log.i(TAG, "Derived m/44'/0'/0'/0/0");
+                msg0 += "\n" + "Derived m/44'/0'/0'/0/0";
+                txtInfo  += "\n" + "Derived m/44'/0'/0'/0/0";
+
+            }
+
+            // We retrieve the wallet public key
+            BIP32KeyPair walletPublicKey = BIP32KeyPair.fromTLV(cmdSet.exportCurrentKey(true).checkOK().getData());
+
+            Log.i(TAG, "Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey()));
+            txtInfo+="\n"+"Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey());
+            msg0+="\n"+"Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey());
+
+            Log.i(TAG, "Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress()));
+            msg0 +="\n"+"Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
+            txtInfo +="\n"+"Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
+            cmdSet.unpairOthers();
+            cmdSet.autoUnpair();
+
+            Log.i(TAG, "Unpaired.");
+            msg0+="\n"+"Unpaired.";
+
+            displayMesssage("key generated, SECP256K1 public key="+Hex.toHexString(walletPublicKey.getPublicKey()));
+
+        }
+        catch (Exception ex)
+        {
+            displayMesssage(ex.getMessage());
+        }
+
+    }
+
+
+
     void test_keycard5(CardChannel cardChannel, byte[] data) {
 
         msg0 = "";
         try {
+
+            TextView txtsecret = (TextView) findViewById(R.id.txt_secret);
+            String SECRET = (String) txtsecret.getText().toString();
+
+            TextView txtPIN = (TextView) findViewById(R.id.txt_PIN);
+            String PIN = (String) txtPIN.getText().toString();
+
 
 
             KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
@@ -128,7 +232,8 @@ return null;
                 return;
             }
 
-            cmdSet.autoPair("KeycardTest");
+            //cmdSet.autoPair("KeycardTest");
+            cmdSet.autoPair(SECRET);
             msg0 += "\n" + "Pairing done";
             //cmdSet.pair((byte) 0x00,"KeycardTest".getBytes());
             Pairing pairing = cmdSet.getPairing();
@@ -137,7 +242,8 @@ return null;
             cmdSet.autoOpenSecureChannel();
             msg0 += "\n" + "Secure Channel opened";
 
-            cmdSet.verifyPIN("000000").checkAuthOK();
+            //cmdSet.verifyPIN("000000").checkAuthOK();
+            cmdSet.verifyPIN(PIN).checkAuthOK();
             msg0 += "\n" + "PIN verified";
 
 
@@ -188,6 +294,11 @@ return null;
 
         msg0 = "";
         try {
+            TextView txtsecret = (TextView) findViewById(R.id.txt_secret);
+            String SECRET = (String) txtsecret.getText().toString();
+
+            TextView txtPIN = (TextView) findViewById(R.id.txt_PIN);
+            String PIN = (String) txtPIN.getText().toString();
 
 
             KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
@@ -197,7 +308,8 @@ return null;
                 return;
             }
 
-            cmdSet.autoPair("KeycardTest");
+            //cmdSet.autoPair("KeycardTest");
+            cmdSet.autoPair(SECRET);
             msg0 += "\n" + "Pairing done";
             //cmdSet.pair((byte) 0x00,"KeycardTest".getBytes());
             Pairing pairing = cmdSet.getPairing();
@@ -206,7 +318,8 @@ return null;
             cmdSet.autoOpenSecureChannel();
             msg0 += "\n" + "Secure Channel opened";
 
-            cmdSet.verifyPIN("000000").checkAuthOK();
+            //cmdSet.verifyPIN("000000").checkAuthOK();
+            cmdSet.verifyPIN(PIN).checkAuthOK();
             msg0 += "\n" + "PIN verified";
 
 
@@ -228,8 +341,12 @@ return null;
             BIP32KeyPair walletPublicKey = BIP32KeyPair.fromTLV(cmdSet.exportCurrentKey(true).checkOK().getData());
 
             Log.i(TAG, "Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey()));
+            txtInfo+="\n"+"Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey());
+            msg0+="\n"+"Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey());
+
             Log.i(TAG, "Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress()));
             msg0 +="\n"+"Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
+            txtInfo +="\n"+"Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
             cmdSet.unpairOthers();
             cmdSet.autoUnpair();
 
@@ -253,6 +370,10 @@ try
 {
 msg0="";
     String txt="";
+    String PIN="";
+    String PASSWORD="";
+    String PUK="";
+    String MNEMONIC="";
 
         // Applet-specific code
         KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
@@ -267,11 +388,26 @@ msg0="";
         if (!info.isInitializedCard()) {
             Log.i(TAG, "Initializing card with test secrets");
 
-            cmdSet.init("000000", "123456789012", "KeycardTest").checkOK();
-            displayMesssage("Card has been initialized  with test secrets");
+           // String PIN="";
+           // String PUK="";
+            Random rnd = new Random();
+            for(int i=0;i<6;i++)
+            {
+                PIN += rnd.nextInt(10);
+            }
+            for(int i=0;i<12;i++)
+            {
+                PUK += rnd.nextInt(10);
+            }
+
+             PASSWORD =generateRandomWord(11);
+
+            //cmdSet.init("000000", "123456789012", "KeycardTest").checkOK();
+            cmdSet.init(PIN, PUK, PASSWORD).checkOK();
             msg0+="\n"+"Card has been initialized  with test secrets";
-            msg0+="\n"+"PIN='000000' PUK='123456789012' pairing password='KeycardTest'";
-            txt+="\n"+"PIN='000000' PUK='123456789012' pairing password='KeycardTest'";
+            msg0+="\n"+"PIN='"+PIN+"' PUK='"+PUK+"' pairing password='"+PASSWORD+"'";
+            txt+="\n"+"PIN='"+PIN+"' PUK='"+PUK+"' pairing password='"+PASSWORD+"'";
+
             info = new ApplicationInfo(cmdSet.select().checkOK().getData());
         }
 
@@ -314,7 +450,7 @@ msg0="";
 
         if (info.hasSecureChannelCapability()) {
             // In real projects, the pairing key should be saved and used for all new sessions.
-            cmdSet.autoPair("KeycardTest");
+            cmdSet.autoPair(PASSWORD);
             //cmdSet.pair((byte) 0x00,"KeycardTest".getBytes());
             Pairing pairing = cmdSet.getPairing();
 
@@ -358,6 +494,10 @@ msg0="";
             Log.i(TAG, "Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase());
             msg0+="\n"+"Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase();
             txt+="\n"+"Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase();
+
+            MNEMONIC="Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase();
+            //displayMesssage("Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase());
+
             Log.i(TAG, "Binary seed: " + Hex.toHexString(mnemonic.toBinarySeed()));
             msg0+="\n"+"Binary seed: " + Hex.toHexString(mnemonic.toBinarySeed());
             txt+="\n"+"Binary seed: " + Hex.toHexString(mnemonic.toBinarySeed());
@@ -365,7 +505,7 @@ msg0="";
 
         if (info.hasCredentialsManagementCapability()) {
             // PIN authentication allows execution of privileged commands
-            cmdSet.verifyPIN("000000").checkAuthOK();
+            cmdSet.verifyPIN(PIN).checkAuthOK();
 
             Log.i(TAG, "Pin Verified.");
             msg0+="\n"+"Pin Verified.";
@@ -429,7 +569,12 @@ msg0="";
         }
 
         displayMesssage(txt);
-    } catch (Exception e) {
+         displayMesssage("Card has been initialized  with test secrets"+"\n"+"PIN='"+PIN+"' PUK='"+PUK+"' pairing password='"+PASSWORD+"'"+"\n"+MNEMONIC);
+        ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("credentials", "Card has been initialized  with test secrets"+"\n"+"PIN='"+PIN+"' PUK='"+PUK+"' pairing password='"+PASSWORD+"'"+"\n"+MNEMONIC);
+        clipboard.setPrimaryClip(clip);
+
+} catch (Exception e) {
         Log.e(TAG, e.getMessage());
         msg0+="\n"+e.getMessage();
     }
@@ -538,6 +683,13 @@ msg0="";
 
     }
 
+    public void test6(View view) {
+        CardChannel netchannel = new netCardChannel();
+
+        test_keycard6(netchannel);
+        displayMesssage(txtInfo);
+
+    }
 
     public void test2(View view) {
 
