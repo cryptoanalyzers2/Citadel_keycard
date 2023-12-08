@@ -1,0 +1,11 @@
+FEATURES 5/12 -> 11/12
+
+
+- better UI
+- more functions
+- implement ED25519 function in card and UI
+- functions for wallet creation BIP-32 etc ... both from existing ECDSA and new EDDSA
+- add wallet creation for ALL crypto scheme supported
+- link to crypto networks
+
+- switch between apdu test server and NFC
