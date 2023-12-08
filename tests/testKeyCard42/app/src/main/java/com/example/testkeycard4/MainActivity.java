@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.nfc.NfcAdapter;
@@ -27,18 +28,15 @@ import org.bouncycastle.util.encoders.Hex;
 import android.view.View;
 import android.widget.TextView;
 
-import java.io.BufferedOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
 
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import 	java.net.HttpURLConnection;
 import 	java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -129,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 return null;
     }
 
-    void test_keycard6(CardChannel cardChannel) {
+    void getInfo(CardChannel cardChannel) {
 
         msg0 = "";
         txtInfo="";
@@ -194,7 +192,7 @@ return null;
             Log.i(TAG, "Unpaired.");
             msg0+="\n"+"Unpaired.";
 
-            displayMesssage("key generated, SECP256K1 public key="+Hex.toHexString(walletPublicKey.getPublicKey()));
+            displayMesssage("SECP256K1 public key="+Hex.toHexString(walletPublicKey.getPublicKey()));
 
         }
         catch (Exception ex)
@@ -206,7 +204,7 @@ return null;
 
 
 
-    void test_keycard5(CardChannel cardChannel, byte[] data) {
+    void SECP256K1_sign(CardChannel cardChannel, byte[] data) {
 
         msg0 = "";
         try {
@@ -290,7 +288,7 @@ return null;
     }
 
 
-    void test_keycard3(CardChannel cardChannel) {
+    void generateSECP256K1(CardChannel cardChannel) {
 
         msg0 = "";
         try {
@@ -364,7 +362,7 @@ return null;
     }
 
     @SuppressLint("SuspiciousIndentation")
-    void test_keycard(CardChannel cardChannel)
+    void Initialize(CardChannel cardChannel)
     {
 try
 {
@@ -597,7 +595,7 @@ msg0="";
             @Override
             public void onConnected(CardChannel cardChannel) {
 
-                test_keycard(cardChannel);
+                Initialize(cardChannel);
 
             }
 
@@ -649,7 +647,7 @@ msg0="";
        //generate an ECDSA SECP256K1 key if not already generated
         CardChannel netchannel = new netCardChannel();
 
-        test_keycard3(netchannel);
+        generateSECP256K1(netchannel);
 
 
     }
@@ -674,7 +672,7 @@ msg0="";
                 return;
             }
 
-            test_keycard5(netchannel,bHex_to_sign);
+            SECP256K1_sign(netchannel,bHex_to_sign);
         }
         catch(Exception ex)
         {
@@ -686,7 +684,7 @@ msg0="";
     public void test6(View view) {
         CardChannel netchannel = new netCardChannel();
 
-        test_keycard6(netchannel);
+        getInfo(netchannel);
         displayMesssage(txtInfo);
 
     }
@@ -708,7 +706,7 @@ msg0="";
 
            // APDUCommand cmd = new APDUCommand((int)0x00,(int)0xA4,(int)0x04,(int)0x00,null);
 
-            test_keycard(netchannel);
+            Initialize(netchannel);
            // displayMesssage("test keycard completed");
             /*
             try {
@@ -727,6 +725,12 @@ msg0="";
         //displayMesssage("Test KeyCard4 Application");
         //use netCardChannel
     }
+
+    public void showSettings(View v){
+        startActivity(new Intent(MainActivity.this, SettingsActivity2.class));
+    }
+
+
 
     /// only for development / debug (not for production)
     public static class netCardChannel implements CardChannel{

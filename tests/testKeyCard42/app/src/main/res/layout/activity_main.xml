@@ -9,6 +9,7 @@
     tools:layout_editor_absoluteY="-2dp">
 
 
+
     <TableLayout
         android:layout_width="409dp"
         android:layout_height="800dp"
@@ -40,13 +41,13 @@
             android:text=" Citadel KeyCard"
             android:textSize="30sp"
             android:textStyle="bold"
+            android:textColor="#99EE82EE"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.15" />
-
 
 
         <TableRow
@@ -60,7 +61,7 @@
             android:text="Get Info"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
+            android:textSize="18sp"
             app:layout_constraintHorizontal_bias="0.948"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -105,7 +106,7 @@
             android:layout_width="376dp"
             android:layout_height="47dp"
             android:onClick="test3"
-            android:text="Generate KeyPair (ECDSA ED25519)"
+            android:text="Generate KeyPair (EDDSA ED25519)"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="379dp" />
@@ -124,7 +125,7 @@
             android:text="Sign (ECDSA)"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
+            android:textSize="18sp"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -240,7 +241,21 @@
             android:textSize="18sp"
             tools:layout_editor_absoluteX="160dp"
             tools:layout_editor_absoluteY="505dp" />
+        <TableRow
 
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/button_settings"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:onClick="showSettings"
+            android:text="Settings"
+            android:textColor="#FFEE82EE"
+            android:textSize="18sp"
+            tools:layout_editor_absoluteX="160dp"
+            tools:layout_editor_absoluteY="505dp" />
 
     </TableLayout>
 
