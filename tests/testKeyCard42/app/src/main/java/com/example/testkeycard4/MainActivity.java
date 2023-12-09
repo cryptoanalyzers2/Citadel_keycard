@@ -1,5 +1,7 @@
 package com.example.testkeycard4;
 
+import static java.lang.Integer.parseInt;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -26,6 +28,8 @@ import android.util.Log;
 import org.bouncycastle.util.encoders.Hex;
 
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.DataInputStream;
@@ -98,12 +102,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void displayMesssage(String msg)
     {
-
+        Utility.displayMesssage(msg,builder);
+/*
         builder.setMessage(msg)
                 .setTitle("message");
 
         builder.create();
         builder.show();
+
+ */
 
     }
 
@@ -584,8 +591,6 @@ msg0="";
 
          builder = new AlertDialog.Builder(this);
 
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
@@ -618,6 +623,20 @@ msg0="";
         cardManager.connectDevice(device);
       }
     });*/
+
+
+//get the spinner from the xml.
+        Spinner dropdown = findViewById(R.id.spinner_algo);
+//create a list of items for the spinner.
+        String[] items = new String[]{"ECDSA(SECP256K1)", "ECDSA(NIST-P256)", "EDDSA(ED25519)"};
+//create an adapter to describe how the items are displayed, adapters are used in several places in android.
+//There are multiple variations of this, but this is the basic variant.
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+//set the spinners adapter to the previously created one.
+        dropdown.setAdapter(adapter);
+
+
+
     }
 
     @Override
@@ -740,8 +759,7 @@ msg0="";
         static final String HOSTNAME= "encryptiontest.gotdns.ch";
 
         //Special alias to your host loopback interface (127.0.0.1 on your development machine)
-        static final String LOCALHOST="10.0.2.2";
-        static final int PORT=38099;
+
         static boolean isConnected=false;
 
         byte[] apdu_out;
@@ -760,6 +778,11 @@ msg0="";
 
             try
             {
+                 String LOCALHOST= Configuration.getNetCardChannelHostname();
+
+                 String s_port=Configuration.getNetCardChannelPort();
+
+                 int PORT= parseInt(s_port);
 
                 //connection at start
                 //url = new URL("http://" + HOSTNAME + ":" + PORT);
@@ -820,6 +843,12 @@ msg0="";
             @Override
             protected Long doInBackground(byte[]... data) {
                try {
+
+                    String LOCALHOST= Configuration.getNetCardChannelHostname();
+
+                    String s_port=Configuration.getNetCardChannelPort();
+
+                    int PORT= parseInt(s_port);
 
                    byte[] apdu_in = data[0];
                    HashMap<String, String> postDataParams = new HashMap<String, String>();

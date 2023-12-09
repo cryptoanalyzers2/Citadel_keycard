@@ -17,6 +17,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".HederaWalletActivity"
+            android:exported="false" />
+        <activity
+            android:name=".BTCWalletActivity"
+            android:exported="false" />
+        <activity
             android:name=".SettingsActivity2"
             android:exported="false" />
         <activity
