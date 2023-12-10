@@ -211,7 +211,7 @@ return null;
 
 
 
-    void SECP256K1_sign(CardChannel cardChannel, byte[] data) {
+    void SECP256K1_sign(CardChannel cardChannel, byte[] data, int curve) {
 
         msg0 = "";
         try {
@@ -271,8 +271,15 @@ return null;
 
             Log.i(TAG, "SHA-256 result is " + Hex.toHexString(hsh));
             msg0+="\n"+"SHA-256 result is " +  Hex.toHexString(hsh);
+            APDUResponse response=null;
 
-            APDUResponse response = cmdSet.sign(hsh);
+            if(curve==2) {
+                 response = cmdSet.sign(hsh,0x20);
+            }
+            else
+            {
+                 response = cmdSet.sign(hsh);
+            }
 
          //   response.checkOK();
 
@@ -284,7 +291,21 @@ return null;
             Log.i(TAG, "Unpaired.");
             msg0+="\n"+"Unpaired.";
 
-            displayMesssage("signature="+Hex.toHexString(sign_hash)+"\n"+Hex.toHexString(response.getBytes()));
+            switch(curve)
+            {
+                case 0x00:
+                displayMesssage("signature (SECP256K1)=" + Hex.toHexString(sign_hash));
+                break;
+
+                case 0x01:
+                displayMesssage("signature (P256)=" + Hex.toHexString(sign_hash));
+                break;
+                case 0x02:
+                displayMesssage("signature (ED25519)=" + Hex.toHexString(sign_hash));
+                break;
+
+
+            }
 
         }
         catch (Exception ex)
@@ -691,7 +712,11 @@ msg0="";
                 return;
             }
 
-            SECP256K1_sign(netchannel,bHex_to_sign);
+            Spinner list = (Spinner) findViewById(R.id.spinner_algo);
+           int i= list.getSelectedItemPosition();
+
+
+            SECP256K1_sign(netchannel,bHex_to_sign,i);
         }
         catch(Exception ex)
         {

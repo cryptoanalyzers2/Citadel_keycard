@@ -1,0 +1,102 @@
+Signature-Version: 1.0
+SHA-256-Digest-Manifest-Main-Attributes: K/IBRo3HznZdNIrgAyorGNoLdHP3Y
+ BakSsiHEI3Yzbg=
+SHA-256-Digest-Manifest: 5TbVy0UbSodL88Hv05pzFo4YAxl4KwNSawqzeSFhly8=
+Created-By: 1.8.0_141 (Oracle Corporation)
+
+Name: util.exp
+SHA-256-Digest: xbTnQrSQ8S40CoQ2ykAS9YHeDyE8HTiLkXCaXJdNPaU=
+
+Name: JCOPx_API-R1.3.4.jar
+SHA-256-Digest: Hpy7rPQGs2I4xeOyKp9g6ZjjMY0W3giBpqgyx+ziAJ4=
+
+Name: com/nxp/id/jcopx/securebox/javacard/securebox.exp
+SHA-256-Digest: qqbxhxKoHT3w9gV0MCE9b7LJXGjFidb0SqKYQCIZ84w=
+
+Name: JCOPx_API-R1.3.4-src.jar
+SHA-256-Digest: 4tQURX+Py9UNxz2oFV04UFaiY5VRyU3jcO9SQRrbuIY=
+
+Name: egovaccelerators.exp
+SHA-256-Digest: icPP1NLCW4I3L6o7typq05NUpd3S9uV0GvG3DyDtd+s=
+
+Name: com/nxp/id/jcopx/securechannel/javacard/securechannel.exp
+SHA-256-Digest: dDj4wHdNXwIVnr2GHR02ew933BnX1iNkT1QXCVF1uk4=
+
+Name: com/nxp/id/jcopx/math/javacard/math.exp
+SHA-256-Digest: viH6qCgr//d2GRuZtGctJjPfclzwoulqgscjcKx3iYA=
+
+Name: com/nxp/id/jcopx/memory/javacard/memory.exp
+SHA-256-Digest: RPJZMDDXQyxVq03nSYQ0jyzNMAKcgTi3/CaCyR9oS/Y=
+
+Name: com/nxp/id/jcopx/util/javacard/util.exp
+SHA-256-Digest: h8SekoWDw+x8z7bDNzDvJWPEMRoMJm4pMJtq4Qx+L9M=
+
+Name: com/nxp/id/jcopx/security/javacard/security.exp
+SHA-256-Digest: iSkFBmS5JvavopDyqvoT28F2yNx8iHpTXl2P7bXHIq8=
+
+Name: securechannel.exp
+SHA-256-Digest: S7cwbGwS4FfPE0zKFk5rkZYa/MXouguVU4CX/nlDZKw=
+
+Name: system.exp
+SHA-256-Digest: LQqP004bQauEaAQCxt6ixLuuHOTw1Bl3RV//UtV79mU=
+
+Name: time.exp
+SHA-256-Digest: +T7EF+3G74+4Rea3YWFKx+6bqNlE68TJZGaKW/eXywg=
+
+Name: securebox.exp
+SHA-256-Digest: b+dWLy9HVA9Kln8DnLh/7oWyiv/Cpdq/UjSKesSoMWU=
+
+Name: com/nxp/id/jcopx/piv/javacard/piv.exp
+SHA-256-Digest: cK81lvqDNadaKzLJhJxgQDXGgNj+oDvzdN6yEG237QY=
+
+Name: icon/nxpapi.gif
+SHA-256-Digest: cEkYTkEPPK4Z8qWBqx9l/4Wz48XnmO9xu4DB0bNxChE=
+
+Name: puf.exp
+SHA-256-Digest: je+yj5GhZY+Vbq5Y41+ftXFWKNwvCpS8oHGZrp1t6ZM=
+
+Name: com/nxp/id/jcopx/time/javacard/time.exp
+SHA-256-Digest: pvX7hpsGqafHgtn44R0aAMJLNf+ZLSOcGdZ9MbqzFMo=
+
+Name: math.exp
+SHA-256-Digest: 9wRWQQhS6S+6tpomWOHyPRMv9A3cUZKxKSEMfAhK/Es=
+
+Name: com/nxp/id/jcopx/puf/javacard/puf.exp
+SHA-256-Digest: J8crmR0loo4s9kD09xeFGDsZK3YSNkzqFNZbYcV3u4Y=
+
+Name: JCOPx_API-R1.3.4.properties
+SHA-256-Digest: d3dFlKx93MLRjfHq3GQRGszWHNBMK//W5e0OiW/dmS8=
+
+Name: com/nxp/id/jcopx/system/javacard/system.exp
+SHA-256-Digest: UDkNnIeOK30rGZgaRiEKpC5FCs9aaj3Q6jxF6YteeM8=
+
+Name: i2cmaster.exp
+SHA-256-Digest: 150D1TUhWAe5ocuWmZgHTkOVmDb0vYFr5tk4klchE38=
+
+Name: memory.exp
+SHA-256-Digest: AKZB9Kg2DfbbN/ePteLBrrstDQE8ObYneKPobpK9tjE=
+
+Name: piv.exp
+SHA-256-Digest: W0cnY+GC/abwCrzcK8CF/ypNhOkRn9fh733nMx6cXIc=
+
+Name: security.exp
+SHA-256-Digest: KmrPWfQhCKw75yQSsbTJI80o13enLxy9/KMQfxyt3hI=
+
+Name: oscca.exp
+SHA-256-Digest: gDD9gHlN5xEm4d7DLE6rRQ9qZM6FuTrISqzfITWsyFg=
+
+Name: com/nxp/id/jcopx/egovaccelerators/javacard/egovaccelerators.exp
+SHA-256-Digest: UwZYmf2DclBtdcFu1RD104EeaDHeOCTMmJfaGjzmS0o=
+
+Name: JCOPx_API-R1.3.4-doc.zip
+SHA-256-Digest: 7QctRZ3+goRG1EcYcduaJjcR4eC/BFDKx5dXMECGBDw=
+
+Name: com/nxp/id/jcopx/oscca/javacard/oscca.exp
+SHA-256-Digest: 65/oe6ZssBM4O+Z0Hpf66Aff/I4eyyEHTFCg4xUXoOc=
+
+Name: com/nxp/id/jcopx/i2cmaster/javacard/i2cmaster.exp
+SHA-256-Digest: r3XulmNTaqYf6zwkt8Aseo33Je0k0WfvxV+3zI/ZHc4=
+
+Name: htmlreference/ref_JCOPx_API-R1.3.4.html
+SHA-256-Digest: iBRxLa8EWyDfAYjo4bDOY9NgIcDwwEAN2a0ouSzgorc=
+

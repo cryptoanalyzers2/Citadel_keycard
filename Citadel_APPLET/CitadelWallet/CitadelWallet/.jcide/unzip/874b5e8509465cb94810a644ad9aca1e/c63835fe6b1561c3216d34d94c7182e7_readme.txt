@@ -1,0 +1,2 @@
+unzip resource of C:/Citadel_keycard_2/Citadel_APPLET/JCOPx_API-R1.3.4/JCOPx_API-R1.3.4.jar
+md5:c63835fe6b1561c3216d34d94c7182e7

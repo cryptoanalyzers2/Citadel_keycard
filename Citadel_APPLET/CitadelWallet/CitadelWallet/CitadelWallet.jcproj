@@ -1,0 +1,49 @@
+<JavaCardProject name="CitadelWallet" version="2">
+<USER location="src/">
+<PKG name="CitadelWallet.im.status.keycard" aid="A0 00 00 08 04 00 01" major="1" minor="0">
+<APPLET aid="A0 00 00 08 04 00 01 03 01" instanceaid="" parameter="" authority="" privileges="" index="15272" name="CashApplet"/>
+<APPLET aid="A0 00 00 08 04 00 01 02 01" instanceaid="" parameter="" authority="" privileges="" index="14192" name="IdentApplet"/>
+<APPLET aid="A0 00 00 08 04 00 01 01 01" instanceaid="" parameter="" authority="" privileges="" index="13952" name="KeycardApplet"/>
+<APPLET aid="A0 00 00 08 04 00 01 04 01" instanceaid="" parameter="" authority="" privileges="" index="14072" name="NDEFApplet"/>
+<CLASS name="Crypto"/>
+<CLASS name="SECP256k1"/>
+<CLASS name="SecureChannel"/>
+<CLASS name="SharedMemory"/>
+<CLASS name="ed25519"/>
+</PKG>
+</USER>
+<BuildPropertyConfig>
+<JCKit_Option>
+<OutType>EXP JCA CAP</OutType>
+<_SupportInt>1</_SupportInt>
+<_verbos>0</_verbos>
+<_nowarn>0</_nowarn>
+<_debug>1</_debug>
+<_nobanner>0</_nobanner>
+<_noverify>0</_noverify>
+<_mask>0</_mask>
+<_Adddition/>
+<ExportPaths/>
+</JCKit_Option>
+<JavaCompilerOption>
+<_Source>1.7</_Source>
+<_Target>1.7</_Target>
+<_Encoding>windows-1252</_Encoding>
+<_GenAllDegugInfo>1</_GenAllDegugInfo>
+<_GenNoWarnings>0</_GenNoWarnings>
+<_OutputAboutCompilerDoing>0</_OutputAboutCompilerDoing>
+<_OutputWhereDeprecatedApisAre>1</_OutputWhereDeprecatedApisAre>
+<_Adddition/>
+<directives/>
+</JavaCompilerOption>
+<Buildpaths>
+<ClasspathEntry>
+<CPE_CONTAINER name="java_card_kit-3_0_4" kind="K_DEFAULT_SYSTEM_JCRE"/>
+<CPE_LIBRARY path="../../JCOPx_API-R1.3.4/JCOPx_API-R1.3.4.jar" attach_path="../../JCOPx_API-R1.3.4/JCOPx_API-R1.3.4.jar" export_files=".jcide/unzip/874b5e8509465cb94810a644ad9aca1e"/>
+</ClasspathEntry>
+<ConvertorBinDirPath/>
+</Buildpaths>
+<ConverterInfo ConverterKid="FTSAFE" ConverterName="ft222"/>
+</BuildPropertyConfig>
+<solution_relate_to_project/>
+</JavaCardProject>
