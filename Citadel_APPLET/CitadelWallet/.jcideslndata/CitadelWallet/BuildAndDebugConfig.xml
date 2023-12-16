@@ -8,9 +8,6 @@
                     <APPLET aid="A0 00 00 08 04 00 01 01 01" authority="" instanceaid="" parameter="" privileges="" index="1328" name="KeycardApplet" />
                     <APPLET aid="A0 00 00 08 04 00 01 04 01" authority="" instanceaid="" parameter="" privileges="" index="-16640" name="NDEFApplet" />
                 </PKG>
-                <PKG project_name="CitadelWallet" pkg_name="CitadelWallet" aid="00 00 00 00 00" major="1" minor="0">
-                    <APPLET aid="00 00 00 00 00" authority="" instanceaid="" parameter="" privileges="" index="4264" name="CitadelWallet" />
-                </PKG>
             </InstallConfig>
             <ScriptConfig before_build="" after_build="" />
         </ConfigItem>

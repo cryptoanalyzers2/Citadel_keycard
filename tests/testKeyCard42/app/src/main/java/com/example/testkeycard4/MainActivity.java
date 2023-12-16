@@ -1,5 +1,6 @@
 package com.example.testkeycard4;
 
+import static org.bouncycastle.pqc.math.linearalgebra.ByteUtils.subArray;
 import static java.lang.Integer.parseInt;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -251,8 +252,6 @@ return null;
             cmdSet.verifyPIN(PIN).checkAuthOK();
             msg0 += "\n" + "PIN verified";
 
-
-
             KeyPath currentPath = new KeyPath(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_KEY_PATH).checkOK().getData());
             Log.i(TAG, "Current key path: " + currentPath);
             msg0 += "\n" + "Current key path: " + currentPath;
@@ -272,18 +271,30 @@ return null;
             Log.i(TAG, "SHA-256 result is " + Hex.toHexString(hsh));
             msg0+="\n"+"SHA-256 result is " +  Hex.toHexString(hsh);
             APDUResponse response=null;
+            byte[] sign_hash=null;
+            byte[] pubK=null;
 
-            if(curve==2) {
-                 response = cmdSet.sign(hsh,0x20);
+            if(curve==2)
+            {
+                response = cmdSet.sign(hsh,0x20);
+
+                byte[] res= response.getData();
+                pubK=subArray(res,5,5+31);
+                sign_hash=subArray(res,5+32,5+32+63);
+
             }
             else
             {
                  response = cmdSet.sign(hsh);
+
+                byte[] res= response.getData();
+                pubK=subArray(res,5,5+64);
+                sign_hash=subArray(res,5+65,5+65+63);
+
             }
 
          //   response.checkOK();
 
-            byte[] sign_hash=response.getData();
 
             cmdSet.unpairOthers();
             cmdSet.autoUnpair();
@@ -294,23 +305,21 @@ return null;
             switch(curve)
             {
                 case 0x00:
-                displayMesssage("signature (SECP256K1)=" + Hex.toHexString(sign_hash));
+                displayMesssage("signature (SECP256K1)=" + Hex.toHexString(sign_hash)+"\n public key="+Hex.toHexString(pubK));
                 break;
 
                 case 0x01:
-                displayMesssage("signature (P256)=" + Hex.toHexString(sign_hash));
+                displayMesssage("signature (P256)=" + Hex.toHexString(sign_hash)+"\n public key="+Hex.toHexString(pubK));
                 break;
                 case 0x02:
-                displayMesssage("signature (ED25519)=" + Hex.toHexString(sign_hash));
+                displayMesssage("signature (ED25519)=" + Hex.toHexString(sign_hash)+"\n public key="+Hex.toHexString(pubK));
                 break;
-
-
             }
 
         }
         catch (Exception ex)
         {
-            displayMesssage(ex.getMessage());
+            displayMesssage("error:"+ex.getMessage());
         }
 
     }
@@ -433,6 +442,12 @@ msg0="";
             msg0+="\n"+"Card has been initialized  with test secrets";
             msg0+="\n"+"PIN='"+PIN+"' PUK='"+PUK+"' pairing password='"+PASSWORD+"'";
             txt+="\n"+"PIN='"+PIN+"' PUK='"+PUK+"' pairing password='"+PASSWORD+"'";
+
+            TextView txtsecret = (TextView) findViewById(R.id.txt_secret);
+            txtsecret.setText(PASSWORD);
+
+            TextView txtPIN = (TextView) findViewById(R.id.txt_PIN);
+            txtPIN.setText(PIN);
 
             info = new ApplicationInfo(cmdSet.select().checkOK().getData());
         }

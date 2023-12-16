@@ -17,6 +17,17 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".InitializeActivity"
+            android:exported="false"
+            android:label="@string/title_activity_initialize"
+            android:theme="@style/Theme.TestKeyCard4" />
+        <activity
+            android:name=".PINCreateActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".PINCreateActivity"
+            android:exported="false" />
+        <activity
             android:name=".HederaWalletActivity"
             android:exported="false" />
         <activity
