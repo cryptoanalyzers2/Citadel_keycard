@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.Switch;
 import android.widget.TextView;
 
 public class SettingsActivity2 extends AppCompatActivity {
@@ -24,7 +25,7 @@ public void save_settings(View v)
     try {
 
 //is using netCardChannel (vs NFC)
-        CheckBox cbnetcard = (CheckBox) findViewById(R.id.cb_netcard);
+        Switch cbnetcard = (Switch) findViewById(R.id.cb_netcard);
         boolean useNetCard = cbnetcard.isChecked();
         Configuration.setUseNetCardChannel(useNetCard);
 
@@ -51,7 +52,7 @@ public void save_settings(View v)
     void load_settings()
     {
 //is using netCardChannel (vs NFC)
-        CheckBox cbnetcard = (CheckBox) findViewById(R.id.cb_netcard);
+        Switch cbnetcard = (Switch) findViewById(R.id.cb_netcard);
         boolean useNetCard=Configuration.isUseNetCardChannel();
         cbnetcard.setChecked(useNetCard);
 

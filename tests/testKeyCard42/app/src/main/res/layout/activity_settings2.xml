@@ -33,9 +33,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
 
-                <CheckBox
+                <Switch
                     android:id="@+id/cb_netcard"
-                    android:checked="true"
+                    android:minWidth="150dp"
                     android:text="Use NetCardChannel" />
 
                 <TableRow

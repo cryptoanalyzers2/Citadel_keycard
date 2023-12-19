@@ -183,13 +183,13 @@
 
         android:id="@+id/firstRow10"
         android:layout_width="fill_parent"
-            android:android:layout_height="wrap_content">
+            android:layout_height="wrap_content">
 
         <!-- first element of the row-->
         <Button
             android:id="@+id/button_pin_previous"
             android:onClick="next"
-            android:text="<"
+            android:text="&#60;"
             android:enabled="true"
             android:textSize="40sp"
             android:textStyle="bold"
@@ -201,7 +201,7 @@
             android:id="@+id/button_pin_OK"
             android:onClick="next"
             android:text=">"
-            android:enabled="false"
+            android:enabled="true"
             android:textSize="40sp"
             android:textStyle="bold"
             android:layout_marginTop="100dp" />
