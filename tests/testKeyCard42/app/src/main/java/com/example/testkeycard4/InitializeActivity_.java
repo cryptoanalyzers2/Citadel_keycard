@@ -2,9 +2,11 @@ package com.example.testkeycard4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 public class InitializeActivity_ extends AppCompatActivity {
 
@@ -18,13 +20,24 @@ public class InitializeActivity_ extends AppCompatActivity {
 
         //display them on the screen
 
+        ((TextView) findViewById(R.id.text_PUK)).setText(CardFunctions.getPUK());
+        ((TextView) findViewById(R.id.text_SECRET)).setText(CardFunctions.getPASSWORD());
+
     }
+
 
     public void next(View v)
     {
 
 //launch initialization
+        if(Configuration.isUseNetCardChannel()==false)
+        {
+            Utility.displayMesssage("Tap Card for initialization",new AlertDialog.Builder(this));
+        }
 
+        CardFunctions.getCardChannel(Configuration.isUseNetCardChannel());
+
+        CardFunctions.Initialize(CardFunctions.getChannel());
 
         startActivity(new Intent(InitializeActivity_.this, SeedActivity.class));
     }

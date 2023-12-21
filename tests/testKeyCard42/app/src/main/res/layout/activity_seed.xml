@@ -7,7 +7,11 @@
     tools:context=".SeedActivity">
 
 
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
     <TableLayout
         android:id="@+id/simpleTableLayout2"
         android:layout_width="fill_parent"
@@ -30,7 +34,7 @@
             android:textSize="40sp"
             android:textStyle="bold"
             android:textColor="#99EE82EE"
-            android:text=" Backup seed phrase"
+            android:text="Note the Mnemonic phrase"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="50dp"
@@ -46,17 +50,15 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="305dp"
+            android:id="@+id/text_seed1"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="1dp"
-            android:text=" park put hood catch "
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:text=""
             android:textColor="#990000EE"
             android:textSize="20sp"
-            app:layout_constraintHorizontal_bias="0.948"
-            app:layout_constraintVertical_bias="0.023"
             android:textStyle="bold" />
     </TableRow>
 
@@ -66,16 +68,16 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/text_seed2"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#990000EE"
-            android:text=" kingdom wrist cook custom"
+            android:text=""
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="1dp" />
+            android:layout_marginBottom="5dp" />
         </TableRow>
         <TableRow
 
@@ -83,16 +85,53 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/text_seed3"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#990000EE"
-            android:text=" field win clump gauge"
+            android:text=""
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="1dp" />
+            android:layout_marginBottom="5dp" />
+        </TableRow>
+        <TableRow
+
+            android:id="@+id/firstRow44"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+            <TextView
+                android:id="@+id/text_seed4"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#990000EE"
+                android:text=""
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp" />
+        </TableRow>
+        <TableRow
+
+            android:id="@+id/firstRow21"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/txt_agree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:textColor="#660000EE"
+                android:text="I confirm that I stored a copy of the seed phrase and that I understand the seed phrase will no longer be available after I click on 'continue'"
+                android:checked="false"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="10dp" />
+
         </TableRow>
         <TableRow
 
@@ -100,20 +139,19 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
 
-            <CheckBox
-                android:id="@+id/choice1"
+            <Button
+                android:id="@+id/cb_agree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:textSize="15dp"
                 android:textStyle="bold"
-                android:textColor="#660000EE"
-                android:text="I confirm that I stored a copy of the seed phrase and that I understand the seed phrase will no longer be available after I click on 'continue'"
+                android:textColor="#66EE00"
+                android:text="I HAVE STORED THE MNEMONIC PHRASE"
                 android:checked="false"
+                android:onClick="agree"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="50dp"
-                tools:layout_editor_absoluteX="66dp"
-                tools:layout_editor_absoluteY="15dp" />
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
 
         </TableRow>
         <TableRow
@@ -133,11 +171,9 @@
                 android:maxWidth="100dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintHorizontal_bias="0.948"
-                app:layout_constraintVertical_bias="0.023" />
+                android:layout_marginTop="10dp"/>
         </TableRow>
     </TableLayout>
-
+</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

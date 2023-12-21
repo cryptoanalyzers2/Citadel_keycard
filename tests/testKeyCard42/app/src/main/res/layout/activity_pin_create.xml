@@ -200,7 +200,7 @@
             android:textColor="#99EE82EE"
             android:text="Automatically generate PIN"
             android:textSize="25dp"
-            android:checked="true"
+            android:checked="false"
             android:textOff="OFF"
             android:textOn="ON"/>
 

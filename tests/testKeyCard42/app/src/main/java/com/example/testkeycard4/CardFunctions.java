@@ -211,7 +211,7 @@ public class CardFunctions {
                 msg0 = getMsg0() + "\n"+"Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase();
                 txt+="\n"+"Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase();
 
-                MNEMONIC="Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase();
+                MNEMONIC= mnemonic.toMnemonicPhrase();
                 //displayMesssage("Generated mnemonic phrase: " + mnemonic.toMnemonicPhrase());
 
                 Log.i(TAG, "Binary seed: " + Hex.toHexString(mnemonic.toBinarySeed()));

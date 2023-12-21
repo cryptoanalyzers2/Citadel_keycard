@@ -37,10 +37,31 @@
             android:textColor="#99EE82EE"
             android:text="  Confirm the Passcode (PIN)"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            tools:layout_editor_absoluteX="66dp"
+            tools:layout_editor_absoluteY="15dp" />
+
+        <TableRow
+
+            android:id="@+id/firstRow40"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/star_PIN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#99000000"
+            android:text=""
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
             android:layout_marginBottom="50dp"
             tools:layout_editor_absoluteX="66dp"
             tools:layout_editor_absoluteY="15dp" />
+
 
         <!-- first row of the table layout-->
         <TableRow

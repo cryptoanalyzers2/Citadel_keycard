@@ -16,7 +16,24 @@ public class PINCreateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_pin_create);
         CardFunctions.resetPIN();
     }
+public void deleteSTar()
+{
+    Switch sw1 = (Switch) findViewById(R.id.switch_PIN);
+    boolean genPIN=sw1.isChecked();
 
+    if(genPIN==true) {
+
+        return;
+
+    }
+    String stars=((TextView) findViewById(R.id.star_PIN)).getText().toString();
+    if((stars==null)||(stars.length()==0)){
+    return;
+    }
+    int L=stars.length();
+    ((TextView) findViewById(R.id.star_PIN)).setText(stars.substring(0,L-1));
+
+}
     public void updateSTars()
     {
         Switch sw1 = (Switch) findViewById(R.id.switch_PIN);
@@ -80,6 +97,20 @@ public class PINCreateActivity extends AppCompatActivity {
 
         CardFunctions.setPIN(CardFunctions.getPIN()+n);
         updateSTars();
+
+    }
+
+    public void pin_D(View v)
+    {
+            String PIN = CardFunctions.getPIN();
+            if((PIN==null)||(PIN.length()==0))
+        {
+            return;
+        }
+            int L=PIN.length();
+            CardFunctions.setPIN(PIN.substring(0,L-1));
+            deleteSTar();
+
 
     }
 
