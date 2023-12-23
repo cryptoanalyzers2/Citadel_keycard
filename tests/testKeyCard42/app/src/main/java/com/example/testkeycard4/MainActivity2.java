@@ -49,14 +49,61 @@ public class MainActivity2 extends AppCompatActivity {
         startActivity(new Intent(MainActivity2.this, SettingsActivity2.class));
 
     }
+
+    public void citadel_wallet(View v)
+    {
+
+        boolean cc= Configuration.isUseNetCardChannel();
+        CardFunctions.getCardChannel(cc);
+        CardChannel channel=null;
+
+        if(cc==false) {
+            displayMesssage("tap card");
+
+        }
+
+        for(int i=0;i<MAX_TRY;i++)
+        {
+            channel = CardFunctions.getChannel();
+
+            if(channel!=null)
+            {
+                break;
+            }
+
+            try
+            {
+                Thread.sleep(50,0);
+            }
+            catch(Exception ex)
+            {
+
+            }
+
+        }
+
+        ApplicationInfo info = CardFunctions.getInfo(channel);
+
+
+        boolean isInit= info.isInitializedCard();
+
+        if(isInit==false)
+        {
+            displayMesssage("Initialize card first");
+            return;
+        }
+
+        startActivity(new Intent(MainActivity2.this, WalletActivity.class));
+
+    }
 public void citadel_initializa(View v) {
     boolean cc= Configuration.isUseNetCardChannel();
     CardFunctions.getCardChannel(cc);
     CardChannel channel=null;
 
     if(cc==false) {
-        displayMesssage("tap card");
-
+      //  displayMesssage("tap card");
+        Utility.displayMesssage("Tap Card",new AlertDialog.Builder(this));
     }
 
         for(int i=0;i<MAX_TRY;i++)
@@ -79,7 +126,11 @@ public void citadel_initializa(View v) {
 
         }
 
-
+if(channel==null)
+{
+    Utility.displayMesssage("no card detected!",new AlertDialog.Builder(this));
+return;
+}
 
 
 
@@ -93,7 +144,9 @@ public void citadel_initializa(View v) {
        displayMesssage("card already initialized");
        return;
    }
-
+/*
+    If set in an Intent passed to Context.startActivity(), this flag will cause the launched activity to be brought to the front of its task's history stack if it is already running.
+*/
    //else we start the initialization screens process
     startActivity(new Intent(MainActivity2.this, PINCreateActivity.class));
 

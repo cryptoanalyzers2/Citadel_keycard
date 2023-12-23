@@ -38,7 +38,9 @@ public class InitializeActivity_ extends AppCompatActivity {
         CardFunctions.getCardChannel(Configuration.isUseNetCardChannel());
 
         CardFunctions.Initialize(CardFunctions.getChannel());
-
+/*
+    If set in an Intent passed to Context.startActivity(), this flag will cause the launched activity to be brought to the front of its task's history stack if it is already running.
+*/
         startActivity(new Intent(InitializeActivity_.this, SeedActivity.class));
     }
 

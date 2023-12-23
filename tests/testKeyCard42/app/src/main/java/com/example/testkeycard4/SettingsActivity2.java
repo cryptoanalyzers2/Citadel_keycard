@@ -38,6 +38,9 @@ public void save_settings(View v)
         TextView txtnetcardPort = (TextView) findViewById(R.id.txt_netcard_port);
         String netcardPort = (String) txtnetcardPort.getText().toString();
 
+
+
+
         Configuration.setNetCardChannelPort(netcardPort);
 
      //   finish();

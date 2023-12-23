@@ -61,6 +61,7 @@ public class ed25519 {
 			
 	}
 	
+	
 	public short SignData( byte [] DataToSign, short DataToSignOffset, short DataToSignLength, byte[] SignatureBuffer, short SignatureOffset)
 	{
 		short SigLen = CryptoBaseX.sign(eccPriKey, CryptoBaseX.ALG_ED25519PH_SHA_512, DataToSign, DataToSignOffset, DataToSignLength, SignatureBuffer, SignatureOffset);

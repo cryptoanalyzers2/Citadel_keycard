@@ -63,6 +63,10 @@ public class SeedActivity extends AppCompatActivity {
 
     public void next(View v)
     {
+ /*
+    If set in an Intent passed to Context.startActivity(), this flag will cause the launched activity to be brought to the front of its task's history stack if it is already running.
+*/
+
         startActivity(new Intent(SeedActivity.this, MainActivity2.class));
     }
 }
