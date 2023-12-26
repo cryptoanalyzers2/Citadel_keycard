@@ -31,8 +31,16 @@ import javacard.framework.Util;
 */
 public class ed25519 {
 
+  public static final short CHAIN_CODE_SIZE = 32;
+
+  public byte[] masterChainCode;
+  public byte[] altChainCode;
+  public byte[] chainCode;
+  public boolean isExtended;
+  
 	static final boolean DEBUG_MODE = false;
 	
+	//these are the masterkeys
 	private ECPublicKeyWithPredefinedParameters eccPubKey;
 	private ECPrivateKeyWithPredefinedParameters eccPriKey;
 	
@@ -61,6 +69,28 @@ public class ed25519 {
 			
 	}
 	
+	public void LoadKey(byte[] publicKey, byte[] privateKey)
+	{
+		eccPriKey = (ECPrivateKeyWithPredefinedParameters)KeyBuilderX.buildKey(KeyBuilderX.ALG_TYPE_ED25519_PRIVATE, (byte)0x00 );
+		eccPubKey = (ECPublicKeyWithPredefinedParameters)KeyBuilderX.buildKey(KeyBuilderX.ALG_TYPE_ED25519_PUBLIC, (byte)0x00 );
+
+		eccPriKey.setS(privateKey, (short)0, (short) privateKey.length);
+		eccPubKey.setW(publicKey, (short)0, (short) publicKey.length);
+	}
+	
+	public void setS(byte[] privateKey, short offset, short len )
+	{
+		eccPriKey = (ECPrivateKeyWithPredefinedParameters)KeyBuilderX.buildKey(KeyBuilderX.ALG_TYPE_ED25519_PRIVATE, (byte)0x00 );
+		
+		eccPriKey.setS(privateKey, offset, len);
+	}
+	
+	public void setW(byte[] publicKey, short offset, short len )
+	{
+		eccPubKey = (ECPublicKeyWithPredefinedParameters)KeyBuilderX.buildKey(KeyBuilderX.ALG_TYPE_ED25519_PUBLIC, (byte)0x00 );
+
+		eccPubKey.setW(publicKey, offset, len);
+	}
 	
 	public short SignData( byte [] DataToSign, short DataToSignOffset, short DataToSignLength, byte[] SignatureBuffer, short SignatureOffset)
 	{

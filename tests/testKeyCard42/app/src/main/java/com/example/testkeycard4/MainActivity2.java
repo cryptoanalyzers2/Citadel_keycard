@@ -43,6 +43,11 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
 
+    public void citadel_advanced(View v)
+    {
+        startActivity(new Intent(MainActivity2.this, AdvancedActivity.class));
+    }
+
     public void citadel_settings(View v)
     {
 
@@ -52,50 +57,63 @@ public class MainActivity2 extends AppCompatActivity {
 
     public void citadel_wallet(View v)
     {
+try {
 
-        boolean cc= Configuration.isUseNetCardChannel();
-        CardFunctions.getCardChannel(cc);
-        CardChannel channel=null;
+    boolean cc = Configuration.isUseNetCardChannel();
+    CardFunctions.getCardChannel(cc);
+    CardChannel channel = null;
 
-        if(cc==false) {
-            displayMesssage("tap card");
+    if (cc == false) {
+        displayMesssage("tap card");
+
+    }
+
+    for (int i = 0; i < MAX_TRY; i++) {
+        channel = CardFunctions.getChannel();
+
+        if (channel != null) {
+            break;
+        }
+
+        try {
+            Thread.sleep(50, 0);
+        } catch (Exception ex) {
 
         }
 
-        for(int i=0;i<MAX_TRY;i++)
-        {
-            channel = CardFunctions.getChannel();
+    }
 
-            if(channel!=null)
-            {
-                break;
-            }
-
-            try
-            {
-                Thread.sleep(50,0);
-            }
-            catch(Exception ex)
-            {
-
-            }
-
-        }
+    if (channel == null) {
+        Utility.displayMesssage("Card is not connected", new AlertDialog.Builder((this)));
+    } else {
 
         ApplicationInfo info = CardFunctions.getInfo(channel);
 
 
-        boolean isInit= info.isInitializedCard();
+        boolean isInit = info.isInitializedCard();
 
-        if(isInit==false)
-        {
-            displayMesssage("Initialize card first");
+        if (isInit == false) {
+            Utility.displayMesssage("Initialize card first", new AlertDialog.Builder(this));
             return;
         }
+    }
+}
+catch(Exception ex)
+{
+    Utility.displayMesssage(ex.getMessage(), new AlertDialog.Builder(this));
+
+}
+
 
         startActivity(new Intent(MainActivity2.this, WalletActivity.class));
 
     }
+
+    public void citadel_sign(View v)
+    {
+        startActivity(new Intent(MainActivity2.this, SignatureActivity.class));
+    }
+
 public void citadel_initializa(View v) {
     boolean cc= Configuration.isUseNetCardChannel();
     CardFunctions.getCardChannel(cc);

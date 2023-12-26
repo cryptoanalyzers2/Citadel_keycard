@@ -58,6 +58,8 @@ public class KeycardApplet extends Applet {
   static final byte LOAD_KEY_P1_EC = 0x01;
   static final byte LOAD_KEY_P1_EXT_EC = 0x02;
   static final byte LOAD_KEY_P1_SEED = 0x03;
+  //new
+  static final byte LOAD_KEY_ED25519_P1= 0x11;
 
   static final byte DERIVE_P1_SOURCE_MASTER = (byte) 0x00;
   static final byte DERIVE_P1_SOURCE_PARENT = (byte) 0x40;
@@ -696,6 +698,12 @@ public class KeycardApplet extends Applet {
       case LOAD_KEY_P1_SEED:
         loadSeed(apduBuffer);
         break;
+        
+        //new: for ED25519
+	case LOAD_KEY_ED25519_P1:
+		loadKeyPair_ED25519(apduBuffer);
+		break;
+		
       default:
         ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
         break;
@@ -728,6 +736,60 @@ public class KeycardApplet extends Applet {
    */
   private void resetKeyStatus() {
     keyPathLen = 0;
+  }
+  
+  private void loadKeyPair_ED25519(byte[] apduBuffer )
+  {
+	 short pubOffset = (short)(ISO7816.OFFSET_CDATA + (apduBuffer[(short) (ISO7816.OFFSET_CDATA + 1)] == (byte) 0x81 ? 3 : 2));
+    short privOffset = (short)(pubOffset + apduBuffer[(short)(pubOffset + 1)] + 2);
+    short chainOffset = (short)(privOffset + apduBuffer[(short)(privOffset + 1)] + 2);
+  
+    if (apduBuffer[pubOffset] != TLV_PUB_KEY) {
+      chainOffset = privOffset;
+      privOffset = pubOffset;
+      pubOffset = -1;
+    }
+
+    if (!((apduBuffer[ISO7816.OFFSET_CDATA] == TLV_KEY_TEMPLATE) && (apduBuffer[privOffset] == TLV_PRIV_KEY)))  {
+      ISOException.throwIt(ISO7816.SW_WRONG_DATA);
+    }
+
+    JCSystem.beginTransaction();
+
+    try {
+      curve25519.isExtended = (apduBuffer[chainOffset] == TLV_CHAIN_CODE);
+
+      curve25519.setS(apduBuffer, (short) (privOffset + 2), apduBuffer[(short) (privOffset + 1)]);
+
+      if (curve25519.isExtended) {
+        if (apduBuffer[(short) (chainOffset + 1)] == curve25519.CHAIN_CODE_SIZE) {
+          Util.arrayCopy(apduBuffer, (short) (chainOffset + 2), curve25519.masterChainCode, (short) 0, apduBuffer[(short) (chainOffset + 1)]);
+        } else {
+          ISOException.throwIt(ISO7816.SW_WRONG_DATA);
+        }
+      }
+
+      short pubLen=0;
+
+      if (pubOffset != -1) {
+        pubLen = apduBuffer[(short) (pubOffset + 1)];
+        pubOffset = (short) (pubOffset + 2);
+      } else {
+       // pubOffset = 0;
+       // pubLen = secp256k1.derivePublicKey(masterPrivate, apduBuffer, pubOffset);
+       ISOException.throwIt(ISO7816.SW_WRONG_DATA);
+      }
+
+      curve25519.setW(apduBuffer, pubOffset, pubLen);
+    } catch (CryptoException e) {
+      ISOException.throwIt(ISO7816.SW_WRONG_DATA);
+    }
+
+    resetKeyStatus();
+    JCSystem.commitTransaction();
+    
+	
+
   }
 
   /**

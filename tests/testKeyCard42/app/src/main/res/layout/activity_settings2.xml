@@ -8,121 +8,247 @@
     tools:context=".SettingsActivity2">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/settings"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" >
 
             <TableLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:stretchColumns="*">
+                >
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="50dp">
 
-                <TextView
-                    android:id="@+id/lbl_netcard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NetCardChannel" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <Switch
-                    android:id="@+id/cb_netcard"
-                    android:minWidth="150dp"
-                    android:text="Use NetCardChannel" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:id="@+id/lbl_netcard2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NetCardChannel Hostname/IP" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <EditText
-                    android:id="@+id/txt_netcard"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#44121233"
-                    android:ems="10"
-                   />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <TextView
-                    android:id="@+id/lbl_netcard3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NetCardChannel Port" />
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-
-                <EditText
-                    android:id="@+id/txt_netcard_port"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="#44121233"
-                    android:ems="10"
-                     />
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="SETTINGS"
+                        android:layout_marginBottom="20dp"
+                        android:textSize="30sp"
+                        android:textStyle="bold"
+                        android:textColor="#99EE82EE" />
+                </TableRow>
 
 
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <View
-                    android:id="@+id/divider"
-                    android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@android:color/black" />
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/lbl_netcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NetCardChannel" />
+
+                </TableRow>
+
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <Button
-                    android:id="@+id/button_save_settings"
-                    android:layout_width="50sp"
-                    android:layout_height="wrap_content"
-                    android:onClick="save_settings"
-                    android:text="Apply"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    android:layout_height="match_parent">
+
+                    <Switch
+                        android:id="@+id/cb_netcard"
+                        android:minWidth="150dp"
+                        android:text="Use NetCardChannel" />
+
+                </TableRow>
+
                 <TableRow
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-                <Button
-                    android:id="@+id/button_close_settings"
-                    android:layout_width="50sp"
-                    android:layout_height="wrap_content"
-                    android:onClick="close_settings"
-                    android:text="Close"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:textSize="18sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    />
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/lbl_netcard2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NetCardChannel Hostname/IP" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/txt_netcard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#44121233"
+                        android:ems="10" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/lbl_netcard3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NetCardChannel Port" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/txt_netcard_port"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#44121233"
+                        android:ems="10" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/button_save_settings"
+                        android:layout_width="50sp"
+                        android:layout_height="wrap_content"
+                        android:onClick="save_settings"
+                        android:text="Apply SETTINGS"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <View
+                        android:id="@+id/divider"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@android:color/black" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#44121233">
+
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#44121233"
+                        android:text="Current Pairing Secret" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/txt_secret"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#44F88379"
+                        android:inputType="textPassword" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/button_save_settings_SECRET"
+                        android:layout_width="50sp"
+                        android:layout_height="wrap_content"
+                        android:onClick="setSECRET"
+                        android:text="set SECRET"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#44121233">
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#44121233"
+                        android:text="Current PIN" />
+                </TableRow>
+
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                  >
+
+
+                    <EditText
+                        android:id="@+id/txt_PIN"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="#44F88379"
+                        android:inputType="numberPassword" />
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/button_save_settings_PIN"
+                        android:layout_width="50sp"
+                        android:layout_height="wrap_content"
+                        android:onClick="setPIN"
+                        android:text="SETPIN"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <View
+                        android:id="@+id/divider2"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@android:color/black" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Button
+                        android:id="@+id/button_close_settings"
+                        android:layout_width="50sp"
+                        android:layout_height="wrap_content"
+                        android:onClick="close_settings"
+                        android:text="Close"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </TableRow>
             </TableLayout>
-        </FrameLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

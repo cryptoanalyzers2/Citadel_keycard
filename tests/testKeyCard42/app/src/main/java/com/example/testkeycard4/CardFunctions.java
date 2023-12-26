@@ -2,12 +2,15 @@ package com.example.testkeycard4;
 
 import static com.example.testkeycard4.Utility.generateRandomWord;
 
+import static org.bouncycastle.pqc.math.linearalgebra.ByteUtils.subArray;
+
 import android.annotation.SuppressLint;
 import android.nfc.NfcAdapter;
 import android.util.Log;
 
 import org.bouncycastle.util.encoders.Hex;
 
+import java.io.IOException;
 import java.util.Random;
 
 import im.status.keycard.android.NFCCardManager;
@@ -18,11 +21,14 @@ import im.status.keycard.applet.KeyPath;
 import im.status.keycard.applet.KeycardCommandSet;
 import im.status.keycard.applet.Mnemonic;
 import im.status.keycard.applet.Pairing;
-import im.status.keycard.applet.RecoverableSignature;
+import im.status.keycard.io.APDUException;
+import im.status.keycard.io.APDUResponse;
 import im.status.keycard.io.CardChannel;
 import im.status.keycard.io.CardListener;
 
 public class CardFunctions {
+    private static final byte LOAD_KEY_ED25519_P1 =0x11 ;
+    private static final byte SIGN_P1_ED25519_TEST=0x20;
     private static NfcAdapter nfcAdapter;
     private static NFCCardManager cardManager = new NFCCardManager();
 
@@ -41,26 +47,58 @@ public class CardFunctions {
     private static String PUK="";
     private static String MNEMONIC="";
 
+
    private static Random rnd = new Random();
+
+   public static class signature_data
+   {
+       public byte[] signature;
+       public byte[] pubKey;
+
+       public int curve;
+
+       public  void set_signature_data(byte[] signature,byte[] pubKey,int curve)
+       {
+
+        this.signature=signature;
+        this.pubKey=pubKey;
+        this.curve=curve;
+
+       }
+
+   }
 
     public static void getCardChannel(boolean useNetCardChannel)
     {
         try {
+
+            msg0+="\n"+"getCardChannel";
+
                 if (useNetCardChannel == true) {
                     setChannel(new MainActivity.netCardChannel());
+                    msg0+="\n"+"set channel to netCardChannel";
                 } else {
-
+                    msg0+="\n"+"set channel to NFCCardChannel (listener)";
                     cardManager.setCardListener(new CardListener()
                     {
 
                         @Override
                         public void onConnected(CardChannel channel_) {
+
+                            Log.i(TAG, "connected via NFC");
+                            msg0+="\n"+"connected via NFC";
+
                             setChannel(channel_);
                         }
 
                         @Override
                         public void onDisconnected() {
+                            Log.i(TAG, "disconnected from NFC");
+                            msg0+="\n"+"disconnected from NFC";
+
+                            /*
                             setChannel(null);
+                            */
                         }
                     });
 
@@ -81,6 +119,10 @@ public class CardFunctions {
         return PASSWORD;
     }
 
+    public static void setPASSWORD(String s) {
+         PASSWORD = s;
+    }
+
     public static String getPUK() {
         return PUK;
     }
@@ -89,10 +131,17 @@ public class CardFunctions {
         return MNEMONIC;
     }
 
+    public static void loadKey_ed25519(CardChannel cardChannel,Crypto.SLIP10KeyPair kp, boolean omitPublic) throws IOException, APDUException {
+
+        KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
+
+        cmdSet.loadKey(kp.toTLV(!omitPublic), LOAD_KEY_ED25519_P1).checkOK();
+
+    }
+
 
     @SuppressLint("SuspiciousIndentation")
-    public static void Initialize(CardChannel cardChannel)
-    {
+    public static void Initialize(CardChannel cardChannel) throws Exception {
         try
         {
             msg0="";
@@ -118,11 +167,12 @@ public class CardFunctions {
                 msg0 = getMsg0() + "\n"+"PIN='"+ getPIN() +"' PUK='"+ getPUK() +"' pairing password='"+PASSWORD+"'";
                 txt+="\n"+"PIN='"+ getPIN() +"' PUK='"+ getPUK() +"' pairing password='"+PASSWORD+"'";
 
-              //  TextView txtsecret = (TextView) findViewById(R.id.txt_secret);
-               // txtsecret.setText(PASSWORD);
-                //
-                //              //  TextView txtPIN = (TextView) findViewById(R.id.txt_PIN);
-              //  txtPIN.setText(PIN);
+                /*
+                TextView txtsecret = (TextView) findViewById(R.id.txt_secret);
+                txtsecret.setText(PASSWORD);
+                TextView txtPIN = (TextView) findViewById(R.id.txt_PIN);
+                txtPIN.setText(PIN);
+                 */
 
                 info = new ApplicationInfo(cmdSet.select().checkOK().getData());
             }
@@ -197,11 +247,14 @@ public class CardFunctions {
             Log.i(TAG, "Has master key: " + status.hasMasterKey());
             msg0 = getMsg0() + "\n"+"Has master key: " + status.hasMasterKey();
             txt+="\n"+"Has master key: " + status.hasMasterKey();
+
+            Mnemonic mnemonic=null;
+
             if (info.hasKeyManagementCapability()) {
                 // A mnemonic can be generated before PIN authentication. Generating a mnemonic does not create keys on the
                 // card. a subsequent loadKey step must be performed after PIN authentication. In this example we will only
                 // show how to convert the output of the card to a usable format but won't actually load the key
-                Mnemonic mnemonic = new Mnemonic(cmdSet.generateMnemonic(KeycardCommandSet.GENERATE_MNEMONIC_12_WORDS).checkOK().getData());
+                mnemonic = new Mnemonic(cmdSet.generateMnemonic(KeycardCommandSet.GENERATE_MNEMONIC_12_WORDS).checkOK().getData());
 
                 // We need to set a wordlist if we plan using this object to derive the binary seed. If we just need the word
                 // indexes we can skip this step and call mnemonic.getIndexes() instead.
@@ -231,10 +284,24 @@ public class CardFunctions {
             // seed generated from a mnemonic phrase. In alternative, we could load the generated keypair as shown in the
             // commented line of code.
             if (!status.hasMasterKey() && info.hasKeyManagementCapability()) {
-                cmdSet.generateKey();
-                //cmdSet.loadKey(mnemonic.toBIP32KeyPair());
+                //cmdSet.generateKey();
+                cmdSet.loadKey(mnemonic.toBIP32KeyPair()).checkOK();
+                //we need to do the same for ED25519
+                //eg toSLIP10KeyPair()
+                CardFunctions.loadKey_ed25519(channel,new Crypto().MnemonicsToSLIP10KeyPair(mnemonic),false);
+
+                /*
+                Crypto.SLIP10KeyPair kp = new Crypto().MnemonicsToSLIP10KeyPair(mnemonic);
+                boolean omitPublic= false;
+
+                cmdSet.loadKey(kp.toTLV(!omitPublic), LOAD_KEY_ED25519_P1).checkOK();
+                 */
+
             }
 
+            //this is to be done in the wallet functions
+
+            /*
             // Get the current key path using GET STATUS
             KeyPath currentPath = new KeyPath(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_KEY_PATH).checkOK().getData());
             Log.i(TAG, "Current key path: " + currentPath);
@@ -272,6 +339,7 @@ public class CardFunctions {
             Log.i(TAG, "S: " + Hex.toHexString(signature.getS()));
             msg0 = getMsg0() + "\n"+"S: " + Hex.toHexString(signature.getS());
             txt+="\n"+"S: " + Hex.toHexString(signature.getS());
+            */
 
             if (info.hasSecureChannelCapability()) {
                 // Cleanup, in a real application you would not unpair and instead keep the pairing key for successive interactions.
@@ -293,6 +361,7 @@ public class CardFunctions {
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
             msg0 = getMsg0() + "\n"+e.getMessage();
+         //   throw new Exception(e.getMessage());
         }
 
     }
@@ -362,5 +431,116 @@ public class CardFunctions {
             PUK = PUK + rnd.nextInt(10);
         }
 
+    }
+
+    public static void setMsg0(String s) {
+
+        msg0=s;
+    }
+
+    public static signature_data signtool(CardChannel cardChannel, byte[] data, int curve)
+    {
+
+        try {
+
+
+            KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
+            ApplicationInfo info = new ApplicationInfo(cmdSet.select().checkOK().getData());
+            if (!info.isInitializedCard()) {
+               return null;
+            }
+
+            if(!info.hasMasterKey())
+            {
+                return null;
+            }
+
+            //cmdSet.autoPair("KeycardTest");
+            cmdSet.autoPair(getPASSWORD());
+            msg0 += "\n" + "Pairing done";
+            //cmdSet.pair((byte) 0x00,"KeycardTest".getBytes());
+            Pairing pairing = cmdSet.getPairing();
+            //pairing.getPairingIndex();
+
+            cmdSet.autoOpenSecureChannel();
+            msg0 += "\n" + "Secure Channel opened";
+
+            //cmdSet.verifyPIN("000000").checkAuthOK();
+            cmdSet.verifyPIN(PIN).checkAuthOK();
+            msg0 += "\n" + "PIN verified";
+
+            KeyPath currentPath = new KeyPath(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_KEY_PATH).checkOK().getData());
+            Log.i(TAG, "Current key path: " + currentPath);
+            msg0 += "\n" + "Current key path: " + currentPath;
+            if (!currentPath.toString().equals("m/44'/0'/0'/0/0")) {
+                // Key derivation is needed to select the desired key. The derived key remains current until a new derive
+                // command is sent (it is not lost on power loss).
+                cmdSet.deriveKey("m/44'/0'/0'/0/0").checkOK();
+                Log.i(TAG, "Derived m/44'/0'/0'/0/0");
+                msg0 += "\n" + "Derived m/44'/0'/0'/0/0";
+            }
+
+            // We retrieve the wallet public key
+            BIP32KeyPair walletPublicKey = BIP32KeyPair.fromTLV(cmdSet.exportCurrentKey(true).checkOK().getData());
+            byte[] hsh= Crypto.hashData(data);
+            // byte[] hsh=data;
+
+            Log.i(TAG, "SHA-256 result is " + Hex.toHexString(hsh));
+            msg0+="\n"+"SHA-256 result is " +  Hex.toHexString(hsh);
+            APDUResponse response=null;
+            byte[] sign_hash=null;
+            byte[] pubK=null;
+
+            if(curve==2)
+            {
+                response = cmdSet.sign(hsh,0x20);
+
+                byte[] res= response.getData();
+                pubK=subArray(res,5,5+31);
+                sign_hash=subArray(res,5+32,5+32+63);
+
+            }
+            else
+            {
+                response = cmdSet.sign(hsh);
+
+                byte[] res= response.getData();
+                pubK=subArray(res,5,5+64);
+                sign_hash=subArray(res,5+65,5+65+63);
+
+            }
+
+            //   response.checkOK();
+
+
+            cmdSet.unpairOthers();
+            cmdSet.autoUnpair();
+
+            Log.i(TAG, "Unpaired.");
+            msg0+="\n"+"Unpaired.";
+
+
+            Log.i(TAG, "signature= " + Hex.toHexString(sign_hash));
+            Log.i(TAG, "pubK= " + Hex.toHexString(pubK));
+
+            msg0+="signature= " + Hex.toHexString(sign_hash);
+            msg0+="pubK= " + Hex.toHexString(pubK);
+
+            signature_data sign_data = new signature_data();
+
+            sign_data.set_signature_data(sign_hash,pubK,curve);
+
+             return sign_data;
+
+        }
+        catch (Exception ex)
+        {
+            msg0+="\n"+"error:"+ex.getMessage();
+            Log.e(TAG,"error:"+ex.getMessage());
+
+        }
+
+
+        return null;
     }
 }
