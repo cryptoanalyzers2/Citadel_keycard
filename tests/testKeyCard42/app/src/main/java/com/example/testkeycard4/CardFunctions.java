@@ -21,14 +21,17 @@ import im.status.keycard.applet.KeyPath;
 import im.status.keycard.applet.KeycardCommandSet;
 import im.status.keycard.applet.Mnemonic;
 import im.status.keycard.applet.Pairing;
+import im.status.keycard.applet.RecoverableSignature;
 import im.status.keycard.io.APDUException;
 import im.status.keycard.io.APDUResponse;
 import im.status.keycard.io.CardChannel;
 import im.status.keycard.io.CardListener;
 
 public class CardFunctions {
-    private static final byte LOAD_KEY_ED25519_P1 =0x11 ;
-    private static final byte SIGN_P1_ED25519_TEST=0x20;
+    private static final byte LOAD_KEY_ED25519_P1 = (byte)0x11 ;
+    private static final byte SIGN_P1_ED25519_TEST= (byte)0x20;
+
+    private static final byte DERIVE_P1_SOURCE_ED25519= (byte)0xD0;
     private static NfcAdapter nfcAdapter;
     private static NFCCardManager cardManager = new NFCCardManager();
 
@@ -47,10 +50,18 @@ public class CardFunctions {
     private static String PUK="";
     private static String MNEMONIC="";
 
+    ///wallets
+
+    private static String BTCWALLETADDRESS="";
 
    private static Random rnd = new Random();
 
-   public static class signature_data
+    public static String getBTCWALLETADDRESS() {
+        return BTCWALLETADDRESS;
+    }
+
+
+    public static class signature_data
    {
        public byte[] signature;
        public byte[] pubKey;
@@ -67,6 +78,8 @@ public class CardFunctions {
        }
 
    }
+
+
 
     public static void getCardChannel(boolean useNetCardChannel)
     {
@@ -139,7 +152,233 @@ public class CardFunctions {
 
     }
 
+    public static void generateBTCWallet(CardChannel cardChannel)
+    {
 
+        try
+        {
+
+            msg0="";
+            String txt="";
+
+            // Applet-specific code
+            KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
+
+            ApplicationInfo info = new ApplicationInfo(cmdSet.select().checkOK().getData());
+
+            if (!info.isInitializedCard()) {
+                Log.i(TAG, "Card not initialized");
+                msg0+="\n"+"Card not initialized";
+                return;
+            }
+
+            if (info.hasSecureChannelCapability()) {
+                // In real projects, the pairing key should be saved and used for all new sessions.
+                cmdSet.autoPair(getPASSWORD());
+                //cmdSet.pair((byte) 0x00,"KeycardTest".getBytes());
+                Pairing pairing = cmdSet.getPairing();
+
+                // Never log the pairing key in a real application!
+                Log.i(TAG, "Pairing with card is done.");
+
+                //displayMesssage("Pairing with card is done: "+"Pairing index: " + pairing.getPairingIndex()+"Pairing key: " + Hex.toHexString(pairing.getPairingKey()));
+                Log.i(TAG, "Pairing index: " + pairing.getPairingIndex());
+
+                Log.i(TAG, "Pairing key: " + Hex.toHexString(pairing.getPairingKey()));
+                msg0 = getMsg0() + "\n"+"Pairing with card is done: "+"Pairing index: " + pairing.getPairingIndex()+"Pairing key: " + Hex.toHexString(pairing.getPairingKey());
+                // Opening a Secure Channel is needed for all other applet commands
+                cmdSet.autoOpenSecureChannel();
+
+                Log.i(TAG, "Secure channel opened. Getting applet status.");
+                msg0 = getMsg0() + "\n"+"Secure channel opened. Getting applet status.";
+            }
+
+            if (info.hasCredentialsManagementCapability()) {
+                // PIN authentication allows execution of privileged commands
+                cmdSet.verifyPIN(getPIN()).checkAuthOK();
+
+                Log.i(TAG, "Pin Verified.");
+                msg0 = getMsg0() + "\n"+"Pin Verified.";
+            }
+
+
+            // Get the current key path using GET STATUS
+            KeyPath currentPath = new KeyPath(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_KEY_PATH).checkOK().getData());
+            Log.i(TAG, "Current key path: " + currentPath);
+            msg0 = getMsg0() + "\n"+"Current key path: " + currentPath;
+
+            if (!currentPath.toString().equals(SLIP44.BTC_PATH)) {
+                // Key derivation is needed to select the desired key. The derived key remains current until a new derive
+                // command is sent (it is not lost on power loss).
+                cmdSet.deriveKey(SLIP44.BTC_PATH).checkOK();
+                Log.i(TAG, "Derived"+SLIP44.BTC_PATH);
+                msg0 = getMsg0() + "\n" + "Derived"+SLIP44.BTC_PATH;
+            }
+
+            // We retrieve the wallet public key
+            BIP32KeyPair walletPublicKey = BIP32KeyPair.fromTLV(cmdSet.exportCurrentKey(true).checkOK().getData());
+
+            Log.i(TAG, "Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey()));
+            Log.i(TAG, "Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress()));
+            txt += "\n" + "Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
+
+            BTCWALLETADDRESS = Hex.toHexString(walletPublicKey.toEthereumAddress());
+
+            msg0 = getMsg0() + "\n" + Hex.toHexString(walletPublicKey.getPublicKey());
+            msg0 = getMsg0() + "\n" + "Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
+            byte[] hash = "thiscouldbeahashintheorysoitisok".getBytes();
+
+            RecoverableSignature signature = new RecoverableSignature(hash, cmdSet.sign(hash).checkOK().getData());
+
+            Log.i(TAG, "Signed hash: " + Hex.toHexString(hash));
+            msg0 = getMsg0() + "\n" + "Signed hash: " + Hex.toHexString(hash);
+            txt += "\n" + "Signed hash: " + Hex.toHexString(hash);
+            Log.i(TAG, "Recovery ID: " + signature.getRecId());
+            msg0 = getMsg0() + "\n" + "Recovery ID: " + signature.getRecId();
+            txt += "\n" + "Recovery ID: " + signature.getRecId();
+            Log.i(TAG, "R: " + Hex.toHexString(signature.getR()));
+            msg0 = getMsg0() + "\n" + "R: " + Hex.toHexString(signature.getR());
+            txt += "\n" + "R: " + Hex.toHexString(signature.getR());
+            Log.i(TAG, "S: " + Hex.toHexString(signature.getS()));
+            msg0 = getMsg0() + "\n" + "S: " + Hex.toHexString(signature.getS());
+            txt += "\n" + "S: " + Hex.toHexString(signature.getS());
+
+
+            if (info.hasSecureChannelCapability()) {
+                // Cleanup, in a real application you would not unpair and instead keep the pairing key for successive interactions.
+                // We also remove all other pairings so that we do not fill all slots with failing runs. Again in real application
+                // this would be a very bad idea to do.
+                cmdSet.unpairOthers();
+                cmdSet.autoUnpair();
+
+                Log.i(TAG, "Unpaired.");
+                msg0 = getMsg0() + "\n" + "Unpaired.";
+            }
+        }
+
+        catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            msg0 = getMsg0() + "\n"+e.getMessage();
+            //   throw new Exception(e.getMessage());
+        }
+
+    }
+
+    public static void generateHEDERAWallet(CardChannel cardChannel)
+    {
+
+        try
+        {
+
+            msg0="";
+            String txt="";
+
+            // Applet-specific code
+            KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
+
+            ApplicationInfo info = new ApplicationInfo(cmdSet.select().checkOK().getData());
+
+            if (!info.isInitializedCard()) {
+                Log.i(TAG, "Card not initialized");
+                msg0+="\n"+"Card not initialized";
+                return;
+            }
+
+            if (info.hasSecureChannelCapability()) {
+                // In real projects, the pairing key should be saved and used for all new sessions.
+                cmdSet.autoPair(getPASSWORD());
+                //cmdSet.pair((byte) 0x00,"KeycardTest".getBytes());
+                Pairing pairing = cmdSet.getPairing();
+
+                // Never log the pairing key in a real application!
+                Log.i(TAG, "Pairing with card is done.");
+
+                //displayMesssage("Pairing with card is done: "+"Pairing index: " + pairing.getPairingIndex()+"Pairing key: " + Hex.toHexString(pairing.getPairingKey()));
+                Log.i(TAG, "Pairing index: " + pairing.getPairingIndex());
+
+                Log.i(TAG, "Pairing key: " + Hex.toHexString(pairing.getPairingKey()));
+                msg0 = getMsg0() + "\n"+"Pairing with card is done: "+"Pairing index: " + pairing.getPairingIndex()+"Pairing key: " + Hex.toHexString(pairing.getPairingKey());
+                // Opening a Secure Channel is needed for all other applet commands
+                cmdSet.autoOpenSecureChannel();
+
+                Log.i(TAG, "Secure channel opened. Getting applet status.");
+                msg0 = getMsg0() + "\n"+"Secure channel opened. Getting applet status.";
+            }
+
+            if (info.hasCredentialsManagementCapability()) {
+                // PIN authentication allows execution of privileged commands
+                cmdSet.verifyPIN(getPIN()).checkAuthOK();
+
+                Log.i(TAG, "Pin Verified.");
+                msg0 = getMsg0() + "\n"+"Pin Verified.";
+            }
+
+
+            // Get the current key path using GET STATUS
+            KeyPath currentPath = new KeyPath(cmdSet.getStatus(KeycardCommandSet.GET_STATUS_P1_KEY_PATH).checkOK().getData());
+            Log.i(TAG, "Current key path: " + currentPath);
+            msg0 = getMsg0() + "\n"+"Current key path: " + currentPath;
+            if (!currentPath.toString().equals(SLIP44.HEDERA_PATH)) {
+                // Key derivation is needed to select the desired key. The derived key remains current until a new derive
+                // command is sent (it is not lost on power loss).
+              //  cmdSet.deriveKey("m/44'/0'/0'/0/0").checkOK();
+                //this will only switch the path to HEDERA  WALLET PATH
+                cmdSet.deriveKey(SLIP44.HEDERA_PATH.getBytes(),DERIVE_P1_SOURCE_ED25519).checkOK();
+                Log.i(TAG, "Derived"+SLIP44.HEDERA_PATH);
+                msg0 = getMsg0() + "\n" + "Derived"+SLIP44.HEDERA_PATH;
+            }
+
+                // We retrieve the wallet public key for Hedera
+                //the derivation itself is only done when needed- here this will derive
+                //BIP32KeyPair walletPublicKey = BIP32KeyPair.fromTLV(cmdSet.exportCurrentKey(true).checkOK().getData());
+                //TODO: ADD ALSO OPTIONS FOR DERIVING DIRECTLY FROM GIVEN PATH ETC ...
+                Crypto.SLIP10KeyPair walletPublicKey =Crypto.SLIP10KeyPair.fromTLV(cmdSet.exportKey(DERIVE_P1_SOURCE_ED25519,true,new byte[0]);
+
+                Log.i(TAG, "HEDERA Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey()));
+                Log.i(TAG, "HEDERA Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress()));
+                txt += "\n" + "HEDERA Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
+
+                BTCWALLETADDRESS = Hex.toHexString(walletPublicKey.toEthereumAddress());
+
+                msg0 = getMsg0() + "\n" + Hex.toHexString(walletPublicKey.getPublicKey());
+                msg0 = getMsg0() + "\n" + "Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
+                byte[] hash = "thiscouldbeahashintheorysoitisok".getBytes();
+
+                RecoverableSignature signature = new RecoverableSignature(hash, cmdSet.sign(hash).checkOK().getData());
+
+                Log.i(TAG, "Signed hash: " + Hex.toHexString(hash));
+                msg0 = getMsg0() + "\n" + "Signed hash: " + Hex.toHexString(hash);
+                txt += "\n" + "Signed hash: " + Hex.toHexString(hash);
+                Log.i(TAG, "Recovery ID: " + signature.getRecId());
+                msg0 = getMsg0() + "\n" + "Recovery ID: " + signature.getRecId();
+                txt += "\n" + "Recovery ID: " + signature.getRecId();
+                Log.i(TAG, "R: " + Hex.toHexString(signature.getR()));
+                msg0 = getMsg0() + "\n" + "R: " + Hex.toHexString(signature.getR());
+                txt += "\n" + "R: " + Hex.toHexString(signature.getR());
+                Log.i(TAG, "S: " + Hex.toHexString(signature.getS()));
+                msg0 = getMsg0() + "\n" + "S: " + Hex.toHexString(signature.getS());
+                txt += "\n" + "S: " + Hex.toHexString(signature.getS());
+
+
+                if (info.hasSecureChannelCapability()) {
+                    // Cleanup, in a real application you would not unpair and instead keep the pairing key for successive interactions.
+                    // We also remove all other pairings so that we do not fill all slots with failing runs. Again in real application
+                    // this would be a very bad idea to do.
+                    cmdSet.unpairOthers();
+                    cmdSet.autoUnpair();
+
+                    Log.i(TAG, "Unpaired.");
+                    msg0 = getMsg0() + "\n" + "Unpaired.";
+                }
+            }
+
+           catch (Exception e) {
+            Log.e(TAG, e.getMessage());
+            msg0 = getMsg0() + "\n"+e.getMessage();
+            //   throw new Exception(e.getMessage());
+        }
+
+        }
     @SuppressLint("SuspiciousIndentation")
     public static void Initialize(CardChannel cardChannel) throws Exception {
         try
@@ -150,10 +389,10 @@ public class CardFunctions {
             // Applet-specific code
             KeycardCommandSet cmdSet = new KeycardCommandSet(cardChannel);
 
-            Log.i(TAG, "Applet selection successful");
 
             // First thing to do is selecting the applet on the card.
             ApplicationInfo info = new ApplicationInfo(cmdSet.select().checkOK().getData());
+            Log.i(TAG, "Applet selection successful");
 
             // If the card is not initialized, the INIT apdu must be sent. The actual PIN, PUK and pairing password values
             // can be either generated or chosen by the user. Using fixed values is highly discouraged.

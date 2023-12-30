@@ -18,4 +18,14 @@ public class WalletActivity extends AppCompatActivity {
     {
         startActivity(new Intent(WalletActivity.this, MainActivity2.class));
     }
+
+    public void BITCOIN(View v)
+    {
+        startActivity(new Intent(WalletActivity.this, BTCWalletActivity.class));
+    }
+
+    public void HEDERA(View v)
+    {
+        startActivity(new Intent(WalletActivity.this, HederaWalletActivity.class));
+    }
 }

@@ -1,5 +1,5 @@
 // converted by version 1.3
-// on Mon Dec 25 15:15:02 PST 2023
+// on Sat Dec 30 01:29:12 PST 2023
 
 .package CitadelWallet/im/status/keycard {
 	.aid 0xA0:0x0:0x0:0x8:0x4:0x0:0x1;
@@ -102,51 +102,51 @@
 		// 39
 		instanceFieldRef short KeycardApplet/tmpPathLen;
 		// 40
-		instanceFieldRef 1.18 SECP256k1/tmpECPrivateKey;
+		instanceFieldRef byte[] ed25519/chainCode;
 		// 41
-		instanceFieldRef short NDEFApplet/selectedFile;
+		instanceFieldRef 1.18 SECP256k1/tmpECPrivateKey;
 		// 42
-		instanceFieldRef 1.22 SECP256k1/ecPointMultiplier;
+		instanceFieldRef short NDEFApplet/selectedFile;
 		// 43
-		instanceFieldRef short SecureChannel/preassignedPairingOffset;
+		instanceFieldRef 1.22 SECP256k1/ecPointMultiplier;
 		// 44
-		instanceFieldRef boolean SecureChannel/mutuallyAuthenticated;
+		instanceFieldRef short SecureChannel/preassignedPairingOffset;
 		// 45
-		instanceFieldRef Crypto SecureChannel/crypto;
+		instanceFieldRef boolean SecureChannel/mutuallyAuthenticated;
 		// 46
-		instanceFieldRef 1.15 SecureChannel/scMac;
+		instanceFieldRef Crypto SecureChannel/crypto;
 		// 47
-		instanceFieldRef 1.20 SecureChannel/scEncKey;
+		instanceFieldRef 1.15 SecureChannel/scMac;
 		// 48
-		instanceFieldRef 1.20 SecureChannel/scMacKey;
+		instanceFieldRef 1.20 SecureChannel/scEncKey;
 		// 49
-		instanceFieldRef byte[] SecureChannel/secret;
+		instanceFieldRef 1.20 SecureChannel/scMacKey;
 		// 50
-		instanceFieldRef byte[] SecureChannel/pairingKeys;
+		instanceFieldRef byte[] SecureChannel/secret;
 		// 51
-		instanceFieldRef 1.16 SecureChannel/scKeypair;
+		instanceFieldRef byte[] SecureChannel/pairingKeys;
 		// 52
-		instanceFieldRef byte SecureChannel/remainingSlots;
+		instanceFieldRef 1.16 SecureChannel/scKeypair;
 		// 53
-		instanceFieldRef byte[] SecureChannel/pairingSecret;
+		instanceFieldRef byte SecureChannel/remainingSlots;
 		// 54
-		instanceFieldRef byte[] ed25519/DebugMasterPrivateKey;
+		instanceFieldRef byte[] SecureChannel/pairingSecret;
 		// 55
-		instanceFieldRef byte[] ed25519/DebugMasterPublicKey;
+		instanceFieldRef byte[] ed25519/DebugMasterPrivateKey;
 		// 56
-		instanceFieldRef 4.9 ed25519/eccPriKey;
+		instanceFieldRef byte[] ed25519/DebugMasterPublicKey;
 		// 57
-		instanceFieldRef 4.10 ed25519/eccPubKey;
+		instanceFieldRef 4.9 ed25519/eccPriKey;
 		// 58
-		staticMethodRef Crypto/addm256([BS[BS[BS[BS)V;
+		instanceFieldRef 4.10 ed25519/eccPubKey;
 		// 59
-		staticMethodRef Crypto/isZero256([BS)Z;
+		instanceFieldRef 1.22 ed25519/ecPointMultiplier;
 		// 60
-		staticFieldRef byte[] Crypto/KEY_BITCOIN_SEED;
+		instanceFieldRef 4.9 ed25519/ecc_Hedera_PriKey;
 		// 61
-		staticFieldRef byte[] Crypto/MAX_S;
+		instanceFieldRef 4.10 ed25519/ecc_Hedera_PubKey;
 		// 62
-		staticFieldRef byte[] Crypto/S_SUB;
+		instanceFieldRef 4.9 ed25519/tmpECPrivateKey;
 		// 63
 		staticMethodRef Crypto/sub256([BS[BS[BS)S;
 		// 64
@@ -453,173 +453,209 @@
 			.descriptor	Ljavacard/security/RandomData;	1.14;
 
 		// 180
-		virtualMethodRef SECP256k1/derivePublicKey([BS[BS)S;
+		staticFieldRef byte[] ed25519/current_path;
 		// 181
-		virtualMethodRef Crypto/bip32CKDPriv([BS[BS[BS[BS)Z;
+		staticFieldRef short ed25519/current_path_length;
 		// 182
-		staticMethodRef 0.16.4([BS)S;		// javacard/framework/Util.getShort([BS)S
+		virtualMethodRef SECP256k1/derivePublicKey([BS[BS)S;
 		// 183
-		staticMethodRef KeycardApplet/logicrShift(SS)S;
+		virtualMethodRef Crypto/bip32CKDPriv([BS[BS[BS[BS)Z;
 		// 184
-		staticMethodRef KeycardApplet/clearKeys()V;
+		virtualMethodRef ed25519/getS([BS)S;
 		// 185
-		staticMethodRef 0.8.17()Z;		// javacard/framework/JCSystem.isObjectDeletionSupported()Z
-		// 186
-		staticMethodRef 0.8.18()V;		// javacard/framework/JCSystem.requestObjectDeletion()V
-		// 187
-		staticMethodRef KeycardApplet/isPinless()Z;
-		// 188
-		virtualMethodRef ed25519/GetPublicKey([BS)S;
-		// 189
-		virtualMethodRef ed25519/SignData([BSS[BS)S;
-		// 190
-		staticMethodRef KeycardApplet/doDerive([BS)V;
-		// 191
 		staticMethodRef CashApplet/<init>([BSB)V;
+		// 186
+		virtualMethodRef ed25519/getW([BS)S;
+		// 187
+		virtualMethodRef ed25519/derivePublicKey([BS[BS)S;
+		// 188
+		staticMethodRef 0.16.4([BS)S;		// javacard/framework/Util.getShort([BS)S
+		// 189
+		staticMethodRef KeycardApplet/logicrShift(SS)S;
+		// 190
+		staticMethodRef KeycardApplet/clearKeys()V;
+		// 191
+		staticMethodRef 0.8.17()Z;		// javacard/framework/JCSystem.isObjectDeletionSupported()Z
 		// 192
-		staticMethodRef KeycardApplet/isEIP1581()Z;
+		staticMethodRef 0.8.18()V;		// javacard/framework/JCSystem.requestObjectDeletion()V
 		// 193
-		staticFieldRef byte[] SharedMemory/ndefDataFile;
+		staticMethodRef KeycardApplet/isPinless()Z;
 		// 194
-		staticMethodRef 0.16.0([BS[BSS)B;		// javacard/framework/Util.arrayCompare([BS[BSS)B
+		virtualMethodRef ed25519/GetPublicKey([BS)S;
 		// 195
-		staticFieldRef byte[] KeycardApplet/EIP_1581_PREFIX;
+		virtualMethodRef ed25519/SignData([BSS[BS)S;
 		// 196
-		classRef NDEFApplet;
+		staticMethodRef KeycardApplet/doDerive([BS)V;
 		// 197
-		staticMethodRef NDEFApplet/<init>([BSB)V;
-		// 198
-		virtualMethodRef 0.3.2([BSB)V;		// register([BSB)V
-		// 199
-		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
-		// 200
 		staticMethodRef 1.11.0(BZ)Ljavacard/security/MessageDigest;;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
 			.descriptor	Ljavacard/security/MessageDigest;	1.11;
 
+		// 198
+		staticMethodRef KeycardApplet/isEIP1581()Z;
+		// 199
+		staticMethodRef KeycardApplet/doDerive_ED25519([BS)V;
+		// 200
+		staticFieldRef byte[] SharedMemory/ndefDataFile;
 		// 201
-		staticMethodRef NDEFApplet/processSelect(Ljavacard/framework/APDU;)V;
-			.descriptor	Ljavacard/framework/APDU;	0.10;
-
+		staticMethodRef 0.16.0([BS[BSS)B;		// javacard/framework/Util.arrayCompare([BS[BSS)B
 		// 202
-		staticMethodRef NDEFApplet/processReadBinary(Ljavacard/framework/APDU;)V;
-			.descriptor	Ljavacard/framework/APDU;	0.10;
-
+		staticFieldRef byte[] KeycardApplet/EIP_1581_PREFIX;
 		// 203
-		staticFieldRef byte[] NDEFApplet/NDEF_CAPS_FILE;
+		classRef NDEFApplet;
 		// 204
-		virtualMethodRef 0.10.10()S;		// setOutgoingNoChaining()S
+		staticMethodRef NDEFApplet/<init>([BSB)V;
 		// 205
-		virtualMethodRef 0.10.9(S)V;		// setOutgoingLength(S)V
+		virtualMethodRef 0.3.2([BSB)V;		// register([BSB)V
 		// 206
-		virtualMethodRef 0.10.5([BSS)V;		// sendBytesLong([BSS)V
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
 		// 207
 		classRef 1.16;		// javacard/security/KeyPair
 		// 208
-		staticFieldRef byte[] SECP256k1/SECP256K1_A;
+		staticMethodRef NDEFApplet/processSelect(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
 		// 209
-		classRef 1.17;		// javacard/security/ECKey
+		staticMethodRef NDEFApplet/processReadBinary(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
 		// 210
-		staticFieldRef byte[] SECP256k1/SECP256K1_B;
+		staticFieldRef byte[] NDEFApplet/NDEF_CAPS_FILE;
 		// 211
-		staticFieldRef byte[] SECP256k1/SECP256K1_FP;
+		virtualMethodRef 0.10.10()S;		// setOutgoingNoChaining()S
 		// 212
-		staticFieldRef byte[] SECP256k1/SECP256K1_G;
+		virtualMethodRef 0.10.9(S)V;		// setOutgoingLength(S)V
 		// 213
-		virtualMethodRef SECP256k1/multiplyPoint(Ljavacard/security/ECPrivateKey;[BSS[BS)S;
-			.descriptor	Ljavacard/security/ECPrivateKey;	1.18;
-
+		virtualMethodRef 0.10.5([BSS)V;		// sendBytesLong([BSS)V
 		// 214
-		virtualMethodRef 1.22.1(Ljavacard/security/PrivateKey;)V;		// init(Ljavacard/security/PrivateKey;)V
-			.descriptor	Ljavacard/security/PrivateKey;	1.2;
-
-		// 215
-		virtualMethodRef 1.22.3([BSS[BS)S;		// generateSecret([BSS[BS)S
-		// 216
 		staticMethodRef 1.22.0(BZ)Ljavacard/security/KeyAgreement;;		// javacard/security/KeyAgreement.getInstance(BZ)Ljavacard/security/KeyAgreement;
 			.descriptor	Ljavacard/security/KeyAgreement;	1.22;
 
+		// 215
+		staticFieldRef byte[] SECP256k1/SECP256K1_A;
+		// 216
+		classRef 1.17;		// javacard/security/ECKey
 		// 217
-		staticMethodRef 1.16.0(BS)V;		// javacard/security/KeyPair.<init>(BS)V
+		staticFieldRef byte[] SECP256k1/SECP256K1_B;
 		// 218
-		classRef CashApplet;
+		staticFieldRef byte[] SECP256k1/SECP256K1_FP;
 		// 219
+		staticFieldRef byte[] SECP256k1/SECP256K1_G;
+		// 220
+		virtualMethodRef SECP256k1/multiplyPoint(Ljavacard/security/ECPrivateKey;[BSS[BS)S;
+			.descriptor	Ljavacard/security/ECPrivateKey;	1.18;
+
+		// 221
+		virtualMethodRef 1.22.1(Ljavacard/security/PrivateKey;)V;		// init(Ljavacard/security/PrivateKey;)V
+			.descriptor	Ljavacard/security/PrivateKey;	1.2;
+
+		// 222
+		virtualMethodRef 1.22.3([BSS[BS)S;		// generateSecret([BSS[BS)S
+		// 223
+		staticMethodRef 1.16.0(BS)V;		// javacard/security/KeyPair.<init>(BS)V
+		// 224
+		classRef CashApplet;
+		// 225
 		staticMethodRef 3.1.0(BZ)Ljavacardx/crypto/Cipher;;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
 			.descriptor	Ljavacardx/crypto/Cipher;	3.1;
 
-		// 220
-		classRef 1.20;		// javacard/security/AESKey
-		// 221
+		// 226
 		virtualMethodRef 1.16.3()Ljavacard/security/PublicKey;;		// getPublic()Ljavacard/security/PublicKey;
 			.descriptor	Ljavacard/security/PublicKey;	1.3;
 
-		// 222
+		// 227
+		classRef 1.20;		// javacard/security/AESKey
+		// 228
 		classRef 1.19;		// javacard/security/ECPublicKey
-		// 223
+		// 229
 		staticMethodRef 1.13.0(BSZ)Ljavacard/security/Key;;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
 			.descriptor	Ljavacard/security/Key;	1.0;
 
-		// 224
+		// 230
 		classRef 1.23;		// javacard/security/HMACKey
-		// 225
+		// 231
 		staticMethodRef 0.3.0()V;		// javacard/framework/Applet.<init>()V
-		// 226
+		// 232
 		staticMethodRef 0.8.13(SB)[B;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
-		// 227
+		// 233
 		virtualMethodRef 1.16.2()Ljavacard/security/PrivateKey;;		// getPrivate()Ljavacard/security/PrivateKey;
 			.descriptor	Ljavacard/security/PrivateKey;	1.2;
 
-		// 228
+		// 234
+		virtualMethodRef Crypto/bip32IsHardened([BS)Z;
+		// 235
 		virtualMethodRef 3.1.4(Ljavacard/security/Key;B[BSS)V;		// init(Ljavacard/security/Key;B[BSS)V
 			.descriptor	Ljavacard/security/Key;	1.0;
 
-		// 229
-		virtualMethodRef 3.1.1([BSS[BS)S;		// doFinal([BSS[BS)S
-		// 230
-		staticMethodRef SecureChannel/checkPairingIndexAndGetOffset(B)S;
-		// 231
-		staticMethodRef SecureChannel/pairStep1([B)S;
-		// 232
-		staticMethodRef SecureChannel/pairStep2([B)S;
-		// 233
-		staticMethodRef SecureChannel/verifyAESMAC([BS)Z;
-		// 234
-		virtualMethodRef 1.15.6([BSS)V;		// update([BSS)V
-		// 235
-		virtualMethodRef 1.15.7([BSS[BSS)Z;		// verify([BSS[BSS)Z
 		// 236
-		staticMethodRef SecureChannel/computeAESMAC(S[B)V;
+		virtualMethodRef 3.1.1([BSS[BS)S;		// doFinal([BSS[BS)S
 		// 237
-		virtualMethodRef Crypto/bip32IsHardened([BS)Z;
+		staticMethodRef SecureChannel/checkPairingIndexAndGetOffset(B)S;
 		// 238
-		staticMethodRef Crypto/hmacSHA512([BSS[BSS[BS)V;
+		staticMethodRef SecureChannel/pairStep1([B)S;
 		// 239
+		staticMethodRef SecureChannel/pairStep2([B)S;
+		// 240
+		staticMethodRef SecureChannel/verifyAESMAC([BS)Z;
+		// 241
+		virtualMethodRef 1.15.6([BSS)V;		// update([BSS)V
+		// 242
+		virtualMethodRef 1.15.7([BSS[BSS)Z;		// verify([BSS[BSS)Z
+		// 243
+		staticMethodRef SecureChannel/computeAESMAC(S[B)V;
+		// 244
+		staticMethodRef Crypto/hmacSHA512([BSS[BSS[BS)V;
+		// 245
+		staticFieldRef byte[] SECP256k1/SECP256K1_R;
+		// 246
 		staticMethodRef 4.11.1(BB)Ljavacard/security/Key;;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
 			.descriptor	Ljavacard/security/Key;	1.0;
 
-		// 240
+		// 247
 		classRef 4.9;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
-		// 241
-		staticFieldRef byte[] SECP256k1/SECP256K1_R;
-		// 242
-		classRef 4.10;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
-		// 243
+		// 248
 		staticMethodRef Crypto/ucmp256([BS[BS)S;
-		// 244
+		// 249
+		classRef 4.10;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+		// 250
+		staticMethodRef Crypto/addm256([BS[BS[BS[BS)V;
+		// 251
 		staticMethodRef 4.11.2(Ljavacard/security/PrivateKey;Ljavacard/security/PublicKey;)V;		// com/nxp/id/jcopx/security/KeyBuilderX.genKeyPair(Ljavacard/security/PrivateKey;Ljavacard/security/PublicKey;)V
 			.descriptor	Ljavacard/security/PrivateKey;	1.2;
 			.descriptor	Ljavacard/security/PublicKey;	1.3;
 
-		// 245
+		// 252
+		staticMethodRef 4.6.0(BZ)Ljavacard/security/KeyAgreement;;		// com/nxp/id/jcopx/security/KeyAgreementX.getInstance(BZ)Ljavacard/security/KeyAgreement;
+			.descriptor	Ljavacard/security/KeyAgreement;	1.22;
+
+		// 253
+		staticMethodRef Crypto/isZero256([BS)Z;
+		// 254
+		staticFieldRef byte[] Crypto/KEY_BITCOIN_SEED;
+		// 255
+		staticFieldRef byte[] Crypto/MAX_S;
+		// 256
+		staticFieldRef byte[] ed25519/ED25519_G;
+		// 257
+		virtualMethodRef ed25519/multiplyPoint(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BSS[BS)S;
+			.descriptor	Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;	4.9;
+
+		// 258
+		staticFieldRef byte[] Crypto/S_SUB;
+		// 259
+		virtualMethodRef ed25519/derivePublicKey(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BS)S;
+			.descriptor	Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;	4.9;
+
+		// 260
 		staticMethodRef 4.1.2(Ljavacard/security/Key;B[BSS[BS)S;		// com/nxp/id/jcopx/security/CryptoBaseX.sign(Ljavacard/security/Key;B[BSS[BS)S
 			.descriptor	Ljavacard/security/Key;	1.0;
 
-		// 246
+		// 261
 		staticMethodRef ed25519/BigToLittleEndian([BSS)V;
-		// 247
+		// 262
 		staticMethodRef 4.1.3(Ljavacard/security/Key;B[BSS[BSS)S;		// com/nxp/id/jcopx/security/CryptoBaseX.verify(Ljavacard/security/Key;B[BSS[BSS)S
 			.descriptor	Ljavacard/security/Key;	1.0;
 
-		// 248
+		// 263
 		staticMethodRef ed25519/LittleToBigEndian([BSS)V;
 	}
 
@@ -653,11 +689,11 @@
 			.stack 4;
 			.locals 0;
 
-				L0:	new 218;		// CitadelWallet/im/status/keycard/CashApplet
+				L0:	new 224;		// CitadelWallet/im/status/keycard/CashApplet
 					aload_0;
 					sload_1;
 					sload_2;
-					invokespecial 191;		// CitadelWallet/im/status/keycard/CashApplet.<init>([BSB)V
+					invokespecial 185;		// CitadelWallet/im/status/keycard/CashApplet.<init>([BSB)V
 					return;
 		}
 
@@ -666,7 +702,7 @@
 			.locals 2;
 
 				L0:	aload_0;
-					invokespecial 225;		// javacard/framework/Applet.<init>()V
+					invokespecial 231;		// javacard/framework/Applet.<init>()V
 					aload_0;
 					new 85;		// CitadelWallet/im/status/keycard/Crypto
 					dup;
@@ -677,16 +713,16 @@
 					dup;
 					sconst_5;
 					sspush 256;
-					invokespecial 217;		// javacard/security/KeyPair.<init>(BS)V
+					invokespecial 223;		// javacard/security/KeyPair.<init>(BS)V
 					putfield_a 1;		// reference CitadelWallet/im/status/keycard/CashApplet.keypair
 					aload_0;
 					getfield_a_this 1;		// reference CitadelWallet/im/status/keycard/CashApplet.keypair
-					invokevirtual 221;		// getPublic()Ljavacard/security/PublicKey;
-					checkcast 0 222;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+					invokevirtual 226;		// getPublic()Ljavacard/security/PublicKey;
+					checkcast 0 228;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
 					putfield_a 2;		// reference CitadelWallet/im/status/keycard/CashApplet.publicKey
 					aload_0;
 					getfield_a_this 1;		// reference CitadelWallet/im/status/keycard/CashApplet.keypair
-					invokevirtual 227;		// getPrivate()Ljavacard/security/PrivateKey;
+					invokevirtual 233;		// getPrivate()Ljavacard/security/PrivateKey;
 					checkcast 0 82;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
 					putfield_a 3;		// reference CitadelWallet/im/status/keycard/CashApplet.privateKey
 					getfield_a_this 2;		// reference CitadelWallet/im/status/keycard/CashApplet.publicKey
@@ -836,7 +872,7 @@
 					sload_3;
 					sconst_1;
 					sadd;
-					invokeinterface 3 222 19;		// javacard/security/ECPublicKey
+					invokeinterface 3 228 19;		// javacard/security/ECPublicKey
 					sstore 5;
 				L4:	aload_2;
 					sload_3;
@@ -948,7 +984,7 @@
 				L2:	getfield_a_this 2;		// reference CitadelWallet/im/status/keycard/CashApplet.publicKey
 					aload_2;
 					bspush 42;
-					invokeinterface 3 222 19;		// javacard/security/ECPublicKey
+					invokeinterface 3 228 19;		// javacard/security/ECPublicKey
 					pop;
 					sinc 3 5;
 					bspush 37;
@@ -1030,6 +1066,7 @@
 		.packageMethodTable 0 {
 			bip32IsHardened([BS)Z;
 			bip32CKDPriv([BS[BS[BS[BS)Z;
+			SLIP10CKDPriv([BS[BS[BS[BS)Z;
 			bip32MasterFromSeed([BSS[BS)V;
 			fixS([BS)S;
 		}
@@ -1047,22 +1084,22 @@
 					aload_0;
 					sconst_4;
 					sconst_0;
-					invokestatic 200;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
+					invokestatic 197;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
 					putfield_a 6;		// reference CitadelWallet/im/status/keycard/Crypto.sha256
 					aload_0;
 					sconst_3;
 					sconst_0;
-					invokestatic 216;		// javacard/security/KeyAgreement.getInstance(BZ)Ljavacard/security/KeyAgreement;
+					invokestatic 214;		// javacard/security/KeyAgreement.getInstance(BZ)Ljavacard/security/KeyAgreement;
 					putfield_a 7;		// reference CitadelWallet/im/status/keycard/Crypto.ecdh
 					aload_0;
 					bspush 6;
 					sconst_0;
-					invokestatic 200;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
+					invokestatic 197;		// javacard/security/MessageDigest.getInstance(BZ)Ljavacard/security/MessageDigest;
 					putfield_a 8;		// reference CitadelWallet/im/status/keycard/Crypto.sha512
 					aload_0;
 					bspush 23;
 					sconst_0;
-					invokestatic 219;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
+					invokestatic 225;		// javacardx/crypto/Cipher.getInstance(BZ)Ljavacardx/crypto/Cipher;
 					putfield_a 9;		// reference CitadelWallet/im/status/keycard/Crypto.aesCbcIso9797m2
 				L1:	aload_0;
 					bspush 27;
@@ -1073,8 +1110,8 @@
 					bspush 20;
 					sspush 256;
 					sconst_0;
-					invokestatic 223;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
-					checkcast 0 224;		// T_CLASSORINTERFACE javacard/security/HMACKey
+					invokestatic 229;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					checkcast 0 230;		// T_CLASSORINTERFACE javacard/security/HMACKey
 					putfield_a 11;		// reference CitadelWallet/im/status/keycard/Crypto.hmacKey
 				L2:	goto L4;
 				L3:	pop;
@@ -1084,7 +1121,7 @@
 					aload_0;
 					sspush 128;
 					sconst_1;
-					invokestatic 226;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					invokestatic 232;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
 					putfield_a 12;		// reference CitadelWallet/im/status/keycard/Crypto.hmacBlock
 				L4:	return;
 			.exceptionTable {
@@ -1119,7 +1156,7 @@
 				L1:	aload_0;
 					aload_1;
 					sload_2;
-					invokevirtual 237;		// bip32IsHardened([BS)Z
+					invokevirtual 234;		// bip32IsHardened([BS)Z
 					ifeq L3;
 				L2:	aload_3;
 					sload 9;
@@ -1194,13 +1231,13 @@
 					ssub;
 					aload 7;
 					sload 8;
-					invokespecial 238;		// CitadelWallet/im/status/keycard/Crypto.hmacSHA512([BSS[BSS[BS)V
+					invokespecial 244;		// CitadelWallet/im/status/keycard/Crypto.hmacSHA512([BSS[BSS[BS)V
 					aload_0;
 					aload 7;
 					sload 8;
-					getstatic_a 241;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_R
+					getstatic_a 245;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_R
 					sconst_0;
-					invokespecial 243;		// CitadelWallet/im/status/keycard/Crypto.ucmp256([BS[BS)S
+					invokespecial 248;		// CitadelWallet/im/status/keycard/Crypto.ucmp256([BS[BS)S
 					iflt L9;
 				L8:	sconst_0;
 					sreturn;
@@ -1209,15 +1246,15 @@
 					sload 8;
 					aload 5;
 					sload 6;
-					getstatic_a 241;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_R
+					getstatic_a 245;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_R
 					sconst_0;
 					aload 7;
 					sload 8;
-					invokespecial 58;		// CitadelWallet/im/status/keycard/Crypto.addm256([BS[BS[BS[BS)V
+					invokespecial 250;		// CitadelWallet/im/status/keycard/Crypto.addm256([BS[BS[BS[BS)V
 					aload_0;
 					aload 7;
 					sload 8;
-					invokespecial 59;		// CitadelWallet/im/status/keycard/Crypto.isZero256([BS)Z
+					invokespecial 253;		// CitadelWallet/im/status/keycard/Crypto.isZero256([BS)Z
 					ifeq L11;
 				L10:	sconst_0;
 					goto L12;
@@ -1225,25 +1262,121 @@
 				L12:	sreturn;
 		}
 
-		.method  bip32MasterFromSeed([BSS[BS)V 130 {
+		.method  SLIP10CKDPriv([BS[BS[BS[BS)Z 130 {
+			.stack 9;
+			.locals 1;
+
+				L0:	sload 4;
+					sstore 9;
+				L1:	aload_0;
+					aload_1;
+					sload_2;
+					invokevirtual 234;		// bip32IsHardened([BS)Z
+					ifeq L3;
+				L2:	aload_3;
+					sload 9;
+					dup;
+					sconst_1;
+					sadd;
+					sstore 9;
+					sconst_0;
+					bastore;
+					aload 5;
+					sload 6;
+					aload_3;
+					sload 9;
+					bspush 32;
+					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					sstore 9;
+					goto L7;
+				L3:	aload_3;
+					sload 9;
+					dup;
+					sconst_1;
+					sadd;
+					sstore 9;
+					aload 5;
+					sload 6;
+					bspush 32;
+					sadd;
+					bspush 32;
+					sadd;
+					bspush 65;
+					sadd;
+					sconst_1;
+					ssub;
+					baload;
+					sconst_1;
+					sand;
+					ifeq L5;
+				L4:	sconst_3;
+					goto L6;
+				L5:	sconst_2;
+				L6:	bastore;
+					aload 5;
+					sload 6;
+					bspush 32;
+					sadd;
+					bspush 32;
+					sadd;
+					sconst_1;
+					sadd;
+					aload_3;
+					sload 9;
+					bspush 32;
+					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					sstore 9;
+				L7:	aload_1;
+					sload_2;
+					aload_3;
+					sload 9;
+					sconst_4;
+					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					sstore 9;
+					aload_0;
+					aload 5;
+					sload 6;
+					bspush 32;
+					sadd;
+					bspush 32;
+					aload_3;
+					sload 4;
+					sload 9;
+					sload 4;
+					ssub;
+					aload 7;
+					sload 8;
+					invokespecial 244;		// CitadelWallet/im/status/keycard/Crypto.hmacSHA512([BSS[BSS[BS)V
+					aload_0;
+					aload 7;
+					sload 8;
+					invokespecial 253;		// CitadelWallet/im/status/keycard/Crypto.isZero256([BS)Z
+					ifeq L9;
+				L8:	sconst_0;
+					goto L10;
+				L9:	sconst_1;
+				L10:	sreturn;
+		}
+
+		.method  bip32MasterFromSeed([BSS[BS)V 131 {
 			.stack 9;
 			.locals 0;
 
 				L0:	aload_0;
-					getstatic_a 60;		// reference CitadelWallet/im/status/keycard/Crypto.KEY_BITCOIN_SEED
+					getstatic_a 254;		// reference CitadelWallet/im/status/keycard/Crypto.KEY_BITCOIN_SEED
 					sconst_0;
-					getstatic_a 60;		// reference CitadelWallet/im/status/keycard/Crypto.KEY_BITCOIN_SEED
+					getstatic_a 254;		// reference CitadelWallet/im/status/keycard/Crypto.KEY_BITCOIN_SEED
 					arraylength;
 					aload_1;
 					sload_2;
 					sload_3;
 					aload 4;
 					sload 5;
-					invokespecial 238;		// CitadelWallet/im/status/keycard/Crypto.hmacSHA512([BSS[BSS[BS)V
+					invokespecial 244;		// CitadelWallet/im/status/keycard/Crypto.hmacSHA512([BSS[BSS[BS)V
 					return;
 		}
 
-		.method  fixS([BS)S 131 {
+		.method  fixS([BS)S 132 {
 			.stack 7;
 			.locals 2;
 
@@ -1298,12 +1431,12 @@
 				L5:	aload_0;
 					aload_1;
 					sload_3;
-					getstatic_a 61;		// reference CitadelWallet/im/status/keycard/Crypto.MAX_S
+					getstatic_a 255;		// reference CitadelWallet/im/status/keycard/Crypto.MAX_S
 					sconst_0;
-					invokespecial 243;		// CitadelWallet/im/status/keycard/Crypto.ucmp256([BS[BS)S
+					invokespecial 248;		// CitadelWallet/im/status/keycard/Crypto.ucmp256([BS[BS)S
 					ifle L7;
 				L6:	aload_0;
-					getstatic_a 62;		// reference CitadelWallet/im/status/keycard/Crypto.S_SUB
+					getstatic_a 258;		// reference CitadelWallet/im/status/keycard/Crypto.S_SUB
 					sconst_0;
 					aload_1;
 					sload_3;
@@ -1325,7 +1458,7 @@
 					aload_1;
 					sload_2;
 					sload_3;
-					invokeinterface 4 224 4;		// javacard/security/HMACKey
+					invokeinterface 4 230 4;		// javacard/security/HMACKey
 					getfield_a_this 10;		// reference CitadelWallet/im/status/keycard/Crypto.hmacSHA512
 					getfield_a_this 11;		// reference CitadelWallet/im/status/keycard/Crypto.hmacKey
 					sconst_1;
@@ -1423,7 +1556,7 @@
 					sload 8;
 					aload 5;
 					sload 6;
-					invokespecial 243;		// CitadelWallet/im/status/keycard/Crypto.ucmp256([BS[BS)S
+					invokespecial 248;		// CitadelWallet/im/status/keycard/Crypto.ucmp256([BS[BS)S
 					ifle L3;
 				L2:	aload_0;
 					aload 7;
@@ -1676,11 +1809,11 @@
 			.locals 0;
 
 				L0:	aload_0;
-					invokespecial 225;		// javacard/framework/Applet.<init>()V
+					invokespecial 231;		// javacard/framework/Applet.<init>()V
 					bspush 12;
 					sspush 256;
 					sconst_0;
-					invokestatic 223;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					invokestatic 229;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
 					checkcast 0 82;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
 					putstatic_a 71;		// reference CitadelWallet/im/status/keycard/SharedMemory.idPrivate
 					getstatic_a 71;		// reference CitadelWallet/im/status/keycard/SharedMemory.idPrivate
@@ -2007,6 +2140,7 @@
 			static final byte DERIVE_P1_SOURCE_CURRENT = -128;		// B
 			static final byte DERIVE_P1_SOURCE_PINLESS = -64;		// B
 			static final byte DERIVE_P1_SOURCE_MASK = -64;		// B
+			static final byte DERIVE_P1_SOURCE_ED25519 = -48;		// B
 			static final byte GENERATE_MNEMONIC_P1_CS_MIN = 4;		// B
 			static final byte GENERATE_MNEMONIC_P1_CS_MAX = 8;		// B
 			static final byte GENERATE_MNEMONIC_TMP_OFF = 85;		// B
@@ -2083,7 +2217,7 @@
 			.locals 0;
 
 				L0:	aload_0;
-					invokespecial 225;		// javacard/framework/Applet.<init>()V
+					invokespecial 231;		// javacard/framework/Applet.<init>()V
 					aload_0;
 					new 85;		// CitadelWallet/im/status/keycard/Crypto
 					dup;
@@ -2113,14 +2247,14 @@
 					bspush 11;
 					sspush 256;
 					sconst_0;
-					invokestatic 223;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
-					checkcast 0 222;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+					invokestatic 229;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					checkcast 0 228;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
 					putfield_a 17;		// reference CitadelWallet/im/status/keycard/KeycardApplet.masterPublic
 					aload_0;
 					bspush 12;
 					sspush 256;
 					sconst_0;
-					invokestatic 223;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					invokestatic 229;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
 					checkcast 0 82;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
 					putfield_a 18;		// reference CitadelWallet/im/status/keycard/KeycardApplet.masterPrivate
 					aload_0;
@@ -2145,7 +2279,7 @@
 					aload_0;
 					bspush 40;
 					sconst_1;
-					invokestatic 226;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					invokestatic 232;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
 					putfield_a 24;		// reference CitadelWallet/im/status/keycard/KeycardApplet.tmpPath
 					aload_0;
 					bspush 32;
@@ -2161,7 +2295,7 @@
 					aload_0;
 					bspush 64;
 					sconst_1;
-					invokestatic 226;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					invokestatic 232;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
 					putfield_a 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
 					aload_0;
 					sspush 128;
@@ -3299,7 +3433,7 @@
 				L2:	getfield_a_this 17;		// reference CitadelWallet/im/status/keycard/KeycardApplet.masterPublic
 					aload_2;
 					sconst_0;
-					invokeinterface 3 222 19;		// javacard/security/ECPublicKey
+					invokeinterface 3 228 19;		// javacard/security/ECPublicKey
 					sstore_3;
 				L3:	getfield_a_this 13;		// reference CitadelWallet/im/status/keycard/KeycardApplet.crypto
 					getfield_a 6;		// reference CitadelWallet/im/status/keycard/Crypto.sha256
@@ -3604,7 +3738,7 @@
 					aload_1;
 					sload_2;
 					sload 5;
-					invokeinterface 4 222 18;		// javacard/security/ECPublicKey
+					invokeinterface 4 228 18;		// javacard/security/ECPublicKey
 				L24:	goto L26;
 				L25:	pop;
 					sspush 27264;
@@ -3663,7 +3797,7 @@
 					aload_1;
 					sconst_0;
 					sload_2;
-					invokeinterface 4 222 18;		// javacard/security/ECPublicKey
+					invokeinterface 4 228 18;		// javacard/security/ECPublicKey
 					aload_0;
 					invokespecial 173;		// CitadelWallet/im/status/keycard/KeycardApplet.resetKeyStatus()V
 					invokestatic 174;		// javacard/framework/JCSystem.commitTransaction()V
@@ -3719,12 +3853,12 @@
 				L5:	getfield_a_this 22;		// reference CitadelWallet/im/status/keycard/KeycardApplet.keyPath
 					astore 7;
 				L6:	sload 4;
-					slookupswitch L23 4 -128 L15 -64 L18 0 L7 64 L10;
+					slookupswitch L24 5 -128 L15 -64 L18 -48 L23 0 L7 64 L10;
 				L7:	sload_3;
 					sstore 5;
 				L8:	sconst_0;
 					sstore 6;
-				L9:	goto L24;
+				L9:	goto L25;
 				L10:	getfield_s_this 34;		// short CitadelWallet/im/status/keycard/KeycardApplet.keyPathLen
 					sconst_4;
 					if_scmpge L12;
@@ -3740,14 +3874,14 @@
 					sconst_4;
 					ssub;
 					sstore 6;
-				L14:	goto L24;
+				L14:	goto L25;
 				L15:	getfield_s_this 34;		// short CitadelWallet/im/status/keycard/KeycardApplet.keyPathLen
 					sload_3;
 					sadd;
 					sstore 5;
 				L16:	getfield_s_this 34;		// short CitadelWallet/im/status/keycard/KeycardApplet.keyPathLen
 					sstore 6;
-				L17:	goto L24;
+				L17:	goto L25;
 				L18:	sload_3;
 					ifeq L20;
 				L19:	sspush 27264;
@@ -3758,25 +3892,37 @@
 					sstore 5;
 				L21:	getfield_s_this 35;		// short CitadelWallet/im/status/keycard/KeycardApplet.pinlessPathLen
 					sstore 6;
-				L22:	goto L24;
-				L23:	sspush 27270;
+				L22:	goto L25;
+				L23:	aload_1;
+					sconst_0;
+					getstatic_a 180;		// reference CitadelWallet/im/status/keycard/ed25519.current_path
+					sconst_0;
+					sload_3;
+					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					pop;
+					sload_3;
+					putstatic_s 181;		// short CitadelWallet/im/status/keycard/ed25519.current_path_length
+					sspush -28672;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 					return;
-				L24:	sload_3;
+				L24:	sspush 27270;
+					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
+					return;
+				L25:	sload_3;
 					sconst_4;
 					srem;
-					ifne L26;
-				L25:	sload 5;
+					ifne L27;
+				L26:	sload 5;
 					getfield_a_this 22;		// reference CitadelWallet/im/status/keycard/KeycardApplet.keyPath
 					arraylength;
-					if_scmple L27;
-				L26:	sspush 27264;
+					if_scmple L28;
+				L27:	sspush 27264;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
-				L27:	sconst_5;
+				L28:	sconst_5;
 					sload_2;
 					sadd;
 					sstore 8;
-				L28:	aload 7;
+				L29:	aload 7;
 					sconst_0;
 					getfield_a_this 24;		// reference CitadelWallet/im/status/keycard/KeycardApplet.tmpPath
 					sconst_0;
@@ -3852,12 +3998,12 @@
 					getfield_a_this 13;		// reference CitadelWallet/im/status/keycard/KeycardApplet.crypto
 					getfield_a_this 24;		// reference CitadelWallet/im/status/keycard/KeycardApplet.tmpPath
 					sconst_0;
-					invokevirtual 237;		// bip32IsHardened([BS)Z
+					invokevirtual 234;		// bip32IsHardened([BS)Z
 					ifne L7;
 				L6:	getfield_a_this 17;		// reference CitadelWallet/im/status/keycard/KeycardApplet.masterPublic
 					aload_1;
 					sload 5;
-					invokeinterface 3 222 19;		// javacard/security/ECPublicKey
+					invokeinterface 3 228 19;		// javacard/security/ECPublicKey
 					pop;
 					goto L8;
 				L7:	aload_1;
@@ -3879,14 +4025,14 @@
 					getfield_a_this 13;		// reference CitadelWallet/im/status/keycard/KeycardApplet.crypto
 					getfield_a_this 24;		// reference CitadelWallet/im/status/keycard/KeycardApplet.tmpPath
 					sload 6;
-					invokevirtual 237;		// bip32IsHardened([BS)Z
+					invokevirtual 234;		// bip32IsHardened([BS)Z
 					ifne L13;
 				L12:	getfield_a_this 14;		// reference CitadelWallet/im/status/keycard/KeycardApplet.secp256k1
 					aload_1;
 					sload 4;
 					aload_1;
 					sload 5;
-					invokevirtual 180;		// derivePublicKey([BS[BS)S
+					invokevirtual 182;		// derivePublicKey([BS[BS)S
 					pop;
 					goto L14;
 				L13:	aload_1;
@@ -3902,7 +4048,106 @@
 					sload 4;
 					getfield_a_this 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
 					sconst_0;
-					invokevirtual 181;		// bip32CKDPriv([BS[BS[BS[BS)Z
+					invokevirtual 183;		// bip32CKDPriv([BS[BS[BS[BS)Z
+					ifne L16;
+				L15:	sspush 27012;
+					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
+				L16:	sinc 6 4;
+				L17:	sload 6;
+					getfield_s_this 39;		// short CitadelWallet/im/status/keycard/KeycardApplet.tmpPathLen
+					if_scmplt L10;
+				L18:	return;
+		}
+
+		.method private doDerive_ED25519([BS)V {
+			.stack 9;
+			.locals 4;
+
+				L0:	getfield_s_this 39;		// short CitadelWallet/im/status/keycard/KeycardApplet.tmpPathLen
+					ifne L2;
+				L1:	getfield_a_this 15;		// reference CitadelWallet/im/status/keycard/KeycardApplet.curve25519
+					getfield_a_this 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
+					sconst_0;
+					invokevirtual 184;		// getS([BS)S
+					pop;
+					return;
+				L2:	sconst_5;
+					sload_2;
+					sadd;
+					sstore_3;
+				L3:	sload_3;
+					bspush 37;
+					sadd;
+					sstore 4;
+				L4:	sload 4;
+					getfield_a_this 18;		// reference CitadelWallet/im/status/keycard/KeycardApplet.masterPrivate
+					aload_1;
+					sload 4;
+					invokeinterface 3 82 19;		// javacard/security/ECPrivateKey
+					sadd;
+					sstore 5;
+				L5:	getfield_a_this 15;		// reference CitadelWallet/im/status/keycard/KeycardApplet.curve25519
+					getfield_a 40;		// reference CitadelWallet/im/status/keycard/ed25519.chainCode
+					sconst_0;
+					aload_1;
+					sload 5;
+					bspush 32;
+					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					sstore 5;
+					getfield_a_this 13;		// reference CitadelWallet/im/status/keycard/KeycardApplet.crypto
+					getfield_a_this 24;		// reference CitadelWallet/im/status/keycard/KeycardApplet.tmpPath
+					sconst_0;
+					invokevirtual 234;		// bip32IsHardened([BS)Z
+					ifne L7;
+				L6:	getfield_a_this 15;		// reference CitadelWallet/im/status/keycard/KeycardApplet.curve25519
+					aload_1;
+					sload 5;
+					invokevirtual 186;		// getW([BS)S
+					pop;
+					goto L8;
+				L7:	aload_1;
+					sload 5;
+					sconst_0;
+					bastore;
+				L8:	sconst_0;
+					sstore 6;
+				L9:	goto L17;
+				L10:	sload 6;
+					ifle L14;
+				L11:	getfield_a_this 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
+					sconst_0;
+					aload_1;
+					sload 4;
+					bspush 64;
+					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					pop;
+					getfield_a_this 13;		// reference CitadelWallet/im/status/keycard/KeycardApplet.crypto
+					getfield_a_this 24;		// reference CitadelWallet/im/status/keycard/KeycardApplet.tmpPath
+					sload 6;
+					invokevirtual 234;		// bip32IsHardened([BS)Z
+					ifne L13;
+				L12:	getfield_a_this 15;		// reference CitadelWallet/im/status/keycard/KeycardApplet.curve25519
+					aload_1;
+					sload 4;
+					aload_1;
+					sload 5;
+					invokevirtual 187;		// derivePublicKey([BS[BS)S
+					pop;
+					goto L14;
+				L13:	aload_1;
+					sload 5;
+					sconst_0;
+					bastore;
+				L14:	getfield_a_this 13;		// reference CitadelWallet/im/status/keycard/KeycardApplet.crypto
+					getfield_a_this 24;		// reference CitadelWallet/im/status/keycard/KeycardApplet.tmpPath
+					sload 6;
+					aload_1;
+					sload_3;
+					aload_1;
+					sload 4;
+					getfield_a_this 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
+					sconst_0;
+					invokevirtual 183;		// bip32CKDPriv([BS[BS[BS[BS)Z
 					ifne L16;
 				L15:	sspush 27012;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
@@ -3971,7 +4216,7 @@
 				L10:	goto L15;
 				L11:	aload_2;
 					sload 8;
-					invokestatic 182;		// javacard/framework/Util.getShort([BS)S
+					invokestatic 188;		// javacard/framework/Util.getShort([BS)S
 					sstore 9;
 				L12:	aload_2;
 					sload 5;
@@ -3980,10 +4225,10 @@
 					aload_0;
 					sload 9;
 					sload 6;
-					invokespecial 183;		// CitadelWallet/im/status/keycard/KeycardApplet.logicrShift(SS)S
+					invokespecial 189;		// CitadelWallet/im/status/keycard/KeycardApplet.logicrShift(SS)S
 					sor;
 					sconst_5;
-					invokespecial 183;		// CitadelWallet/im/status/keycard/KeycardApplet.logicrShift(SS)S
+					invokespecial 189;		// CitadelWallet/im/status/keycard/KeycardApplet.logicrShift(SS)S
 					invokestatic 144;		// javacard/framework/Util.setShort([BSS)S
 					pop;
 					sinc 5 2;
@@ -4002,7 +4247,7 @@
 					aload_0;
 					sload 7;
 					sconst_5;
-					invokespecial 183;		// CitadelWallet/im/status/keycard/KeycardApplet.logicrShift(SS)S
+					invokespecial 189;		// CitadelWallet/im/status/keycard/KeycardApplet.logicrShift(SS)S
 					invokestatic 144;		// javacard/framework/Util.setShort([BSS)S
 					pop;
 					sinc 5 2;
@@ -4083,7 +4328,7 @@
 					getfield_a_this 18;		// reference CitadelWallet/im/status/keycard/KeycardApplet.masterPrivate
 					invokeinterface 1 82 0;		// javacard/security/ECPrivateKey
 					getfield_a_this 17;		// reference CitadelWallet/im/status/keycard/KeycardApplet.masterPublic
-					invokeinterface 1 222 0;		// javacard/security/ECPublicKey
+					invokeinterface 1 228 0;		// javacard/security/ECPublicKey
 					aload_0;
 					invokespecial 100;		// CitadelWallet/im/status/keycard/KeycardApplet.resetCurveParameters()V
 					getfield_a_this 19;		// reference CitadelWallet/im/status/keycard/KeycardApplet.masterChainCode
@@ -4157,7 +4402,7 @@
 				L2:	sspush 27013;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 				L3:	aload_0;
-					invokespecial 184;		// CitadelWallet/im/status/keycard/KeycardApplet.clearKeys()V
+					invokespecial 190;		// CitadelWallet/im/status/keycard/KeycardApplet.clearKeys()V
 					return;
 		}
 
@@ -4183,7 +4428,7 @@
 				L3:	sspush 27270;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 				L4:	aload_0;
-					invokespecial 184;		// CitadelWallet/im/status/keycard/KeycardApplet.clearKeys()V
+					invokespecial 190;		// CitadelWallet/im/status/keycard/KeycardApplet.clearKeys()V
 					aload_0;
 					aconst_null;
 					putfield_a 29;		// reference CitadelWallet/im/status/keycard/KeycardApplet.pin
@@ -4212,9 +4457,9 @@
 					sconst_0;
 					invokestatic 65;		// javacard/framework/Util.arrayFillNonAtomic([BSSB)S
 					pop;
-					invokestatic 185;		// javacard/framework/JCSystem.isObjectDeletionSupported()Z
+					invokestatic 191;		// javacard/framework/JCSystem.isObjectDeletionSupported()Z
 					ifeq L6;
-				L5:	invokestatic 186;		// javacard/framework/JCSystem.requestObjectDeletion()V
+				L5:	invokestatic 192;		// javacard/framework/JCSystem.requestObjectDeletion()V
 				L6:	return;
 		}
 
@@ -4347,7 +4592,7 @@
 				L24:	sload_3;
 					ifne L26;
 				L25:	aload_0;
-					invokespecial 187;		// CitadelWallet/im/status/keycard/KeycardApplet.isPinless()Z
+					invokespecial 193;		// CitadelWallet/im/status/keycard/KeycardApplet.isPinless()Z
 					ifeq L27;
 				L26:	getfield_a_this 18;		// reference CitadelWallet/im/status/keycard/KeycardApplet.masterPrivate
 					invokeinterface 1 82 3;		// javacard/security/ECPrivateKey
@@ -4378,7 +4623,7 @@
 				L31:	getfield_a_this 15;		// reference CitadelWallet/im/status/keycard/KeycardApplet.curve25519
 					aload_2;
 					bspush 42;
-					invokevirtual 188;		// GetPublicKey([BS)S
+					invokevirtual 194;		// GetPublicKey([BS)S
 					pop;
 					getfield_a_this 15;		// reference CitadelWallet/im/status/keycard/KeycardApplet.curve25519
 					aload_2;
@@ -4388,7 +4633,7 @@
 					baload;
 					aload_2;
 					sload 10;
-					invokevirtual 189;		// SignData([BSS[BS)S
+					invokevirtual 195;		// SignData([BSS[BS)S
 					pop;
 					sinc 9 64;
 					aload_2;
@@ -4419,7 +4664,7 @@
 				L35:	aload_0;
 					aload_2;
 					bspush 32;
-					invokespecial 190;		// CitadelWallet/im/status/keycard/KeycardApplet.doDerive([BS)V
+					invokespecial 196;		// CitadelWallet/im/status/keycard/KeycardApplet.doDerive([BS)V
 					aload_2;
 					bspush 37;
 					bspush -96;
@@ -4439,7 +4684,7 @@
 					sconst_0;
 					aload_2;
 					bspush 42;
-					invokevirtual 180;		// derivePublicKey([BS[BS)S
+					invokevirtual 182;		// derivePublicKey([BS[BS)S
 					pop;
 					sinc 9 5;
 					bspush 37;
@@ -4448,7 +4693,7 @@
 					sstore 10;
 				L37:	getfield_a_this 26;		// reference CitadelWallet/im/status/keycard/KeycardApplet.signature
 					getfield_a_this 14;		// reference CitadelWallet/im/status/keycard/KeycardApplet.secp256k1
-					getfield_a 40;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
+					getfield_a 41;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
 					sconst_1;
 					invokevirtual 164;		// init(Ljavacard/security/Key;B)V
 					sload 9;
@@ -4544,7 +4789,7 @@
 
 		.method private exportKey(Ljavacard/framework/APDU;)V {
 			.stack 5;
-			.locals 9;
+			.locals 10;
 
 			.descriptor	Ljavacard/framework/APDU;	0.10;
 
@@ -4563,194 +4808,206 @@
 					ifne L5;
 				L4:	sspush 27013;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
-				L5:	aload_2;
+				L5:	sconst_0;
+					sstore 6;
+				L6:	aload_2;
 					sconst_3;
 					baload;
-					stableswitch L15 0 2 L6 L9 L12;
-				L6:	sconst_0;
-					sstore 4;
+					stableswitch L16 0 2 L7 L10 L13;
 				L7:	sconst_0;
-					sstore 5;
-				L8:	goto L16;
-				L9:	sconst_1;
 					sstore 4;
-				L10:	sconst_0;
+				L8:	sconst_0;
 					sstore 5;
-				L11:	goto L16;
-				L12:	sconst_1;
+				L9:	goto L17;
+				L10:	sconst_1;
 					sstore 4;
+				L11:	sconst_0;
+					sstore 5;
+				L12:	goto L17;
 				L13:	sconst_1;
+					sstore 4;
+				L14:	sconst_1;
 					sstore 5;
-				L14:	goto L16;
-				L15:	sspush 27270;
+				L15:	goto L17;
+				L16:	sspush 27270;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 					return;
-				L16:	sconst_0;
-					sstore 6;
-				L17:	aload_2;
-					sconst_2;
-					baload;
-					bspush -64;
-					sand;
+				L17:	sconst_0;
 					sstore 7;
 				L18:	aload_2;
 					sconst_2;
 					baload;
+					bspush -64;
+					sand;
+					sstore 8;
+				L19:	aload_2;
+					sconst_2;
+					baload;
 					bspush 63;
 					sand;
-					stableswitch L22 0 2 L19 L20 L21;
-				L19:	bspush -128;
+					slookupswitch L24 4 -48 L23 0 L20 1 L21 2 L22;
+				L20:	bspush -128;
+					sstore 8;
+					goto L25;
+				L21:	goto L25;
+				L22:	sconst_1;
 					sstore 7;
-					goto L23;
-				L20:	goto L23;
-				L21:	sconst_1;
+					goto L25;
+				L23:	sconst_1;
 					sstore 6;
-					goto L23;
-				L22:	sspush 27270;
+					goto L25;
+				L24:	sspush 27270;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 					return;
-				L23:	aload_0;
+				L25:	aload_0;
 					aload_2;
 					sconst_0;
 					sload_3;
-					sload 7;
+					sload 8;
 					invokespecial 177;		// CitadelWallet/im/status/keycard/KeycardApplet.updateDerivationPath([BSSB)V
 					aload_0;
-					invokespecial 192;		// CitadelWallet/im/status/keycard/KeycardApplet.isEIP1581()Z
-					sstore 8;
-				L24:	sload 4;
-					ifne L26;
-				L25:	sload 8;
-					ifeq L28;
-				L26:	sload 5;
-					ifeq L29;
-				L27:	sload 8;
-					ifeq L29;
-				L28:	sspush 27013;
+					invokespecial 198;		// CitadelWallet/im/status/keycard/KeycardApplet.isEIP1581()Z
+					sstore 9;
+				L26:	sload 4;
+					ifne L28;
+				L27:	sload 9;
+					ifeq L30;
+				L28:	sload 5;
+					ifeq L31;
+				L29:	sload 9;
+					ifeq L31;
+				L30:	sspush 27013;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
-				L29:	aload_0;
+				L31:	sload 6;
+					ifne L33;
+				L32:	aload_0;
 					aload_2;
 					sconst_0;
-					invokespecial 190;		// CitadelWallet/im/status/keycard/KeycardApplet.doDerive([BS)V
-					bspush 37;
-					sstore 9;
-				L30:	aload_2;
-					sload 9;
+					invokespecial 196;		// CitadelWallet/im/status/keycard/KeycardApplet.doDerive([BS)V
+					goto L34;
+				L33:	aload_0;
+					aload_2;
+					sconst_0;
+					invokespecial 199;		// CitadelWallet/im/status/keycard/KeycardApplet.doDerive_ED25519([BS)V
+				L34:	bspush 37;
+					sstore 10;
+				L35:	aload_2;
+					sload 10;
 					dup;
 					sconst_1;
 					sadd;
-					sstore 9;
+					sstore 10;
 					bspush -95;
 					bastore;
-					sinc 9 1;
+					sinc 10 1;
 					sload 4;
-					ifeq L34;
-				L31:	aload_2;
-					sload 9;
+					ifeq L39;
+				L36:	aload_2;
+					sload 10;
 					dup;
 					sconst_1;
 					sadd;
-					sstore 9;
+					sstore 10;
 					bspush -128;
 					bastore;
-					sinc 9 1;
+					sinc 10 1;
 					getfield_a_this 14;		// reference CitadelWallet/im/status/keycard/KeycardApplet.secp256k1
 					getfield_a_this 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
 					sconst_0;
 					aload_2;
-					sload 9;
-					invokevirtual 180;		// derivePublicKey([BS[BS)S
-					sstore 10;
-				L32:	aload_2;
-					sload 9;
+					sload 10;
+					invokevirtual 182;		// derivePublicKey([BS[BS)S
+					sstore 11;
+				L37:	aload_2;
+					sload 10;
 					sconst_1;
 					ssub;
-					sload 10;
+					sload 11;
 					s2b;
 					bastore;
-					sload 9;
 					sload 10;
+					sload 11;
 					sadd;
-					sstore 9;
+					sstore 10;
 					sload 5;
-					ifeq L36;
-				L33:	aload_2;
-					sload 9;
+					ifeq L41;
+				L38:	aload_2;
+					sload 10;
 					dup;
 					sconst_1;
 					sadd;
-					sstore 9;
+					sstore 10;
 					bspush -126;
 					bastore;
-					sinc 9 1;
+					sinc 10 1;
 					getfield_a_this 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
 					bspush 32;
 					aload_2;
-					sload 9;
+					sload 10;
 					bspush 32;
 					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
 					pop;
 					bspush 32;
-					sstore 10;
+					sstore 11;
 					aload_2;
-					sload 9;
+					sload 10;
 					sconst_1;
 					ssub;
-					sload 10;
+					sload 11;
 					s2b;
 					bastore;
-					sload 9;
 					sload 10;
+					sload 11;
 					sadd;
-					sstore 9;
-					goto L36;
-				L34:	aload_2;
-					sload 9;
+					sstore 10;
+					goto L41;
+				L39:	aload_2;
+					sload 10;
 					dup;
 					sconst_1;
 					sadd;
-					sstore 9;
+					sstore 10;
 					bspush -127;
 					bastore;
-					sinc 9 1;
+					sinc 10 1;
 					getfield_a_this 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
 					sconst_0;
 					aload_2;
-					sload 9;
+					sload 10;
 					bspush 32;
 					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
 					pop;
 					bspush 32;
-					sstore 10;
-				L35:	aload_2;
-					sload 9;
+					sstore 11;
+				L40:	aload_2;
+					sload 10;
 					sconst_1;
 					ssub;
-					sload 10;
+					sload 11;
 					s2b;
 					bastore;
-					sload 9;
 					sload 10;
+					sload 11;
 					sadd;
-					sstore 9;
-				L36:	sload 9;
+					sstore 10;
+				L41:	sload 10;
 					bspush 37;
 					ssub;
-					sstore 10;
+					sstore 11;
 					aload_2;
 					bspush 38;
-					sload 10;
+					sload 11;
 					sconst_2;
 					ssub;
 					s2b;
 					bastore;
-					sload 6;
-					ifeq L38;
-				L37:	aload_0;
+					sload 7;
+					ifeq L43;
+				L42:	aload_0;
 					invokevirtual 178;		// commitTmpPath()V
-				L38:	getfield_a_this 30;		// reference CitadelWallet/im/status/keycard/KeycardApplet.secureChannel
+				L43:	getfield_a_this 30;		// reference CitadelWallet/im/status/keycard/KeycardApplet.secureChannel
 					aload_1;
-					sload 10;
+					sload 11;
 					sspush -28672;
 					invokevirtual 79;		// respond(Ljavacard/framework/APDU;SS)V
 					return;
@@ -4779,7 +5036,7 @@
 				L4:	getfield_a_this 28;		// reference CitadelWallet/im/status/keycard/KeycardApplet.data
 					astore_3;
 				L5:	goto L11;
-				L6:	getstatic_a 193;		// reference CitadelWallet/im/status/keycard/SharedMemory.ndefDataFile
+				L6:	getstatic_a 200;		// reference CitadelWallet/im/status/keycard/SharedMemory.ndefDataFile
 					astore_3;
 				L7:	goto L11;
 				L8:	getstatic_a 94;		// reference CitadelWallet/im/status/keycard/SharedMemory.cashDataFile
@@ -4842,7 +5099,7 @@
 				L4:	getfield_a_this 28;		// reference CitadelWallet/im/status/keycard/KeycardApplet.data
 					astore_3;
 				L5:	goto L11;
-				L6:	getstatic_a 193;		// reference CitadelWallet/im/status/keycard/SharedMemory.ndefDataFile
+				L6:	getstatic_a 200;		// reference CitadelWallet/im/status/keycard/SharedMemory.ndefDataFile
 					astore_3;
 				L7:	goto L11;
 				L8:	getstatic_a 94;		// reference CitadelWallet/im/status/keycard/SharedMemory.cashDataFile
@@ -4917,7 +5174,7 @@
 					getfield_a_this 23;		// reference CitadelWallet/im/status/keycard/KeycardApplet.pinlessPath
 					sconst_0;
 					getfield_s_this 39;		// short CitadelWallet/im/status/keycard/KeycardApplet.tmpPathLen
-					invokestatic 194;		// javacard/framework/Util.arrayCompare([BS[BSS)B
+					invokestatic 201;		// javacard/framework/Util.arrayCompare([BS[BSS)B
 					ifne L4;
 				L3:	sconst_1;
 					sreturn;
@@ -4930,18 +5187,18 @@
 			.locals 0;
 
 				L0:	getfield_s_this 39;		// short CitadelWallet/im/status/keycard/KeycardApplet.tmpPathLen
-					getstatic_a 195;		// reference CitadelWallet/im/status/keycard/KeycardApplet.EIP_1581_PREFIX
+					getstatic_a 202;		// reference CitadelWallet/im/status/keycard/KeycardApplet.EIP_1581_PREFIX
 					arraylength;
 					bspush 8;
 					sadd;
 					if_scmplt L3;
-				L1:	getstatic_a 195;		// reference CitadelWallet/im/status/keycard/KeycardApplet.EIP_1581_PREFIX
+				L1:	getstatic_a 202;		// reference CitadelWallet/im/status/keycard/KeycardApplet.EIP_1581_PREFIX
 					sconst_0;
 					getfield_a_this 24;		// reference CitadelWallet/im/status/keycard/KeycardApplet.tmpPath
 					sconst_0;
-					getstatic_a 195;		// reference CitadelWallet/im/status/keycard/KeycardApplet.EIP_1581_PREFIX
+					getstatic_a 202;		// reference CitadelWallet/im/status/keycard/KeycardApplet.EIP_1581_PREFIX
 					arraylength;
-					invokestatic 194;		// javacard/framework/Util.arrayCompare([BS[BSS)B
+					invokestatic 201;		// javacard/framework/Util.arrayCompare([BS[BSS)B
 					ifne L3;
 				L2:	sconst_1;
 					sreturn;
@@ -4994,11 +5251,11 @@
 			.stack 4;
 			.locals 0;
 
-				L0:	new 196;		// CitadelWallet/im/status/keycard/NDEFApplet
+				L0:	new 203;		// CitadelWallet/im/status/keycard/NDEFApplet
 					aload_0;
 					sload_1;
 					sload_2;
-					invokespecial 197;		// CitadelWallet/im/status/keycard/NDEFApplet.<init>([BSB)V
+					invokespecial 204;		// CitadelWallet/im/status/keycard/NDEFApplet.<init>([BSB)V
 					return;
 		}
 
@@ -5007,7 +5264,7 @@
 			.locals 2;
 
 				L0:	aload_0;
-					invokespecial 225;		// javacard/framework/Applet.<init>()V
+					invokespecial 231;		// javacard/framework/Applet.<init>()V
 					sload_2;
 					aload_1;
 					sload_2;
@@ -5050,7 +5307,7 @@
 					if_scmpne L5;
 				L4:	aload_1;
 					sload 4;
-					getstatic_a 193;		// reference CitadelWallet/im/status/keycard/SharedMemory.ndefDataFile
+					getstatic_a 200;		// reference CitadelWallet/im/status/keycard/SharedMemory.ndefDataFile
 					sconst_0;
 					sload 5;
 					sconst_1;
@@ -5065,7 +5322,7 @@
 					aload_1;
 					sload_2;
 					baload;
-					invokevirtual 198;		// register([BSB)V
+					invokevirtual 205;		// register([BSB)V
 					return;
 		}
 
@@ -5076,11 +5333,11 @@
 			.descriptor	Ljavacard/framework/APDU;	0.10;
 
 				L0:	aload_0;
-					invokevirtual 199;		// selectingApplet()Z
+					invokevirtual 206;		// selectingApplet()Z
 					ifeq L2;
 				L1:	aload_0;
 					sconst_m1;
-					putfield_s 41;		// short CitadelWallet/im/status/keycard/NDEFApplet.selectedFile
+					putfield_s 42;		// short CitadelWallet/im/status/keycard/NDEFApplet.selectedFile
 					return;
 				L2:	aload_1;
 					invokevirtual 103;		// getBuffer()[B
@@ -5091,11 +5348,11 @@
 					slookupswitch L6 2 -92 L4 -80 L5;
 				L4:	aload_0;
 					aload_1;
-					invokespecial 201;		// CitadelWallet/im/status/keycard/NDEFApplet.processSelect(Ljavacard/framework/APDU;)V
+					invokespecial 208;		// CitadelWallet/im/status/keycard/NDEFApplet.processSelect(Ljavacard/framework/APDU;)V
 					goto L7;
 				L5:	aload_0;
 					aload_1;
-					invokespecial 202;		// CitadelWallet/im/status/keycard/NDEFApplet.processReadBinary(Ljavacard/framework/APDU;)V
+					invokespecial 209;		// CitadelWallet/im/status/keycard/NDEFApplet.processReadBinary(Ljavacard/framework/APDU;)V
 					goto L7;
 				L6:	sspush 27904;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
@@ -5135,13 +5392,13 @@
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 				L6:	aload_2;
 					sconst_5;
-					invokestatic 182;		// javacard/framework/Util.getShort([BS)S
+					invokestatic 188;		// javacard/framework/Util.getShort([BS)S
 					sstore_3;
 				L7:	sload_3;
 					stableswitch L9 -7933 -7932 L8 L8;
 				L8:	aload_0;
 					sload_3;
-					putfield_s 41;		// short CitadelWallet/im/status/keycard/NDEFApplet.selectedFile
+					putfield_s 42;		// short CitadelWallet/im/status/keycard/NDEFApplet.selectedFile
 					goto L10;
 				L9:	sspush 27266;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
@@ -5157,12 +5414,12 @@
 				L0:	aload_1;
 					invokevirtual 103;		// getBuffer()[B
 					astore_2;
-				L1:	getfield_s_this 41;		// short CitadelWallet/im/status/keycard/NDEFApplet.selectedFile
+				L1:	getfield_s_this 42;		// short CitadelWallet/im/status/keycard/NDEFApplet.selectedFile
 					stableswitch L6 -7933 -7932 L2 L4;
-				L2:	getstatic_a 203;		// reference CitadelWallet/im/status/keycard/NDEFApplet.NDEF_CAPS_FILE
+				L2:	getstatic_a 210;		// reference CitadelWallet/im/status/keycard/NDEFApplet.NDEF_CAPS_FILE
 					astore_3;
 				L3:	goto L7;
-				L4:	getstatic_a 193;		// reference CitadelWallet/im/status/keycard/SharedMemory.ndefDataFile
+				L4:	getstatic_a 200;		// reference CitadelWallet/im/status/keycard/SharedMemory.ndefDataFile
 					astore_3;
 				L5:	goto L7;
 				L6:	sspush 27013;
@@ -5176,7 +5433,7 @@
 					sstore 4;
 				L8:	aload_2;
 					sconst_2;
-					invokestatic 182;		// javacard/framework/Util.getShort([BS)S
+					invokestatic 188;		// javacard/framework/Util.getShort([BS)S
 					sstore 5;
 				L9:	sload 5;
 					iflt L11;
@@ -5186,7 +5443,7 @@
 				L11:	sspush 27270;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 				L12:	aload_1;
-					invokevirtual 204;		// setOutgoingNoChaining()S
+					invokevirtual 211;		// setOutgoingNoChaining()S
 					sstore 6;
 				L13:	sload 6;
 					sspush 255;
@@ -5205,12 +5462,12 @@
 				L17:	sinc 5 1;
 					aload_1;
 					sload 6;
-					invokevirtual 205;		// setOutgoingLength(S)V
+					invokevirtual 212;		// setOutgoingLength(S)V
 					aload_1;
 					aload_3;
 					sload 5;
 					sload 6;
-					invokevirtual 206;		// sendBytesLong([BSS)V
+					invokevirtual 213;		// sendBytesLong([BSS)V
 					return;
 		}
 
@@ -5250,16 +5507,16 @@
 					aload_0;
 					bspush 6;
 					sconst_0;
-					invokestatic 216;		// javacard/security/KeyAgreement.getInstance(BZ)Ljavacard/security/KeyAgreement;
-					putfield_a 42;		// reference CitadelWallet/im/status/keycard/SECP256k1.ecPointMultiplier
+					invokestatic 214;		// javacard/security/KeyAgreement.getInstance(BZ)Ljavacard/security/KeyAgreement;
+					putfield_a 43;		// reference CitadelWallet/im/status/keycard/SECP256k1.ecPointMultiplier
 					aload_0;
 					bspush 12;
 					sspush 256;
 					sconst_0;
-					invokestatic 223;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					invokestatic 229;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
 					checkcast 0 82;		// T_CLASSORINTERFACE javacard/security/ECPrivateKey
-					putfield_a 40;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
-					getfield_a_this 40;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
+					putfield_a 41;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
+					getfield_a_this 41;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
 					invokestatic 88;		// CitadelWallet/im/status/keycard/SECP256k1.setCurveParameters(Ljavacard/security/ECKey;)V
 					return;
 		}
@@ -5271,38 +5528,38 @@
 			.descriptor	Ljavacard/security/ECKey;	1.17;
 
 				L0:	aload_0;
-					getstatic_a 208;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_A
+					getstatic_a 215;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_A
 					sconst_0;
-					getstatic_a 208;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_A
+					getstatic_a 215;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_A
 					arraylength;
-					invokeinterface 4 209 3;		// javacard/security/ECKey
+					invokeinterface 4 216 3;		// javacard/security/ECKey
 					aload_0;
-					getstatic_a 210;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_B
+					getstatic_a 217;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_B
 					sconst_0;
-					getstatic_a 210;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_B
+					getstatic_a 217;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_B
 					arraylength;
-					invokeinterface 4 209 4;		// javacard/security/ECKey
+					invokeinterface 4 216 4;		// javacard/security/ECKey
 					aload_0;
-					getstatic_a 211;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_FP
+					getstatic_a 218;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_FP
 					sconst_0;
-					getstatic_a 211;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_FP
+					getstatic_a 218;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_FP
 					arraylength;
-					invokeinterface 4 209 0;		// javacard/security/ECKey
+					invokeinterface 4 216 0;		// javacard/security/ECKey
 					aload_0;
-					getstatic_a 212;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_G
+					getstatic_a 219;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_G
 					sconst_0;
-					getstatic_a 212;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_G
+					getstatic_a 219;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_G
 					arraylength;
-					invokeinterface 4 209 5;		// javacard/security/ECKey
+					invokeinterface 4 216 5;		// javacard/security/ECKey
 					aload_0;
-					getstatic_a 241;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_R
+					getstatic_a 245;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_R
 					sconst_0;
-					getstatic_a 241;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_R
+					getstatic_a 245;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_R
 					arraylength;
-					invokeinterface 4 209 6;		// javacard/security/ECKey
+					invokeinterface 4 216 6;		// javacard/security/ECKey
 					aload_0;
 					sconst_1;
-					invokeinterface 2 209 7;		// javacard/security/ECKey
+					invokeinterface 2 216 7;		// javacard/security/ECKey
 					return;
 		}
 
@@ -5314,13 +5571,13 @@
 
 				L0:	aload_0;
 					aload_1;
-					getstatic_a 212;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_G
+					getstatic_a 219;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_G
 					sconst_0;
-					getstatic_a 212;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_G
+					getstatic_a 219;		// reference CitadelWallet/im/status/keycard/SECP256k1.SECP256K1_G
 					arraylength;
 					aload_2;
 					sload_3;
-					invokevirtual 213;		// multiplyPoint(Ljavacard/security/ECPrivateKey;[BSS[BS)S
+					invokevirtual 220;		// multiplyPoint(Ljavacard/security/ECPrivateKey;[BSS[BS)S
 					sreturn;
 		}
 
@@ -5328,13 +5585,13 @@
 			.stack 4;
 			.locals 0;
 
-				L0:	getfield_a_this 40;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
+				L0:	getfield_a_this 41;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
 					aload_1;
 					sload_2;
 					bspush 32;
 					invokeinterface 4 82 18;		// javacard/security/ECPrivateKey
 					aload_0;
-					getfield_a_this 40;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
+					getfield_a_this 41;		// reference CitadelWallet/im/status/keycard/SECP256k1.tmpECPrivateKey
 					aload_3;
 					sload 4;
 					invokevirtual 175;		// derivePublicKey(Ljavacard/security/ECPrivateKey;[BS)S
@@ -5347,16 +5604,16 @@
 
 			.descriptor	Ljavacard/security/ECPrivateKey;	1.18;
 
-				L0:	getfield_a_this 42;		// reference CitadelWallet/im/status/keycard/SECP256k1.ecPointMultiplier
+				L0:	getfield_a_this 43;		// reference CitadelWallet/im/status/keycard/SECP256k1.ecPointMultiplier
 					aload_1;
-					invokevirtual 214;		// init(Ljavacard/security/PrivateKey;)V
-					getfield_a_this 42;		// reference CitadelWallet/im/status/keycard/SECP256k1.ecPointMultiplier
+					invokevirtual 221;		// init(Ljavacard/security/PrivateKey;)V
+					getfield_a_this 43;		// reference CitadelWallet/im/status/keycard/SECP256k1.ecPointMultiplier
 					aload_2;
 					sload_3;
 					sload 4;
 					aload 5;
 					sload 6;
-					invokevirtual 215;		// generateSecret([BSS[BS)S
+					invokevirtual 222;		// generateSecret([BSS[BS)S
 					sreturn;
 		}
 
@@ -5418,67 +5675,67 @@
 					invokespecial 170;		// java/lang/Object.<init>()V
 					aload_0;
 					sconst_m1;
-					putfield_s 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+					putfield_s 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					aload_0;
 					sconst_0;
-					putfield_b 44;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
+					putfield_b 45;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
 					aload_0;
 					aload_2;
-					putfield_a 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					putfield_a 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					aload_0;
 					bspush 18;
 					sconst_0;
 					invokestatic 91;		// javacard/security/Signature.getInstance(BZ)Ljavacard/security/Signature;
-					putfield_a 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
+					putfield_a 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
 					aload_0;
 					bspush 14;
 					sspush 256;
 					sconst_0;
-					invokestatic 223;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
-					checkcast 0 220;		// T_CLASSORINTERFACE javacard/security/AESKey
-					putfield_a 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
+					invokestatic 229;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					checkcast 0 227;		// T_CLASSORINTERFACE javacard/security/AESKey
+					putfield_a 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
 					aload_0;
 					bspush 14;
 					sspush 256;
 					sconst_0;
-					invokestatic 223;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
-					checkcast 0 220;		// T_CLASSORINTERFACE javacard/security/AESKey
-					putfield_a 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
+					invokestatic 229;		// javacard/security/KeyBuilder.buildKey(BSZ)Ljavacard/security/Key;
+					checkcast 0 227;		// T_CLASSORINTERFACE javacard/security/AESKey
+					putfield_a 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
 					aload_0;
 					bspush 64;
 					sconst_2;
-					invokestatic 226;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
-					putfield_a 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					invokestatic 232;		// javacard/framework/JCSystem.makeTransientByteArray(SB)[B
+					putfield_a 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					aload_0;
 					bspush 33;
 					sload_1;
 					smul;
 					newarray 11;
-					putfield_a 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+					putfield_a 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
 					aload_0;
 					new 207;		// javacard/security/KeyPair
 					dup;
 					sconst_5;
 					sspush 256;
-					invokespecial 217;		// javacard/security/KeyPair.<init>(BS)V
-					putfield_a 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
-					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
-					invokevirtual 227;		// getPrivate()Ljavacard/security/PrivateKey;
-					checkcast 0 209;		// T_CLASSORINTERFACE javacard/security/ECKey
+					invokespecial 223;		// javacard/security/KeyPair.<init>(BS)V
+					putfield_a 52;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
+					getfield_a_this 52;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
+					invokevirtual 233;		// getPrivate()Ljavacard/security/PrivateKey;
+					checkcast 0 216;		// T_CLASSORINTERFACE javacard/security/ECKey
 					invokestatic 88;		// CitadelWallet/im/status/keycard/SECP256k1.setCurveParameters(Ljavacard/security/ECKey;)V
-					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
-					invokevirtual 221;		// getPublic()Ljavacard/security/PublicKey;
-					checkcast 0 209;		// T_CLASSORINTERFACE javacard/security/ECKey
+					getfield_a_this 52;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
+					invokevirtual 226;		// getPublic()Ljavacard/security/PublicKey;
+					checkcast 0 216;		// T_CLASSORINTERFACE javacard/security/ECKey
 					invokestatic 88;		// CitadelWallet/im/status/keycard/SECP256k1.setCurveParameters(Ljavacard/security/ECKey;)V
-					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
+					getfield_a_this 52;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
 					invokevirtual 89;		// genKeyPair()V
 					aload_0;
 					sload_1;
-					putfield_b 52;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
+					putfield_b 53;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
 					aload_0;
 					bspush 32;
 					newarray 11;
-					putfield_a 53;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
+					putfield_a 54;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
 					return;
 		}
 
@@ -5488,12 +5745,12 @@
 
 				L0:	aload_1;
 					sload_2;
-					getfield_a_this 53;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
+					getfield_a_this 54;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
 					sconst_0;
 					bspush 32;
 					invokestatic 171;		// javacard/framework/Util.arrayCopy([BS[BSS)S
 					pop;
-					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
+					getfield_a_this 52;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
 					invokevirtual 89;		// genKeyPair()V
 					return;
 		}
@@ -5502,23 +5759,23 @@
 			.stack 8;
 			.locals 1;
 
-				L0:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+				L0:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 7;		// reference CitadelWallet/im/status/keycard/Crypto.ecdh
-					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
-					invokevirtual 227;		// getPrivate()Ljavacard/security/PrivateKey;
-					invokevirtual 214;		// init(Ljavacard/security/PrivateKey;)V
+					getfield_a_this 52;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
+					invokevirtual 233;		// getPrivate()Ljavacard/security/PrivateKey;
+					invokevirtual 221;		// init(Ljavacard/security/PrivateKey;)V
 					bspush 6;
 					sstore_2;
-				L1:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+				L1:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 7;		// reference CitadelWallet/im/status/keycard/Crypto.ecdh
 					aload_1;
 					sload_2;
 					aload_1;
 					sconst_5;
 					baload;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
-					invokevirtual 215;		// generateSecret([BSS[BS)S
+					invokevirtual 222;		// generateSecret([BSS[BS)S
 					pop;
 					sload_2;
 					aload_1;
@@ -5531,22 +5788,22 @@
 					sspush 27264;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 					return;
-				L4:	getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+				L4:	getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
-					invokeinterface 3 220 4;		// javacard/security/AESKey
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					invokeinterface 3 227 4;		// javacard/security/AESKey
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 9;		// reference CitadelWallet/im/status/keycard/Crypto.aesCbcIso9797m2
-					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
+					getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
 					sconst_1;
 					aload_1;
 					sload_2;
 					bspush 16;
-					invokevirtual 228;		// init(Ljavacard/security/Key;B[BSS)V
+					invokevirtual 235;		// init(Ljavacard/security/Key;B[BSS)V
 					sinc 2 16;
 					aload_1;
 					sconst_4;
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 9;		// reference CitadelWallet/im/status/keycard/Crypto.aesCbcIso9797m2
 					aload_1;
 					sload_2;
@@ -5561,7 +5818,7 @@
 					sadd;
 					aload_1;
 					sconst_5;
-					invokevirtual 229;		// doFinal([BSS[BS)S
+					invokevirtual 236;		// doFinal([BSS[BS)S
 					s2b;
 					bastore;
 					return;
@@ -5579,10 +5836,10 @@
 
 				L0:	aload_0;
 					sconst_m1;
-					putfield_s 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+					putfield_s 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					aload_0;
 					sconst_0;
-					putfield_b 44;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
+					putfield_b 45;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
 					aload_1;
 					invokevirtual 103;		// getBuffer()[B
 					astore_2;
@@ -5590,9 +5847,9 @@
 					aload_2;
 					sconst_2;
 					baload;
-					invokespecial 230;		// CitadelWallet/im/status/keycard/SecureChannel.checkPairingIndexAndGetOffset(B)S
+					invokespecial 237;		// CitadelWallet/im/status/keycard/SecureChannel.checkPairingIndexAndGetOffset(B)S
 					sstore_3;
-				L2:	getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+				L2:	getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
 					sload_3;
 					baload;
 					sconst_1;
@@ -5601,72 +5858,72 @@
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 					goto L5;
 				L4:	sinc 3 1;
-				L5:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+				L5:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 7;		// reference CitadelWallet/im/status/keycard/Crypto.ecdh
-					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
-					invokevirtual 227;		// getPrivate()Ljavacard/security/PrivateKey;
-					invokevirtual 214;		// init(Ljavacard/security/PrivateKey;)V
-				L6:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 52;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
+					invokevirtual 233;		// getPrivate()Ljavacard/security/PrivateKey;
+					invokevirtual 221;		// init(Ljavacard/security/PrivateKey;)V
+				L6:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 7;		// reference CitadelWallet/im/status/keycard/Crypto.ecdh
 					aload_2;
 					sconst_5;
 					aload_2;
 					sconst_4;
 					baload;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
-					invokevirtual 215;		// generateSecret([BSS[BS)S
+					invokevirtual 222;		// generateSecret([BSS[BS)S
 					sstore 4;
 				L7:	goto L9;
 				L8:	pop;
 					sspush 27264;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 					return;
-				L9:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+				L9:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 5;		// reference CitadelWallet/im/status/keycard/Crypto.random
 					aload_2;
 					sconst_0;
 					bspush 48;
 					invokevirtual 90;		// generateData([BSS)V
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 8;		// reference CitadelWallet/im/status/keycard/Crypto.sha512
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					sload 4;
 					invokevirtual 66;		// update([BSS)V
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 8;		// reference CitadelWallet/im/status/keycard/Crypto.sha512
-					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
 					sload_3;
 					bspush 32;
 					invokevirtual 66;		// update([BSS)V
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 8;		// reference CitadelWallet/im/status/keycard/Crypto.sha512
 					aload_2;
 					sconst_0;
 					bspush 32;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					invokevirtual 67;		// doFinal([BSS[BS)S
 					pop;
-					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
-					invokeinterface 3 220 4;		// javacard/security/AESKey
-					getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					invokeinterface 3 227 4;		// javacard/security/AESKey
+					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					bspush 32;
-					invokeinterface 3 220 4;		// javacard/security/AESKey
+					invokeinterface 3 227 4;		// javacard/security/AESKey
 					aload_2;
 					bspush 32;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					bspush 16;
 					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
 					pop;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					bspush 16;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					arraylength;
 					bspush 16;
 					ssub;
@@ -5690,16 +5947,16 @@
 
 			.descriptor	Ljavacard/framework/APDU;	0.10;
 
-				L0:	getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
-					invokeinterface 1 220 3;		// javacard/security/AESKey
+				L0:	getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
+					invokeinterface 1 227 3;		// javacard/security/AESKey
 					ifne L2;
 				L1:	sspush 27013;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
-				L2:	getfield_b_this 44;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
+				L2:	getfield_b_this 45;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
 					sstore_2;
 				L3:	aload_0;
 					sconst_1;
-					putfield_b 44;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
+					putfield_b 45;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
 					aload_1;
 					invokevirtual 103;		// getBuffer()[B
 					astore_3;
@@ -5718,7 +5975,7 @@
 					invokevirtual 149;		// reset()V
 					sspush 27010;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
-				L9:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+				L9:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 5;		// reference CitadelWallet/im/status/keycard/Crypto.random
 					aload_3;
 					bspush 37;
@@ -5759,7 +6016,7 @@
 					ifne L8;
 				L6:	aload_0;
 					aload_2;
-					invokespecial 231;		// CitadelWallet/im/status/keycard/SecureChannel.pairStep1([B)S
+					invokespecial 238;		// CitadelWallet/im/status/keycard/SecureChannel.pairStep1([B)S
 					sstore_3;
 				L7:	goto L13;
 				L8:	aload_2;
@@ -5767,12 +6024,12 @@
 					baload;
 					sconst_1;
 					if_scmpne L12;
-				L9:	getfield_s_this 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+				L9:	getfield_s_this 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					sconst_m1;
 					if_scmpeq L12;
 				L10:	aload_0;
 					aload_2;
-					invokespecial 232;		// CitadelWallet/im/status/keycard/SecureChannel.pairStep2([B)S
+					invokespecial 239;		// CitadelWallet/im/status/keycard/SecureChannel.pairStep2([B)S
 					sstore_3;
 				L11:	goto L13;
 				L12:	sspush 27270;
@@ -5791,35 +6048,35 @@
 
 				L0:	aload_0;
 					sconst_m1;
-					putfield_s 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+					putfield_s 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					sconst_0;
 					sstore_2;
 				L1:	goto L5;
-				L2:	getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+				L2:	getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
 					sload_2;
 					baload;
 					ifne L4;
 				L3:	aload_0;
 					sload_2;
-					putfield_s 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+					putfield_s 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					goto L6;
 				L4:	sinc 2 33;
 				L5:	sload_2;
-					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
 					arraylength;
 					if_scmplt L2;
-				L6:	getfield_s_this 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+				L6:	getfield_s_this 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					sconst_m1;
 					if_scmpne L8;
 				L7:	sspush 27268;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
-				L8:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+				L8:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 6;		// reference CitadelWallet/im/status/keycard/Crypto.sha256
-					getfield_a_this 53;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
+					getfield_a_this 54;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
 					sconst_0;
 					bspush 32;
 					invokevirtual 66;		// update([BSS)V
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 6;		// reference CitadelWallet/im/status/keycard/Crypto.sha256
 					aload_1;
 					sconst_5;
@@ -5828,13 +6085,13 @@
 					sconst_0;
 					invokevirtual 67;		// doFinal([BSS[BS)S
 					pop;
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 5;		// reference CitadelWallet/im/status/keycard/Crypto.random
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					bspush 32;
 					invokevirtual 90;		// generateData([BSS)V
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					aload_1;
 					bspush 32;
@@ -5849,77 +6106,77 @@
 			.stack 7;
 			.locals 0;
 
-				L0:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+				L0:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 6;		// reference CitadelWallet/im/status/keycard/Crypto.sha256
-					getfield_a_this 53;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
+					getfield_a_this 54;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
 					sconst_0;
 					bspush 32;
 					invokevirtual 66;		// update([BSS)V
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 6;		// reference CitadelWallet/im/status/keycard/Crypto.sha256
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					bspush 32;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					invokevirtual 67;		// doFinal([BSS[BS)S
 					pop;
 					aload_1;
 					sconst_5;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					bspush 32;
-					invokestatic 194;		// javacard/framework/Util.arrayCompare([BS[BSS)B
+					invokestatic 201;		// javacard/framework/Util.arrayCompare([BS[BSS)B
 					ifeq L2;
 				L1:	aload_0;
 					sconst_m1;
-					putfield_s 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+					putfield_s 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					sspush 27010;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
-				L2:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+				L2:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 5;		// reference CitadelWallet/im/status/keycard/Crypto.random
 					aload_1;
 					sconst_1;
 					bspush 32;
 					invokevirtual 90;		// generateData([BSS)V
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 6;		// reference CitadelWallet/im/status/keycard/Crypto.sha256
-					getfield_a_this 53;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
+					getfield_a_this 54;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
 					sconst_0;
 					bspush 32;
 					invokevirtual 66;		// update([BSS)V
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 6;		// reference CitadelWallet/im/status/keycard/Crypto.sha256
 					aload_1;
 					sconst_1;
 					bspush 32;
-					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
-					getfield_s_this 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+					getfield_s_this 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					sconst_1;
 					sadd;
 					invokevirtual 67;		// doFinal([BSS[BS)S
 					pop;
-					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
-					getfield_s_this 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+					getfield_s_this 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					sconst_1;
 					bastore;
 					aload_0;
 					dup;
-					getfield_b 52;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
+					getfield_b 53;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
 					sconst_1;
 					ssub;
 					s2b;
-					putfield_b 52;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
+					putfield_b 53;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
 					aload_1;
 					sconst_0;
-					getfield_s_this 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+					getfield_s_this 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					bspush 33;
 					sdiv;
 					s2b;
 					bastore;
 					aload_0;
 					sconst_m1;
-					putfield_s 43;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
+					putfield_s 44;		// short CitadelWallet/im/status/keycard/SecureChannel.preassignedPairingOffset
 					bspush 33;
 					sreturn;
 		}
@@ -5932,14 +6189,14 @@
 					aload_1;
 					sconst_2;
 					baload;
-					invokespecial 230;		// CitadelWallet/im/status/keycard/SecureChannel.checkPairingIndexAndGetOffset(B)S
+					invokespecial 237;		// CitadelWallet/im/status/keycard/SecureChannel.checkPairingIndexAndGetOffset(B)S
 					sstore_2;
-				L1:	getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+				L1:	getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
 					sload_2;
 					baload;
 					sconst_1;
 					if_scmpne L3;
-				L2:	getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+				L2:	getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
 					sload_2;
 					bspush 33;
 					sconst_0;
@@ -5947,11 +6204,11 @@
 					pop;
 					aload_0;
 					dup;
-					getfield_b 52;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
+					getfield_b 53;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
 					sconst_1;
 					sadd;
 					s2b;
-					putfield_b 52;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
+					putfield_b 53;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
 				L3:	return;
 		}
 
@@ -5973,28 +6230,28 @@
 				L3:	aload_0;
 					aload_1;
 					sload_2;
-					invokespecial 233;		// CitadelWallet/im/status/keycard/SecureChannel.verifyAESMAC([BS)Z
+					invokespecial 240;		// CitadelWallet/im/status/keycard/SecureChannel.verifyAESMAC([BS)Z
 					ifne L5;
 				L4:	aload_0;
 					invokevirtual 149;		// reset()V
 					sspush 27010;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
-				L5:	getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+				L5:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 9;		// reference CitadelWallet/im/status/keycard/Crypto.aesCbcIso9797m2
-					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
+					getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
 					sconst_1;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					bspush 16;
-					invokevirtual 228;		// init(Ljavacard/security/Key;B[BSS)V
+					invokevirtual 235;		// init(Ljavacard/security/Key;B[BSS)V
 					aload_1;
 					sconst_5;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					bspush 16;
 					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
 					pop;
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 9;		// reference CitadelWallet/im/status/keycard/Crypto.aesCbcIso9797m2
 					aload_1;
 					bspush 21;
@@ -6003,7 +6260,7 @@
 					ssub;
 					aload_1;
 					sconst_5;
-					invokevirtual 229;		// doFinal([BSS[BS)S
+					invokevirtual 236;		// doFinal([BSS[BS)S
 					sstore_3;
 				L6:	aload_1;
 					sconst_4;
@@ -6018,21 +6275,21 @@
 			.stack 7;
 			.locals 0;
 
-				L0:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
-					getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
+				L0:	getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
+					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
 					sconst_2;
 					invokevirtual 164;		// init(Ljavacard/security/Key;B)V
-					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
+					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
 					aload_1;
 					sconst_0;
 					sconst_5;
-					invokevirtual 234;		// update([BSS)V
-					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					invokevirtual 241;		// update([BSS)V
+					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					bspush 16;
 					bspush 11;
-					invokevirtual 234;		// update([BSS)V
-					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
+					invokevirtual 241;		// update([BSS)V
+					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
 					aload_1;
 					bspush 21;
 					sload_2;
@@ -6041,7 +6298,7 @@
 					aload_1;
 					sconst_5;
 					bspush 16;
-					invokevirtual 235;		// verify([BSS[BSS)Z
+					invokevirtual 242;		// verify([BSS[BSS)Z
 					sreturn;
 		}
 
@@ -6062,22 +6319,22 @@
 					invokestatic 144;		// javacard/framework/Util.setShort([BSS)S
 					pop;
 					sinc 2 2;
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 9;		// reference CitadelWallet/im/status/keycard/Crypto.aesCbcIso9797m2
-					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
+					getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
 					sconst_2;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					bspush 16;
-					invokevirtual 228;		// init(Ljavacard/security/Key;B[BSS)V
-					getfield_a_this 45;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
+					invokevirtual 235;		// init(Ljavacard/security/Key;B[BSS)V
+					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.crypto
 					getfield_a 9;		// reference CitadelWallet/im/status/keycard/Crypto.aesCbcIso9797m2
 					aload 4;
 					bspush 37;
 					sload_2;
 					aload 4;
 					bspush 21;
-					invokevirtual 229;		// doFinal([BSS[BS)S
+					invokevirtual 236;		// doFinal([BSS[BS)S
 					sstore_2;
 					aload 4;
 					sconst_0;
@@ -6089,10 +6346,10 @@
 					aload_0;
 					sload_2;
 					aload 4;
-					invokespecial 236;		// CitadelWallet/im/status/keycard/SecureChannel.computeAESMAC(S[B)V
+					invokespecial 243;		// CitadelWallet/im/status/keycard/SecureChannel.computeAESMAC(S[B)V
 					aload 4;
 					sconst_5;
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					sconst_0;
 					bspush 16;
 					invokestatic 95;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
@@ -6109,21 +6366,21 @@
 			.stack 6;
 			.locals 0;
 
-				L0:	getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
-					getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
+				L0:	getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
+					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
 					sconst_1;
 					invokevirtual 164;		// init(Ljavacard/security/Key;B)V
-					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
+					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
 					aload_2;
 					sconst_0;
 					sconst_1;
-					invokevirtual 234;		// update([BSS)V
-					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
-					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
+					invokevirtual 241;		// update([BSS)V
+					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
+					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.secret
 					bspush 16;
 					bspush 15;
-					invokevirtual 234;		// update([BSS)V
-					getfield_a_this 46;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
+					invokevirtual 241;		// update([BSS)V
+					getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMac
 					aload_2;
 					bspush 21;
 					sload_1;
@@ -6138,14 +6395,14 @@
 			.stack 3;
 			.locals 1;
 
-				L0:	getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
-					invokevirtual 221;		// getPublic()Ljavacard/security/PublicKey;
-					checkcast 0 222;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
+				L0:	getfield_a_this 52;		// reference CitadelWallet/im/status/keycard/SecureChannel.scKeypair
+					invokevirtual 226;		// getPublic()Ljavacard/security/PublicKey;
+					checkcast 0 228;		// T_CLASSORINTERFACE javacard/security/ECPublicKey
 					astore_3;
 				L1:	aload_3;
 					aload_1;
 					sload_2;
-					invokeinterface 3 222 19;		// javacard/security/ECPublicKey
+					invokeinterface 3 228 19;		// javacard/security/ECPublicKey
 					sreturn;
 		}
 
@@ -6153,13 +6410,13 @@
 			.stack 1;
 			.locals 0;
 
-				L0:	getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
-					invokeinterface 1 220 3;		// javacard/security/AESKey
+				L0:	getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
+					invokeinterface 1 227 3;		// javacard/security/AESKey
 					ifeq L4;
-				L1:	getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
-					invokeinterface 1 220 3;		// javacard/security/AESKey
+				L1:	getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
+					invokeinterface 1 227 3;		// javacard/security/AESKey
 					ifeq L4;
-				L2:	getfield_b_this 44;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
+				L2:	getfield_b_this 45;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
 					ifeq L4;
 				L3:	sconst_1;
 					sreturn;
@@ -6171,7 +6428,7 @@
 			.stack 1;
 			.locals 0;
 
-				L0:	getfield_b_this 52;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
+				L0:	getfield_b_this 53;		// byte CitadelWallet/im/status/keycard/SecureChannel.remainingSlots
 					sreturn;
 		}
 
@@ -6179,13 +6436,13 @@
 			.stack 2;
 			.locals 0;
 
-				L0:	getfield_a_this 47;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
-					invokeinterface 1 220 0;		// javacard/security/AESKey
-					getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
-					invokeinterface 1 220 0;		// javacard/security/AESKey
+				L0:	getfield_a_this 48;		// reference CitadelWallet/im/status/keycard/SecureChannel.scEncKey
+					invokeinterface 1 227 0;		// javacard/security/AESKey
+					getfield_a_this 49;		// reference CitadelWallet/im/status/keycard/SecureChannel.scMacKey
+					invokeinterface 1 227 0;		// javacard/security/AESKey
 					aload_0;
 					sconst_0;
-					putfield_b 44;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
+					putfield_b 45;		// boolean CitadelWallet/im/status/keycard/SecureChannel.mutuallyAuthenticated
 					return;
 		}
 
@@ -6195,7 +6452,7 @@
 
 				L0:	aload_1;
 					sload_2;
-					getfield_a_this 53;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
+					getfield_a_this 54;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingSecret
 					sconst_0;
 					bspush 32;
 					invokestatic 171;		// javacard/framework/Util.arrayCopy([BS[BSS)S
@@ -6212,7 +6469,7 @@
 					smul;
 					sstore_2;
 				L1:	sload_2;
-					getfield_a_this 50;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
+					getfield_a_this 51;		// reference CitadelWallet/im/status/keycard/SecureChannel.pairingKeys
 					arraylength;
 					if_scmplt L3;
 				L2:	sspush 27270;
@@ -6260,18 +6517,34 @@
 			public byte[] chainCode 3;		// [B
 			private 4.10 eccPubKey 4;		// Lcom/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters;
 			private 4.9 eccPriKey 5;		// Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;
-			private final byte[] DebugMasterPrivateKey 6;		// [B
-			private final byte[] DebugMasterPublicKey 7;		// [B
+			private 4.10 ecc_Hedera_PubKey 6;		// Lcom/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters;
+			private 4.9 ecc_Hedera_PriKey 7;		// Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;
+			private 1.22 ecPointMultiplier 8;		// Ljavacard/security/KeyAgreement;
+			 4.9 tmpECPrivateKey 9;		// Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;
+			private final byte[] DebugMasterPrivateKey 10;		// [B
+			private final byte[] DebugMasterPublicKey 11;		// [B
 			public static final short CHAIN_CODE_SIZE = 32;		// S
+			public static final short MAX_PATH_LENGTH = 100;		// S
+			public static final short LENGTH_PRIVATE_KEY_ED25519_SIZE_BITS = 256;		// S
+			public static byte[] current_path 0 = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};		// [B
+			public static short current_path_length 1;		// S
+			static final byte[] ED25519_G = {4,42,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-86,-83,36,90,32,-82,25,-95,-72,-96,-122,-76,-32,30,-35,44,119,72,-47,76,-110,61,77,126,109,124,97,-78,41,-23,-59,-94,126,-50,-45,-39};		// [B
 			static final boolean DEBUG_MODE = 0;		// Z
+			static final short LENGTH_PRIVATE_KEY_ED25519 = 32;		// S
+			static final short LENGTH_PUBLIC_KEY_ED25519 = 32;		// S
 		}
 
 		.publicMethodTable 1 {
 			equals(Ljava/lang/Object;)Z;
 			LoadKey([B[B)V;
 			setS([BSS)V;
+			getS([BS)S;
 			setW([BSS)V;
+			getW([BS)S;
+			Hedera_setS([BSS)V;
+			Hedera_setW([BSS)V;
 			SignData([BSS[BS)S;
+			Hedera_SignData([BSS[BS)S;
 			SignData(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BSS[BS)S;
 			RegenerateKeyPair()V;
 			GetPublicKey([BS)S;
@@ -6284,6 +6557,9 @@
 		}
 
 		.packageMethodTable 0 {
+			derivePublicKey(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BS)S;
+			derivePublicKey([BS[BS)S;
+			multiplyPoint(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BSS[BS)S;
 		}
 
 		.method public <init>()V 0 {
@@ -6419,7 +6695,7 @@
 					bspush 31;
 					bspush 106;
 					bastore;
-					putfield_a 54;		// reference CitadelWallet/im/status/keycard/ed25519.DebugMasterPrivateKey
+					putfield_a 55;		// reference CitadelWallet/im/status/keycard/ed25519.DebugMasterPrivateKey
 					aload_0;
 					bspush 32;
 					newarray 11;
@@ -6551,22 +6827,27 @@
 					bspush 31;
 					bspush 97;
 					bastore;
-					putfield_a 55;		// reference CitadelWallet/im/status/keycard/ed25519.DebugMasterPublicKey
+					putfield_a 56;		// reference CitadelWallet/im/status/keycard/ed25519.DebugMasterPublicKey
 					aload_0;
 					bspush -127;
 					sconst_0;
-					invokestatic 239;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
-					checkcast 0 240;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
-					putfield_a 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+					invokestatic 246;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
+					checkcast 0 247;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					putfield_a 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
 					aload_0;
 					bspush -128;
 					sconst_0;
-					invokestatic 239;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
-					checkcast 0 242;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
-					putfield_a 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
-					getfield_a_this 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
-					getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
-					invokestatic 244;		// com/nxp/id/jcopx/security/KeyBuilderX.genKeyPair(Ljavacard/security/PrivateKey;Ljavacard/security/PublicKey;)V
+					invokestatic 246;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
+					checkcast 0 249;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					putfield_a 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+					getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+					getfield_a_this 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+					invokestatic 251;		// com/nxp/id/jcopx/security/KeyBuilderX.genKeyPair(Ljavacard/security/PrivateKey;Ljavacard/security/PublicKey;)V
+					aload_0;
+					bspush 126;
+					sconst_0;
+					invokestatic 252;		// com/nxp/id/jcopx/security/KeyAgreementX.getInstance(BZ)Ljavacard/security/KeyAgreement;
+					putfield_a 59;		// reference CitadelWallet/im/status/keycard/ed25519.ecPointMultiplier
 					return;
 		}
 
@@ -6577,27 +6858,27 @@
 				L0:	aload_0;
 					bspush -127;
 					sconst_0;
-					invokestatic 239;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
-					checkcast 0 240;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
-					putfield_a 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+					invokestatic 246;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
+					checkcast 0 247;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					putfield_a 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
 					aload_0;
 					bspush -128;
 					sconst_0;
-					invokestatic 239;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
-					checkcast 0 242;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
-					putfield_a 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
-					getfield_a_this 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+					invokestatic 246;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
+					checkcast 0 249;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					putfield_a 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+					getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
 					aload_2;
 					sconst_0;
 					aload_2;
 					arraylength;
-					invokeinterface 4 240 5;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
-					getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+					invokeinterface 4 247 5;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					getfield_a_this 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
 					aload_1;
 					sconst_0;
 					aload_1;
 					arraylength;
-					invokeinterface 4 242 5;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					invokeinterface 4 249 5;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
 					return;
 		}
 
@@ -6608,63 +6889,206 @@
 				L0:	aload_0;
 					bspush -127;
 					sconst_0;
-					invokestatic 239;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
-					checkcast 0 240;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
-					putfield_a 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
-					getfield_a_this 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+					invokestatic 246;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
+					checkcast 0 247;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					putfield_a 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+					getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
 					aload_1;
 					sload_2;
 					sload_3;
-					invokeinterface 4 240 5;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					invokeinterface 4 247 5;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
 					return;
 		}
 
-		.method public setW([BSS)V 3 {
+		.method public getS([BS)S 3 {
+			.stack 3;
+			.locals 0;
+
+				L0:	getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+					aload_1;
+					sload_2;
+					invokeinterface 3 247 6;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					pop;
+					bspush 32;
+					sreturn;
+		}
+
+		.method public setW([BSS)V 4 {
 			.stack 4;
 			.locals 0;
 
 				L0:	aload_0;
 					bspush -128;
 					sconst_0;
-					invokestatic 239;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
-					checkcast 0 242;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
-					putfield_a 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
-					getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+					invokestatic 246;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
+					checkcast 0 249;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					putfield_a 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+					getfield_a_this 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
 					aload_1;
 					sload_2;
 					sload_3;
-					invokeinterface 4 242 5;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					invokeinterface 4 249 5;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
 					return;
 		}
 
-		.method public SignData([BSS[BS)S 4 {
+		.method public getW([BS)S 5 {
+			.stack 3;
+			.locals 0;
+
+				L0:	getfield_a_this 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+					aload_1;
+					sload_2;
+					invokeinterface 3 249 6;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					pop;
+					bspush 32;
+					sreturn;
+		}
+
+		.method public Hedera_setS([BSS)V 6 {
+			.stack 4;
+			.locals 0;
+
+				L0:	aload_0;
+					bspush -127;
+					sconst_0;
+					invokestatic 246;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
+					checkcast 0 247;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					putfield_a 60;		// reference CitadelWallet/im/status/keycard/ed25519.ecc_Hedera_PriKey
+					getfield_a_this 60;		// reference CitadelWallet/im/status/keycard/ed25519.ecc_Hedera_PriKey
+					aload_1;
+					sload_2;
+					sload_3;
+					invokeinterface 4 247 5;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					return;
+		}
+
+		.method public Hedera_setW([BSS)V 7 {
+			.stack 4;
+			.locals 0;
+
+				L0:	aload_0;
+					bspush -128;
+					sconst_0;
+					invokestatic 246;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
+					checkcast 0 249;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					putfield_a 61;		// reference CitadelWallet/im/status/keycard/ed25519.ecc_Hedera_PubKey
+					getfield_a_this 61;		// reference CitadelWallet/im/status/keycard/ed25519.ecc_Hedera_PubKey
+					aload_1;
+					sload_2;
+					sload_3;
+					invokeinterface 4 249 5;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					return;
+		}
+
+		.method  derivePublicKey(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BS)S 128 {
+			.stack 7;
+			.locals 0;
+
+			.descriptor	Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;	4.9;
+
+				L0:	aload_0;
+					aload_1;
+					getstatic_a 256;		// reference CitadelWallet/im/status/keycard/ed25519.ED25519_G
+					sconst_0;
+					getstatic_a 256;		// reference CitadelWallet/im/status/keycard/ed25519.ED25519_G
+					arraylength;
+					aload_2;
+					sload_3;
+					invokevirtual 257;		// multiplyPoint(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BSS[BS)S
+					sreturn;
+		}
+
+		.method  derivePublicKey([BS[BS)S 129 {
+			.stack 4;
+			.locals 0;
+
+				L0:	getfield_a_this 62;		// reference CitadelWallet/im/status/keycard/ed25519.tmpECPrivateKey
+					aload_1;
+					sload_2;
+					bspush 32;
+					invokeinterface 4 247 5;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					aload_0;
+					getfield_a_this 62;		// reference CitadelWallet/im/status/keycard/ed25519.tmpECPrivateKey
+					aload_3;
+					sload 4;
+					invokevirtual 259;		// derivePublicKey(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BS)S
+					sreturn;
+		}
+
+		.method  multiplyPoint(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BSS[BS)S 130 {
+			.stack 6;
+			.locals 0;
+
+			.descriptor	Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;	4.9;
+
+				L0:	getfield_a_this 59;		// reference CitadelWallet/im/status/keycard/ed25519.ecPointMultiplier
+					aload_1;
+					invokevirtual 221;		// init(Ljavacard/security/PrivateKey;)V
+					getfield_a_this 59;		// reference CitadelWallet/im/status/keycard/ed25519.ecPointMultiplier
+					aload_2;
+					sload_3;
+					sload 4;
+					aload 5;
+					sload 6;
+					invokevirtual 222;		// generateSecret([BSS[BS)S
+					sreturn;
+		}
+
+		.method public SignData([BSS[BS)S 8 {
 			.stack 7;
 			.locals 1;
 
-				L0:	getfield_a_this 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+				L0:	getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
 					bspush -93;
 					aload_1;
 					sload_2;
 					sload_3;
 					aload 4;
 					sload 5;
-					invokestatic 245;		// com/nxp/id/jcopx/security/CryptoBaseX.sign(Ljavacard/security/Key;B[BSS[BS)S
+					invokestatic 260;		// com/nxp/id/jcopx/security/CryptoBaseX.sign(Ljavacard/security/Key;B[BSS[BS)S
 					sstore 6;
 				L1:	aload_0;
 					aload 4;
 					sconst_0;
 					bspush 32;
-					invokespecial 246;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
+					invokespecial 261;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
 					aload_0;
 					aload 4;
 					bspush 32;
 					bspush 32;
-					invokespecial 246;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
+					invokespecial 261;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
 					sload 6;
 					sreturn;
 		}
 
-		.method public SignData(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BSS[BS)S 5 {
+		.method public Hedera_SignData([BSS[BS)S 9 {
+			.stack 7;
+			.locals 1;
+
+				L0:	getfield_a_this 60;		// reference CitadelWallet/im/status/keycard/ed25519.ecc_Hedera_PriKey
+					bspush -93;
+					aload_1;
+					sload_2;
+					sload_3;
+					aload 4;
+					sload 5;
+					invokestatic 260;		// com/nxp/id/jcopx/security/CryptoBaseX.sign(Ljavacard/security/Key;B[BSS[BS)S
+					sstore 6;
+				L1:	aload_0;
+					aload 4;
+					sconst_0;
+					bspush 32;
+					invokespecial 261;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
+					aload_0;
+					aload 4;
+					bspush 32;
+					bspush 32;
+					invokespecial 261;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
+					sload 6;
+					sreturn;
+		}
+
+		.method public SignData(Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;[BSS[BS)S 10 {
 			.stack 7;
 			.locals 1;
 
@@ -6677,84 +7101,84 @@
 					sload 4;
 					aload 5;
 					sload 6;
-					invokestatic 245;		// com/nxp/id/jcopx/security/CryptoBaseX.sign(Ljavacard/security/Key;B[BSS[BS)S
+					invokestatic 260;		// com/nxp/id/jcopx/security/CryptoBaseX.sign(Ljavacard/security/Key;B[BSS[BS)S
 					sstore 7;
 				L1:	aload_0;
 					aload 5;
 					sconst_0;
 					bspush 32;
-					invokespecial 246;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
+					invokespecial 261;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
 					aload_0;
 					aload 5;
 					bspush 32;
 					bspush 32;
-					invokespecial 246;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
+					invokespecial 261;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
 					sload 7;
 					sreturn;
 		}
 
-		.method public RegenerateKeyPair()V 6 {
+		.method public RegenerateKeyPair()V 11 {
 			.stack 2;
 			.locals 0;
 
-				L0:	getfield_a_this 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
-					getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
-					invokestatic 244;		// com/nxp/id/jcopx/security/KeyBuilderX.genKeyPair(Ljavacard/security/PrivateKey;Ljavacard/security/PublicKey;)V
+				L0:	getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+					getfield_a_this 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+					invokestatic 251;		// com/nxp/id/jcopx/security/KeyBuilderX.genKeyPair(Ljavacard/security/PrivateKey;Ljavacard/security/PublicKey;)V
 					return;
 		}
 
-		.method public GetPublicKey([BS)S 7 {
+		.method public GetPublicKey([BS)S 12 {
 			.stack 4;
 			.locals 1;
 
-				L0:	getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+				L0:	getfield_a_this 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
 					aload_1;
 					sload_2;
-					invokeinterface 3 242 6;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					invokeinterface 3 249 6;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
 					sstore_3;
 				L1:	aload_0;
 					aload_1;
 					sconst_0;
 					sload_3;
-					invokespecial 246;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
+					invokespecial 261;		// CitadelWallet/im/status/keycard/ed25519.BigToLittleEndian([BSS)V
 					sload_3;
 					sreturn;
 		}
 
-		.method public GetPrivateKey()Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters; 8 {
+		.method public GetPrivateKey()Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters; 13 {
 			.stack 1;
 			.locals 0;
 
 			.descriptor	Lcom/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters;	4.9;
 
-				L0:	getfield_a_this 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+				L0:	getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
 					areturn;
 		}
 
-		.method public GetPrivateKey([BS)S 9 {
+		.method public GetPrivateKey([BS)S 14 {
 			.stack 3;
 			.locals 1;
 
-				L0:	getfield_a_this 56;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
+				L0:	getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPriKey
 					aload_1;
 					sload_2;
-					invokeinterface 3 240 6;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
+					invokeinterface 3 247 6;		// com/nxp/id/jcopx/security/ECPrivateKeyWithPredefinedParameters
 					sstore_3;
 				L1:	sload_3;
 					sreturn;
 		}
 
-		.method public GetPublicKey()Lcom/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters; 10 {
+		.method public GetPublicKey()Lcom/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters; 15 {
 			.stack 1;
 			.locals 0;
 
 			.descriptor	Lcom/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters;	4.10;
 
-				L0:	getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+				L0:	getfield_a_this 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
 					areturn;
 		}
 
-		.method public VerifySignature([BSS[BSS)Z 11 {
+		.method public VerifySignature([BSS[BSS)Z 16 {
 			.stack 8;
 			.locals 2;
 
@@ -6762,7 +7186,7 @@
 					sstore 7;
 				L1:	sconst_0;
 					sstore 8;
-				L2:	getfield_a_this 57;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
+				L2:	getfield_a_this 58;		// reference CitadelWallet/im/status/keycard/ed25519.eccPubKey
 					bspush -93;
 					aload_1;
 					sload_2;
@@ -6770,7 +7194,7 @@
 					aload 4;
 					sload 5;
 					sload 6;
-					invokestatic 247;		// com/nxp/id/jcopx/security/CryptoBaseX.verify(Ljavacard/security/Key;B[BSS[BSS)S
+					invokestatic 262;		// com/nxp/id/jcopx/security/CryptoBaseX.verify(Ljavacard/security/Key;B[BSS[BSS)S
 					sstore 8;
 				L3:	goto L5;
 				L4:	pop;
@@ -6789,7 +7213,7 @@
 			}
 		}
 
-		.method public VerifySignature([BS[BSS[BSS)Z 12 {
+		.method public VerifySignature([BS[BSS[BSS)Z 17 {
 			.stack 8;
 			.locals 3;
 
@@ -6799,19 +7223,19 @@
 					sstore 10;
 				L2:	bspush -128;
 					sconst_0;
-					invokestatic 239;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
-					checkcast 0 242;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					invokestatic 246;		// com/nxp/id/jcopx/security/KeyBuilderX.buildKey(BB)Ljavacard/security/Key;
+					checkcast 0 249;		// T_CLASSORINTERFACE com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
 					astore 11;
 				L3:	aload_0;
 					aload_1;
 					sconst_0;
 					sload_2;
-					invokespecial 248;		// CitadelWallet/im/status/keycard/ed25519.LittleToBigEndian([BSS)V
+					invokespecial 263;		// CitadelWallet/im/status/keycard/ed25519.LittleToBigEndian([BSS)V
 					aload 11;
 					aload_1;
 					sconst_0;
 					sload_2;
-					invokeinterface 4 242 5;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
+					invokeinterface 4 249 5;		// com/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters
 				L4:	aload 11;
 					bspush -93;
 					aload_3;
@@ -6820,7 +7244,7 @@
 					aload 6;
 					sload 7;
 					sload 8;
-					invokestatic 247;		// com/nxp/id/jcopx/security/CryptoBaseX.verify(Ljavacard/security/Key;B[BSS[BSS)S
+					invokestatic 262;		// com/nxp/id/jcopx/security/CryptoBaseX.verify(Ljavacard/security/Key;B[BSS[BSS)S
 					sstore 10;
 				L5:	goto L7;
 				L6:	pop;
@@ -6839,7 +7263,7 @@
 			}
 		}
 
-		.method public VerifySignature(Lcom/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters;[BSS[BSS)Z 13 {
+		.method public VerifySignature(Lcom/nxp/id/jcopx/security/ECPublicKeyWithPredefinedParameters;[BSS[BSS)Z 18 {
 			.stack 8;
 			.locals 2;
 
@@ -6857,7 +7281,7 @@
 					aload 5;
 					sload 6;
 					sload 7;
-					invokestatic 247;		// com/nxp/id/jcopx/security/CryptoBaseX.verify(Ljavacard/security/Key;B[BSS[BSS)S
+					invokestatic 262;		// com/nxp/id/jcopx/security/CryptoBaseX.verify(Ljavacard/security/Key;B[BSS[BSS)S
 					sstore 9;
 				L3:	goto L5;
 				L4:	pop;

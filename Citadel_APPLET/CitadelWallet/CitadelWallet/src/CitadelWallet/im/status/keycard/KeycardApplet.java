@@ -66,6 +66,8 @@ public class KeycardApplet extends Applet {
   static final byte DERIVE_P1_SOURCE_CURRENT = (byte) 0x80;
   static final byte DERIVE_P1_SOURCE_PINLESS = (byte) 0xC0;
   static final byte DERIVE_P1_SOURCE_MASK = (byte) 0xC0;
+  //new
+  static final byte DERIVE_P1_SOURCE_ED25519= (byte)0xD0;
 
   static final byte GENERATE_MNEMONIC_P1_CS_MIN = 4;
   static final byte GENERATE_MNEMONIC_P1_CS_MAX = 8;
@@ -943,6 +945,19 @@ public class KeycardApplet extends Applet {
         newPathLen = pinlessPathLen;     
         pathLenOff = pinlessPathLen;
         break;
+        
+	  case DERIVE_P1_SOURCE_ED25519 :
+	  	
+	  	//TODO: FIX this to better match the whole wallet system 
+	  	//for now we will just store the wallet path + path lengthto some variable in the ED25519 class
+	  	Util.arrayCopyNonAtomic(path, (short) 0,curve25519.current_path, (short)0, len);
+	  	curve25519.current_path_length=len;
+	  	
+	  	ISOException.throwIt(ISO7816.SW_NO_ERROR);
+	  	 return;
+	  	//unreachable
+        //break;
+        
       default:
         ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
         return;
@@ -969,7 +984,7 @@ public class KeycardApplet extends Applet {
     JCSystem.commitTransaction();
   }
 
-  /**
+ /**
    * Internal derivation function, called by DERIVE KEY and EXPORT KEY
    * @param apduBuffer the APDU buffer
    * @param off the offset in the APDU buffer relative to the data field
@@ -998,6 +1013,47 @@ public class KeycardApplet extends Applet {
 
         if (!crypto.bip32IsHardened(tmpPath, i)) {
           secp256k1.derivePublicKey(apduBuffer, dataOff, apduBuffer, pubKeyOff);
+        } else {
+          apduBuffer[pubKeyOff] = 0;
+        }
+      }
+
+      if (!crypto.bip32CKDPriv(tmpPath, i, apduBuffer, scratchOff, apduBuffer, dataOff, derivationOutput, (short) 0)) {
+        ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+      }
+    }
+  }
+
+
+  /**
+   * Internal derivation function, called by DERIVE KEY and EXPORT KEY
+   * @param apduBuffer the APDU buffer
+   * @param off the offset in the APDU buffer relative to the data field
+   */
+  private void doDerive_ED25519(byte[] apduBuffer, short off) {
+    if (tmpPathLen == 0) {
+      curve25519.getS(derivationOutput, (short) 0);
+      return;
+    }
+
+    short scratchOff = (short) (ISO7816.OFFSET_CDATA + off);
+    short dataOff = (short) (scratchOff + Crypto.KEY_DERIVATION_SCRATCH_SIZE);
+
+    short pubKeyOff = (short) (dataOff + masterPrivate.getS(apduBuffer, dataOff));
+    pubKeyOff = Util.arrayCopyNonAtomic(curve25519.chainCode, (short) 0, apduBuffer, pubKeyOff, curve25519.CHAIN_CODE_SIZE);
+
+    if (!crypto.bip32IsHardened(tmpPath, (short) 0)) {
+      curve25519.getW(apduBuffer, pubKeyOff);
+    } else {
+      apduBuffer[pubKeyOff] = 0;
+    }
+
+    for (short i = 0; i < tmpPathLen; i += 4) {
+      if (i > 0) {
+        Util.arrayCopyNonAtomic(derivationOutput, (short) 0, apduBuffer, dataOff, (short) (Crypto.KEY_SECRET_SIZE + CHAIN_CODE_SIZE));
+
+        if (!crypto.bip32IsHardened(tmpPath, i)) {
+          curve25519.derivePublicKey(apduBuffer, dataOff, apduBuffer, pubKeyOff);
         } else {
           apduBuffer[pubKeyOff] = 0;
         }
@@ -1337,6 +1393,7 @@ public class KeycardApplet extends Applet {
 
     boolean publicOnly;
     boolean extendedPublic;
+    boolean isED2559=false;
 
     switch (apduBuffer[ISO7816.OFFSET_P2]) {
       case EXPORT_KEY_P2_PRIVATE_AND_PUBLIC:
@@ -1368,6 +1425,12 @@ public class KeycardApplet extends Applet {
       case EXPORT_KEY_P1_DERIVE_AND_MAKE_CURRENT:
         makeCurrent = true;
         break;
+        
+        //new
+        //TODO: IMPROVE THIS
+	case DERIVE_P1_SOURCE_ED25519:
+		isED2559=true;
+		break;
       default:
         ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
         return;
@@ -1381,7 +1444,14 @@ public class KeycardApplet extends Applet {
       ISOException.throwIt(ISO7816.SW_CONDITIONS_NOT_SATISFIED);
     }
 
-    doDerive(apduBuffer, (short) 0);
+	if(isED2559!=true)
+	{
+		doDerive(apduBuffer, (short) 0);
+	}
+	else
+	{
+		doDerive_ED25519(apduBuffer, (short) 0);
+	}
 
     short off = SecureChannel.SC_OUT_OFFSET;
 

@@ -32,17 +32,60 @@ import javacard.framework.Util;
 public class ed25519 {
 
   public static final short CHAIN_CODE_SIZE = 32;
+ public static final short MAX_PATH_LENGTH=100;
 
   public byte[] masterChainCode;
   public byte[] altChainCode;
   public byte[] chainCode;
   public boolean isExtended;
   
+  //TODO: find the value of G 
+  //this is Weierstrass coordinate => check that it works
+  
+  //TODO: check if we can get G from ECPrivateKeyWithPredefinedParameters or similar class from the default parameters
+  static final byte[] ED25519_G = {
+                (byte) 0x04,
+
+                (byte) 0x2a, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa,
+                (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa,
+                (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa,
+                (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa,
+                (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa,
+                (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa,
+                (byte) 0xaa, (byte) 0xaa, (byte) 0xaa, (byte) 0xaa,
+                (byte) 0xaa, (byte) 0xad, (byte) 0x24, (byte) 0x5a,
+
+                (byte) 0x20, (byte) 0xae, (byte) 0x19, (byte) 0xa1,
+                (byte) 0xb8, (byte) 0xa0, (byte) 0x86, (byte) 0xb4,
+                (byte) 0xe0, (byte) 0x1e, (byte) 0xdd, (byte) 0x2c,
+                (byte) 0x77, (byte) 0x48, (byte) 0xd1, (byte) 0x4c,
+                (byte) 0x92, (byte) 0x3d, (byte) 0x4d, (byte) 0x7e,
+                (byte) 0x6d, (byte) 0x7c, (byte) 0x61, (byte) 0xb2,
+                (byte) 0x29, (byte) 0xe9, (byte) 0xc5, (byte) 0xa2,
+                (byte) 0x7e, (byte) 0xce, (byte) 0xd3, (byte) 0xd9
+        };
+
+  
+  public static byte[] current_path= new byte[MAX_PATH_LENGTH];
+  public static short current_path_length=0;
+  
 	static final boolean DEBUG_MODE = false;
+	
+	static final short LENGTH_PRIVATE_KEY_ED25519=32;
+	static final short LENGTH_PUBLIC_KEY_ED25519=32;
+	 public static final short LENGTH_PRIVATE_KEY_ED25519_SIZE_BITS= LENGTH_PRIVATE_KEY_ED25519*8;
+  
 	
 	//these are the masterkeys
 	private ECPublicKeyWithPredefinedParameters eccPubKey;
 	private ECPrivateKeyWithPredefinedParameters eccPriKey;
+	
+	//Hedera
+	private ECPublicKeyWithPredefinedParameters ecc_Hedera_PubKey;
+	private ECPrivateKeyWithPredefinedParameters ecc_Hedera_PriKey;
+	private KeyAgreement ecPointMultiplier;
+			ECPrivateKeyWithPredefinedParameters tmpECPrivateKey;
+	  
 	
 	private final byte[] DebugMasterPrivateKey = {0x43, (byte)0x88, 0x73, 0x08, (byte)0xC6, 0x0C, (byte)0xFD, (byte)0xE7, (byte)0xE1, 0x2B, 0x13, (byte)0xAB, (byte)0xFE, (byte)0xEF, 0x3E, 0x76,
 			0x0C, 0x11, 0x0C, (byte)0xA6, 0x7E, 0x45, (byte)0x9B, 0x3F, 0x01, 0x4D, 0x00, (byte)0x8F, (byte)0xE6, 0x08, (byte)0xD7, 0x6A};
@@ -67,6 +110,8 @@ public class ed25519 {
 		else
 			KeyBuilderX.genKeyPair(eccPriKey, eccPubKey);
 			
+			ecPointMultiplier= KeyAgreementX.getInstance(KeyAgreementX.ALG_EC_SVDP_DH_PLAIN_XY, false);
+			
 	}
 	
 	public void LoadKey(byte[] publicKey, byte[] privateKey)
@@ -83,6 +128,12 @@ public class ed25519 {
 		eccPriKey = (ECPrivateKeyWithPredefinedParameters)KeyBuilderX.buildKey(KeyBuilderX.ALG_TYPE_ED25519_PRIVATE, (byte)0x00 );
 		
 		eccPriKey.setS(privateKey, offset, len);
+		
+	}
+	public short getS(byte[] buffer, short offset )
+	{
+		eccPriKey.getS(buffer, offset);
+		return LENGTH_PRIVATE_KEY_ED25519;
 	}
 	
 	public void setW(byte[] publicKey, short offset, short len )
@@ -92,9 +143,53 @@ public class ed25519 {
 		eccPubKey.setW(publicKey, offset, len);
 	}
 	
+	public short getW(byte[] buffer, short offset )
+	{
+		eccPubKey.getW(buffer, offset);
+		return LENGTH_PUBLIC_KEY_ED25519;
+	}
+	
+	public void Hedera_setS(byte[] privateKey, short offset, short len )
+	{
+		ecc_Hedera_PriKey = (ECPrivateKeyWithPredefinedParameters)KeyBuilderX.buildKey(KeyBuilderX.ALG_TYPE_ED25519_PRIVATE, (byte)0x00 );
+		
+		ecc_Hedera_PriKey.setS(privateKey, offset, len);
+	}
+	
+	public void Hedera_setW(byte[] publicKey, short offset, short len )
+	{
+		ecc_Hedera_PubKey = (ECPublicKeyWithPredefinedParameters)KeyBuilderX.buildKey(KeyBuilderX.ALG_TYPE_ED25519_PUBLIC, (byte)0x00 );
+
+		ecc_Hedera_PubKey.setW(publicKey, offset, len);
+	}
+	
+	 short derivePublicKey(ECPrivateKeyWithPredefinedParameters privateKey, byte[] pubOut, short pubOff) {
+   
+    return multiplyPoint(privateKey, ED25519_G, (short) 0, (short) ED25519_G.length, pubOut, pubOff);
+  }
+
+	
+	short derivePublicKey(byte[] privateKey, short privOff, byte[] pubOut, short pubOff) {
+    tmpECPrivateKey.setS(privateKey, privOff, (short)(LENGTH_PRIVATE_KEY_ED25519_SIZE_BITS/8));
+    return derivePublicKey(tmpECPrivateKey, pubOut, pubOff);
+  }
+  
+	short multiplyPoint(ECPrivateKeyWithPredefinedParameters privateKey, byte[] point, short pointOff, short pointLen, byte[] out, short outOff) {
+    ecPointMultiplier.init(privateKey);
+	return ecPointMultiplier.generateSecret(point, pointOff, pointLen, out, outOff);
+  }
+	
 	public short SignData( byte [] DataToSign, short DataToSignOffset, short DataToSignLength, byte[] SignatureBuffer, short SignatureOffset)
 	{
 		short SigLen = CryptoBaseX.sign(eccPriKey, CryptoBaseX.ALG_ED25519PH_SHA_512, DataToSign, DataToSignOffset, DataToSignLength, SignatureBuffer, SignatureOffset);
+		BigToLittleEndian(SignatureBuffer, (short)0,(short)32);
+		BigToLittleEndian(SignatureBuffer, (short)32,(short)32);	
+		return SigLen;
+	}
+	
+	public short Hedera_SignData( byte [] DataToSign, short DataToSignOffset, short DataToSignLength, byte[] SignatureBuffer, short SignatureOffset)
+	{
+		short SigLen = CryptoBaseX.sign(ecc_Hedera_PriKey, CryptoBaseX.ALG_ED25519PH_SHA_512, DataToSign, DataToSignOffset, DataToSignLength, SignatureBuffer, SignatureOffset);
 		BigToLittleEndian(SignatureBuffer, (short)0,(short)32);
 		BigToLittleEndian(SignatureBuffer, (short)32,(short)32);	
 		return SigLen;

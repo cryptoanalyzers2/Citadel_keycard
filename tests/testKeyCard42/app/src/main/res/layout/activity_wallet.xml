@@ -17,7 +17,7 @@
         android:layout_height="match_parent" >
 
     <TableLayout
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
@@ -39,7 +39,7 @@
             android:checked="false"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="5dp" />
 
         <TableRow
         android:layout_width="match_parent"
@@ -53,7 +53,7 @@
         android:text="BITCOIN "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:layout_marginRight="20dp"/>
     <Button
         android:id="@+id/button8"
@@ -63,7 +63,7 @@
         android:text="HEDERA "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:layout_marginRight="20dp" />
     </TableRow>
 
@@ -79,7 +79,7 @@
         android:text="SOLANA "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:layout_marginRight="20dp" />
 
             <Button
@@ -90,7 +90,7 @@
                 android:text="ETHEREUM "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
     </TableRow>
@@ -106,7 +106,7 @@
                 android:text="POLKADOT "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -117,7 +117,7 @@
                 android:text="XRP "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -133,7 +133,7 @@
                 android:text="LITECOIN "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -144,7 +144,7 @@
                 android:text="BTC CASH "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -160,7 +160,7 @@
                 android:text="BINANCE "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -171,7 +171,7 @@
                 android:text="POLYGON "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -187,7 +187,7 @@
                 android:text="TRON "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -198,7 +198,7 @@
                 android:text="VECHAIN "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -214,7 +214,7 @@
                 android:text="TEZOS "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -225,7 +225,7 @@
                 android:text="DOGECOIN "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -241,7 +241,7 @@
                 android:text="FILECOIN "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -252,7 +252,7 @@
                 android:text="AVALANCHE "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -268,7 +268,7 @@
                 android:text="ETH CLASSIC "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -279,7 +279,7 @@
                 android:text="NEAR "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -295,7 +295,7 @@
                 android:text="COSMOS "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -306,7 +306,7 @@
                 android:text="THETA "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -322,7 +322,7 @@
                 android:text="CARDANO "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -333,7 +333,7 @@
                 android:text="STELLAR "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -349,7 +349,7 @@
                 android:text="ELROND "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -360,7 +360,7 @@
                 android:text="APTOS "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>
@@ -376,7 +376,7 @@
                 android:text="ALGORAND "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
             <Button
@@ -388,7 +388,7 @@
                 android:text="HOME "
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:textSize="18sp"
+                android:textSize="15sp"
                 android:layout_marginRight="20dp" />
 
         </TableRow>

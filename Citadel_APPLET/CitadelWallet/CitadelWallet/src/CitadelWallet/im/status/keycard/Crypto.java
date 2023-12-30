@@ -73,6 +73,7 @@ public class Crypto {
    * @param iOff the offset in the buffer
    * @return true if successful, false otherwise
    */
+   
   boolean bip32CKDPriv(byte[] i, short iOff, byte[] scratch, short scratchOff, byte[] data, short dataOff, byte[] output, short outOff) {
     short off = scratchOff;
 
@@ -93,6 +94,35 @@ public class Crypto {
     }
 
     addm256(output, outOff, data, dataOff, SECP256k1.SECP256K1_R, (short) 0, output, outOff);
+
+    return !isZero256(output, outOff);
+  }
+  
+  
+  /**
+   * Derives a private key according to the algorithm defined in SLIP-10. The SLIP-10 specifications define some checks
+   * to be performed on the derived keys. In the very unlikely event that these checks fail this key is not considered
+   * to be valid so the derived key is discarded and this method returns false.
+   *
+   * @param i the buffer containing the key path element (a 32-bit big endian integer)
+   * @param iOff the offset in the buffer
+   * @return true if successful, false otherwise
+   */
+   
+  boolean SLIP10CKDPriv(byte[] i, short iOff, byte[] scratch, short scratchOff, byte[] data, short dataOff, byte[] output, short outOff) {
+    short off = scratchOff;
+
+    if (bip32IsHardened(i, iOff)) {
+      scratch[off++] = 0;
+      off = Util.arrayCopyNonAtomic(data, dataOff, scratch, off, KEY_SECRET_SIZE);
+    } else {
+      scratch[off++] = ((data[(short) (dataOff + KEY_SECRET_SIZE + KEY_SECRET_SIZE + KEY_PUB_SIZE - 1)] & 1) != 0 ? (byte) 0x03 : (byte) 0x02);
+      off = Util.arrayCopyNonAtomic(data, (short) (dataOff + KEY_SECRET_SIZE + KEY_SECRET_SIZE + 1), scratch, off, KEY_SECRET_SIZE);
+    }
+
+    off = Util.arrayCopyNonAtomic(i, iOff, scratch, off, (short) 4);
+
+    hmacSHA512(data, (short)(dataOff + KEY_SECRET_SIZE), KEY_SECRET_SIZE, scratch, scratchOff, (short)(off - scratchOff), output, outOff);
 
     return !isZero256(output, outOff);
   }
