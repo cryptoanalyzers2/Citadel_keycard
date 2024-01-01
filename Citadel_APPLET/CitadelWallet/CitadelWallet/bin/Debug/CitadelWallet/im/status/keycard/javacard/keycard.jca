@@ -1,5 +1,5 @@
 // converted by version 1.3
-// on Sun Dec 31 23:08:32 PST 2023
+// on Mon Jan 01 12:18:37 PST 2024
 
 .package CitadelWallet/im/status/keycard {
 	.aid 0xA0:0x0:0x0:0x8:0x4:0x0:0x1;
@@ -3902,8 +3902,6 @@
 					pop;
 					sload_3;
 					putstatic_s 181;		// short CitadelWallet/im/status/keycard/ed25519.current_path_length
-					sspush -28672;
-					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
 					return;
 				L24:	sspush 27270;
 					invokestatic 141;		// javacard/framework/ISOException.throwIt(S)V
@@ -4852,6 +4850,8 @@
 					if_scmpne L21;
 				L20:	sconst_1;
 					sstore 6;
+					bspush 71;
+					sstore 8;
 					goto L26;
 				L21:	aload_2;
 					sconst_2;
@@ -4911,7 +4911,7 @@
 					bastore;
 					sinc 10 1;
 					sload 4;
-					ifeq L40;
+					ifeq L43;
 				L37:	aload_2;
 					sload 10;
 					dup;
@@ -4921,14 +4921,24 @@
 					bspush -128;
 					bastore;
 					sinc 10 1;
-					getfield_a_this 14;		// reference CitadelWallet/im/status/keycard/KeycardApplet.secp256k1
+					sload 6;
+					ifne L40;
+				L38:	getfield_a_this 14;		// reference CitadelWallet/im/status/keycard/KeycardApplet.secp256k1
 					getfield_a_this 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
 					sconst_0;
 					aload_2;
 					sload 10;
 					invokevirtual 182;		// derivePublicKey([BS[BS)S
 					sstore 11;
-				L38:	aload_2;
+				L39:	goto L41;
+				L40:	getfield_a_this 15;		// reference CitadelWallet/im/status/keycard/KeycardApplet.curve25519
+					getfield_a_this 27;		// reference CitadelWallet/im/status/keycard/KeycardApplet.derivationOutput
+					sconst_0;
+					aload_2;
+					sload 10;
+					invokevirtual 187;		// derivePublicKey([BS[BS)S
+					sstore 11;
+				L41:	aload_2;
 					sload 10;
 					sconst_1;
 					ssub;
@@ -4940,8 +4950,8 @@
 					sadd;
 					sstore 10;
 					sload 5;
-					ifeq L42;
-				L39:	aload_2;
+					ifeq L45;
+				L42:	aload_2;
 					sload 10;
 					dup;
 					sconst_1;
@@ -4970,8 +4980,8 @@
 					sload 11;
 					sadd;
 					sstore 10;
-					goto L42;
-				L40:	aload_2;
+					goto L45;
+				L43:	aload_2;
 					sload 10;
 					dup;
 					sconst_1;
@@ -4989,7 +4999,7 @@
 					pop;
 					bspush 32;
 					sstore 11;
-				L41:	aload_2;
+				L44:	aload_2;
 					sload 10;
 					sconst_1;
 					ssub;
@@ -5000,7 +5010,7 @@
 					sload 11;
 					sadd;
 					sstore 10;
-				L42:	sload 10;
+				L45:	sload 10;
 					bspush 37;
 					ssub;
 					sstore 11;
@@ -5012,10 +5022,10 @@
 					s2b;
 					bastore;
 					sload 7;
-					ifeq L44;
-				L43:	aload_0;
+					ifeq L47;
+				L46:	aload_0;
 					invokevirtual 178;		// commitTmpPath()V
-				L44:	getfield_a_this 30;		// reference CitadelWallet/im/status/keycard/KeycardApplet.secureChannel
+				L47:	getfield_a_this 30;		// reference CitadelWallet/im/status/keycard/KeycardApplet.secureChannel
 					aload_1;
 					sload 11;
 					sspush -28672;

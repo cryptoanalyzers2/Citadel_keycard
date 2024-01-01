@@ -953,10 +953,9 @@ public class KeycardApplet extends Applet {
 	  	Util.arrayCopyNonAtomic(path, (short) 0,curve25519.current_path, (short)0, len);
 	  	curve25519.current_path_length=len;
 	  	
-	  	ISOException.throwIt(ISO7816.SW_NO_ERROR);
+	  	//ISOException.throwIt(ISO7816.SW_NO_ERROR);
 	  	 return;
-	  	//unreachable
-        //break;
+       // break;
         
       default:
         ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
@@ -1425,6 +1424,7 @@ else
 	if( (byte) (apduBuffer[OFFSET_P1]) == DERIVE_P1_SOURCE_ED25519)
 	{
 		isED2559=true;
+		derivationSource=DERIVE_P1_SOURCE_ED25519;
 	}
 	else
 	{
@@ -1476,7 +1476,17 @@ else
     if (publicOnly) {
       apduBuffer[off++] = TLV_PUB_KEY;
       off++;
+      if(isED2559!=true)
+      {
       len = secp256k1.derivePublicKey(derivationOutput, (short) 0, apduBuffer, off);
+      }
+      else
+      {
+	   
+	   len = curve25519.derivePublicKey(derivationOutput, (short) 0, apduBuffer, off);
+  
+      }
+      	
       apduBuffer[(short) (off - 1)] = (byte) len;
       off += len;
 

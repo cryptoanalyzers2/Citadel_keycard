@@ -32,7 +32,7 @@ public class CardFunctions {
     private static final byte LOAD_KEY_ED25519_P1 = (byte)0x11 ;
     private static final byte SIGN_P1_ED25519_TEST= (byte)0x20;
 
-    private static final byte DERIVE_P1_SOURCE_ED25519= (byte)0xD0;
+    private static final byte DERIVE_P1_SOURCE_ED25519= (byte)0x47;
     private static NfcAdapter nfcAdapter;
     private static NFCCardManager cardManager = new NFCCardManager();
 
@@ -735,18 +735,21 @@ public class CardFunctions {
             APDUResponse response=null;
             byte[] sign_hash=null;
             byte[] pubK=null;
-
+            RecoverableSignature signature;
             if(curve==2)
             {
+                /*
                 response = cmdSet.sign(hsh,0x20);
 
                 byte[] res= response.getData();
                 pubK=subArray(res,5,5+31);
                 sign_hash=subArray(res,5+32,5+32+63);
+                 */
+
+                 signature = new RecoverableSignature(hsh, cmdSet.sign(hsh,0x20).checkOK().getData());
 
             }
-            else
-            {
+            else {
 
                 /*
                 response = cmdSet.sign(hsh);
@@ -756,7 +759,8 @@ public class CardFunctions {
                 sign_hash=subArray(res,5+65,5+65+63);
                  */
 
-                RecoverableSignature signature = new RecoverableSignature(hsh, cmdSet.sign(hsh).checkOK().getData());
+                 signature = new RecoverableSignature(hsh, cmdSet.sign(hsh).checkOK().getData());
+            }
 
                 Log.i(TAG, "Signed hash: " + Hex.toHexString(hsh));
                 msg0 = getMsg0() + "\n" + "Signed hash: " + Hex.toHexString(hsh);
@@ -775,7 +779,7 @@ public class CardFunctions {
                 pubK=signature.getPublicKey();
 
 
-            }
+
 
             //   response.checkOK();
 
