@@ -34,6 +34,29 @@ public class SignatureActivity extends AppCompatActivity {
 //set the spinners adapter to the previously created one.
         dropdown.setAdapter(adapter);
 
+    }
+    public void verify(View v)
+    {
+        Spinner list = (Spinner) findViewById(R.id.spinner_algo);
+        int curve= list.getSelectedItemPosition();
+
+        if(curve==0) {
+            EditText txtsign = (EditText) findViewById(R.id.txt_signature_data);
+            String hex_to_sign = (String) txtsign.getText().toString();
+            EditText txtresult = (EditText) findViewById(R.id.txt_signature_result);
+            String hex_result = (String) txtresult.getText().toString();
+            EditText txtpubK = (EditText) findViewById(R.id.txt_signature_pubK);
+            String hex_pubK = (String) txtpubK.getText().toString();
+
+
+            boolean res = Crypto.verify_secp256k1_signature(Hex.decode(hex_pubK), Hex.decode(hex_to_sign), Hex.decode(hex_result));
+
+            if (res == true) {
+                Utility.displayMesssage("Signature is valid", new AlertDialog.Builder((this)));
+            } else {
+                Utility.displayMesssage("Signature is invalid", new AlertDialog.Builder((this)));
+            }
+        }
 
 
     }
@@ -49,7 +72,7 @@ public class SignatureActivity extends AppCompatActivity {
                 return;
             }
 
-            TextView txtsign = (TextView) findViewById(R.id.txt_signature_data);
+            EditText txtsign = (EditText) findViewById(R.id.txt_signature_data);
             String hex_to_sign = (String) txtsign.getText().toString();
             byte[] bHex_to_sign=null;
 

@@ -11,6 +11,7 @@ import android.util.Log;
 import org.bouncycastle.util.encoders.Hex;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.Random;
 
 import im.status.keycard.android.NFCCardManager;
@@ -53,11 +54,15 @@ public class CardFunctions {
     ///wallets
 
     private static String BTCWALLETADDRESS="";
-
+    private static String HBARPUBLICKEY="";
    private static Random rnd = new Random();
 
     public static String getBTCWALLETADDRESS() {
         return BTCWALLETADDRESS;
+    }
+
+    public static String getHBARPUBLICKEY() {
+        return HBARPUBLICKEY;
     }
 
 
@@ -332,16 +337,17 @@ public class CardFunctions {
                 //the derivation itself is only done when needed- here this will derive
                 //BIP32KeyPair walletPublicKey = BIP32KeyPair.fromTLV(cmdSet.exportCurrentKey(true).checkOK().getData());
                 //TODO: ADD ALSO OPTIONS FOR DERIVING DIRECTLY FROM GIVEN PATH ETC ...
-                Crypto.SLIP10KeyPair walletPublicKey =Crypto.SLIP10KeyPair.fromTLV(cmdSet.exportKey(DERIVE_P1_SOURCE_ED25519,true,new byte[0]);
+                Crypto.SLIP10KeyPair walletPublicKey =Crypto.SLIP10KeyPair.fromTLV(cmdSet.exportKey(DERIVE_P1_SOURCE_ED25519,true,new byte[0]).checkOK().getData());
 
                 Log.i(TAG, "HEDERA Wallet public key: " + Hex.toHexString(walletPublicKey.getPublicKey()));
-                Log.i(TAG, "HEDERA Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress()));
-                txt += "\n" + "HEDERA Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
+                HBARPUBLICKEY=Hex.toHexString(walletPublicKey.getPublicKey());
+                Log.i(TAG, "HEDERA Wallet address: " + Hex.toHexString(walletPublicKey.toHederaAddress()));
+                txt += "\n" + "HEDERA Wallet address: " + Hex.toHexString(walletPublicKey.toHederaAddress());
 
-                BTCWALLETADDRESS = Hex.toHexString(walletPublicKey.toEthereumAddress());
+                BTCWALLETADDRESS = Hex.toHexString(walletPublicKey.toHederaAddress());
 
                 msg0 = getMsg0() + "\n" + Hex.toHexString(walletPublicKey.getPublicKey());
-                msg0 = getMsg0() + "\n" + "Wallet address: " + Hex.toHexString(walletPublicKey.toEthereumAddress());
+                msg0 = getMsg0() + "\n" + "Wallet address: " + Hex.toHexString(walletPublicKey.toHederaAddress());
                 byte[] hash = "thiscouldbeahashintheorysoitisok".getBytes();
 
                 RecoverableSignature signature = new RecoverableSignature(hash, cmdSet.sign(hash).checkOK().getData());
@@ -741,11 +747,33 @@ public class CardFunctions {
             }
             else
             {
+
+                /*
                 response = cmdSet.sign(hsh);
 
                 byte[] res= response.getData();
                 pubK=subArray(res,5,5+64);
                 sign_hash=subArray(res,5+65,5+65+63);
+                 */
+
+                RecoverableSignature signature = new RecoverableSignature(hsh, cmdSet.sign(hsh).checkOK().getData());
+
+                Log.i(TAG, "Signed hash: " + Hex.toHexString(hsh));
+                msg0 = getMsg0() + "\n" + "Signed hash: " + Hex.toHexString(hsh);
+                Log.i(TAG, "Recovery ID: " + signature.getRecId());
+                msg0 = getMsg0() + "\n" + "Recovery ID: " + signature.getRecId();
+                Log.i(TAG, "R: " + Hex.toHexString(signature.getR()));
+                msg0 = getMsg0() + "\n" + "R: " + Hex.toHexString(signature.getR());
+               Log.i(TAG, "S: " + Hex.toHexString(signature.getS()));
+                msg0 = getMsg0() + "\n" + "S: " + Hex.toHexString(signature.getS());
+
+                ByteBuffer buffer = ByteBuffer.allocate(64);
+                buffer.put(signature.getR());
+                buffer.put(signature.getS());
+                sign_hash=buffer.array();
+
+                pubK=signature.getPublicKey();
+
 
             }
 

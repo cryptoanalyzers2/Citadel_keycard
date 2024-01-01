@@ -3,9 +3,15 @@ package com.example.testkeycard4;
 import android.util.Base64;
 import android.util.Log;
 
+import org.bouncycastle.asn1.sec.SECNamedCurves;
+import org.bouncycastle.asn1.x9.X9ECParameters;
+import org.bouncycastle.crypto.params.ECDomainParameters;
+import org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
+import org.bouncycastle.crypto.signers.ECDSASigner;
 
+import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -14,7 +20,9 @@ import java.util.Arrays;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import im.status.keycard.applet.BIP32KeyPair;
 import im.status.keycard.applet.Mnemonic;
+import im.status.keycard.applet.TinyBERTLV;
 
 public class Crypto {
 
@@ -25,7 +33,7 @@ public class Crypto {
     static final byte TLV_CHAIN_CODE = (byte) 0x82;
 
 
-    public class SLIP10KeyPair {
+    public static class SLIP10KeyPair {
         private byte[] privateKey;
         private byte[] chainCode;
         private byte[] publicKey;
@@ -40,6 +48,38 @@ public class Crypto {
             this.privateKey=privateKey;
             this.publicKey=publicKey;
             this.chainCode=chainCode;
+        }
+
+       public static SLIP10KeyPair fromTLV(byte[] tlvData) {
+            TinyBERTLV tlv = new TinyBERTLV(tlvData);
+            tlv.enterConstructed(TLV_KEY_TEMPLATE);
+
+            byte[] pubKey = null;
+            byte[] privKey = null;
+            byte[] chainCode = null;
+
+            int tag = tlv.readTag();
+
+            if (tag == TLV_PUB_KEY) {
+                tlv.unreadLastTag();
+                pubKey = tlv.readPrimitive(TLV_PUB_KEY);
+                tag = tlv.readTag();
+            }
+
+            if (tag == TLV_PRIV_KEY) {
+                tlv.unreadLastTag();
+                privKey = tlv.readPrimitive(TLV_PRIV_KEY);
+                tag = tlv.readTag();
+
+                if (tag == TLV_CHAIN_CODE) {
+                    tlv.unreadLastTag();
+                    chainCode = tlv.readPrimitive(TLV_CHAIN_CODE);
+                }
+            }
+
+           SLIP10KeyPair kp= new SLIP10KeyPair(privKey, chainCode, pubKey);
+
+            return kp;
         }
 
         public byte[] toTLV(boolean includePublic) {
@@ -93,6 +133,17 @@ public class Crypto {
             }
 
             return data;
+
+        }
+
+        public byte[] getPublicKey() {
+
+            return  this.publicKey;
+        }
+
+        //need registration to hedera network
+        public byte[] toHederaAddress() {
+        return null;
 
         }
     }
@@ -151,6 +202,27 @@ public class Crypto {
         }
 
         return null;
+
+    }
+    public static boolean verify_secp256k1_signature(byte[] pub, byte[] data, byte[] rs) {
+
+
+        BigInteger r=  new BigInteger( 1,Arrays.copyOfRange(rs,0,32));
+        BigInteger s=  new BigInteger( 1,Arrays.copyOfRange(rs,32,64));
+
+        return verify_secp256k1_signature(pub,data,r,s);
+
+    }
+   public static boolean verify_secp256k1_signature(byte[] pub, byte[] data, BigInteger r, BigInteger s)
+    {
+        ECDSASigner signer = new ECDSASigner();
+        X9ECParameters params = SECNamedCurves.getByName("secp256k1");
+        ECDomainParameters ecParams = new ECDomainParameters(params.getCurve(),
+                params.getG(), params.getN(), params.getH());
+        ECPublicKeyParameters pubKeyParams = new ECPublicKeyParameters(ecParams
+                .getCurve().decodePoint(pub), ecParams);
+        signer.init(false, pubKeyParams);
+        return signer.verifySignature(data, r.abs(), s.abs());
 
     }
 

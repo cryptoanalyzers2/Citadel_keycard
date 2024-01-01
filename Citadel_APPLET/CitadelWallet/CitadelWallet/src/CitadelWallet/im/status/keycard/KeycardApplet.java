@@ -67,7 +67,7 @@ public class KeycardApplet extends Applet {
   static final byte DERIVE_P1_SOURCE_PINLESS = (byte) 0xC0;
   static final byte DERIVE_P1_SOURCE_MASK = (byte) 0xC0;
   //new
-  static final byte DERIVE_P1_SOURCE_ED25519= (byte)0xD0;
+  static final byte DERIVE_P1_SOURCE_ED25519= (byte)0x47;
 
   static final byte GENERATE_MNEMONIC_P1_CS_MIN = 4;
   static final byte GENERATE_MNEMONIC_P1_CS_MAX = 8;
@@ -1242,7 +1242,15 @@ public class KeycardApplet extends Applet {
     boolean test_ed25519 = false;
     
     byte derivationSource = (byte) (apduBuffer[OFFSET_P1] & DERIVE_P1_SOURCE_MASK);
-
+    
+//special case for Ed25519
+if((byte) (apduBuffer[OFFSET_P1]) == SIGN_P1_ED25519_TEST)
+{
+		
+		test_ed25519= true;
+}
+else
+{
     switch((byte) (apduBuffer[OFFSET_P1] & ~DERIVE_P1_SOURCE_MASK)) {
       case SIGN_P1_CURRENT_KEY:
         derivationSource = DERIVE_P1_SOURCE_CURRENT;
@@ -1257,16 +1265,12 @@ public class KeycardApplet extends Applet {
         derivationSource = DERIVE_P1_SOURCE_PINLESS;
         break;
         
-	case SIGN_P1_ED25519_TEST :
-		
-		test_ed25519= true;
-		break;
-		
 		
       default:
         ISOException.throwIt(ISO7816.SW_WRONG_P1P2);
         return;
     }
+}
 
     short len;
 
@@ -1416,6 +1420,15 @@ public class KeycardApplet extends Applet {
     boolean makeCurrent = false;
     byte derivationSource = (byte) (apduBuffer[OFFSET_P1] & DERIVE_P1_SOURCE_MASK);
 
+
+	//special case for ED25519
+	if( (byte) (apduBuffer[OFFSET_P1]) == DERIVE_P1_SOURCE_ED25519)
+	{
+		isED2559=true;
+	}
+	else
+	{
+		
     switch ((byte) (apduBuffer[OFFSET_P1] & ~DERIVE_P1_SOURCE_MASK)) {
       case EXPORT_KEY_P1_CURRENT:
         derivationSource = DERIVE_P1_SOURCE_CURRENT;
@@ -1426,15 +1439,15 @@ public class KeycardApplet extends Applet {
         makeCurrent = true;
         break;
         
-        //new
-        //TODO: IMPROVE THIS
-	case DERIVE_P1_SOURCE_ED25519:
-		isED2559=true;
-		break;
+        
+		
       default:
         ISOException.throwIt(ISO7816.SW_INCORRECT_P1P2);
         return;
+        
     }
+	}
+	
 
     updateDerivationPath(apduBuffer, (short) 0, dataLen, derivationSource);
 

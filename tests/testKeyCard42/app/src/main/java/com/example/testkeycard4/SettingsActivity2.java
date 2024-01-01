@@ -52,17 +52,26 @@ public void save_settings(View v)
 
 }
 
- void setPIN(View v)
+ public void setSECRET(View v)
  {
 
      TextView txtsecret = (TextView) findViewById(R.id.txt_secret);
      CardFunctions.setPASSWORD(txtsecret.getText().toString());
-     TextView txtPIN = (TextView) findViewById(R.id.txt_PIN);
-     CardFunctions.setPIN(txtPIN.getText().toString());
 
-     Utility.displayMesssage("Pairing password and PIN have been registered", new AlertDialog.Builder(this));
+     Utility.displayMesssage("Pairing password has been registered", new AlertDialog.Builder(this));
 
  }
+
+  public  void setPIN(View v)
+    {
+
+
+        TextView txtPIN = (TextView) findViewById(R.id.txt_PIN);
+        CardFunctions.setPIN(txtPIN.getText().toString());
+
+        Utility.displayMesssage("PIN has been registered", new AlertDialog.Builder(this));
+
+    }
 
     void load_settings()
     {

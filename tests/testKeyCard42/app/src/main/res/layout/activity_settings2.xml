@@ -35,8 +35,28 @@
                         android:textStyle="bold"
                         android:textColor="#99EE82EE" />
                 </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+                    <TextView
+                        android:id="@+id/lbl_credentials"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="italic"
+                        android:text="Credentials" />
 
+                </TableRow>
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <Switch
+                        android:id="@+id/cb_credentials"
+                        android:minWidth="150dp"
+                        android:text="Use Stored Credentials" />
+
+                </TableRow>
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
@@ -45,6 +65,7 @@
                         android:id="@+id/lbl_netcard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textStyle="italic"
                         android:text="NetCardChannel" />
 
                 </TableRow>

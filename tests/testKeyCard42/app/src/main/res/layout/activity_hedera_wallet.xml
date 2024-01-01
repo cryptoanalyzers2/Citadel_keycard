@@ -62,12 +62,12 @@
             </TableRow>
             <TableRow
 
-                android:id="@+id/firstRow1"
+                android:id="@+id/firstRow10"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" >
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/textView20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
@@ -87,6 +87,44 @@
 
                 <EditText
                     android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text=""
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    tools:layout_editor_absoluteX="66dp"
+                    tools:layout_editor_absoluteY="15dp" />
+            </TableRow>
+            <TableRow
+
+                android:id="@+id/firstRow1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="Public Key"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    tools:layout_editor_absoluteX="66dp"
+                    tools:layout_editor_absoluteY="15dp" />
+            </TableRow>
+            <TableRow
+
+                android:id="@+id/firstRow3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/text_hedera_pubK"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
