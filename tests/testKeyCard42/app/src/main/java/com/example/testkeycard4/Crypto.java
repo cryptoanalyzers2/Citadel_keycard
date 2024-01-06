@@ -1,7 +1,7 @@
 package com.example.testkeycard4;
 
-import android.util.Base64;
-import android.util.Log;
+import static im.status.keycard.applet.RecoverableSignature.TLV_ECDSA_TEMPLATE;
+import static im.status.keycard.applet.RecoverableSignature.TLV_SIGNATURE_TEMPLATE;
 
 import org.bouncycastle.asn1.sec.SECNamedCurves;
 import org.bouncycastle.asn1.x9.X9ECParameters;
@@ -10,17 +10,16 @@ import org.bouncycastle.crypto.params.ECPublicKeyParameters;
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
 import org.bouncycastle.crypto.signers.ECDSASigner;
+import org.bouncycastle.crypto.signers.Ed25519Signer;
 
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import im.status.keycard.applet.BIP32KeyPair;
+import im.status.keycard.applet.ApplicationInfo;
 import im.status.keycard.applet.Mnemonic;
 import im.status.keycard.applet.TinyBERTLV;
 
@@ -31,6 +30,63 @@ public class Crypto {
     static final byte TLV_PUB_KEY = (byte) 0x80;
     static final byte TLV_PRIV_KEY = (byte) 0x81;
     static final byte TLV_CHAIN_CODE = (byte) 0x82;
+
+    private static byte[] toUInt(byte[] signedInt) {
+        if (signedInt[0] == 0) {
+            return Arrays.copyOfRange(signedInt, 1, signedInt.length);
+        } else {
+            return signedInt;
+        }
+    }
+
+
+
+    public static boolean verify_ed25519_signature(byte[] pub, byte[] data, byte[] signature) {
+
+        Ed25519PublicKeyParameters params = new Ed25519PublicKeyParameters(pub, 0);
+
+        // verify the signature
+        Ed25519Signer verifier = new Ed25519Signer();
+        verifier.init(false, params);
+        verifier.update(data, 0, data.length);
+        boolean verified = verifier.verifySignature(signature);
+
+        return verified;
+
+    }
+
+
+    public static class ED25519Signature {
+        private byte[] r;
+        private byte[] s;
+
+        private byte[] publicKey;
+
+        public ED25519Signature(byte[] hash, byte[] tlvData) {
+            TinyBERTLV tlv = new TinyBERTLV(tlvData);
+            tlv.enterConstructed(TLV_SIGNATURE_TEMPLATE);
+            publicKey = tlv.readPrimitive(ApplicationInfo.TLV_PUB_KEY);
+            tlv.enterConstructed(TLV_ECDSA_TEMPLATE);
+            r=toUInt(tlv.readPrimitive(TinyBERTLV.TLV_INT));
+            s = toUInt(tlv.readPrimitive(TinyBERTLV.TLV_INT));
+
+
+        }
+
+        public byte[] getR() {
+            return r;
+        }
+
+
+        public byte[] getS() {
+            return s;
+        }
+
+        public byte[] getPublicKey()
+        {
+            return publicKey;
+        }
+    }
 
 
     public static class SLIP10KeyPair {
@@ -204,6 +260,7 @@ public class Crypto {
         return null;
 
     }
+
     public static boolean verify_secp256k1_signature(byte[] pub, byte[] data, byte[] rs) {
 
 

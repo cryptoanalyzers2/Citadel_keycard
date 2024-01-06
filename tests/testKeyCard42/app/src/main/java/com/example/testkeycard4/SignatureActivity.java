@@ -48,14 +48,41 @@ public class SignatureActivity extends AppCompatActivity {
             EditText txtpubK = (EditText) findViewById(R.id.txt_signature_pubK);
             String hex_pubK = (String) txtpubK.getText().toString();
 
+            //we sign a hash!
+            byte[]  hsh= Crypto.hashData(Hex.decode(hex_to_sign));
 
-            boolean res = Crypto.verify_secp256k1_signature(Hex.decode(hex_pubK), Hex.decode(hex_to_sign), Hex.decode(hex_result));
+
+            boolean res = Crypto.verify_secp256k1_signature(Hex.decode(hex_pubK), hsh, Hex.decode(hex_result));
 
             if (res == true) {
                 Utility.displayMesssage("Signature is valid", new AlertDialog.Builder((this)));
             } else {
                 Utility.displayMesssage("Signature is invalid", new AlertDialog.Builder((this)));
             }
+        }
+        else if(curve==2)
+        {
+            EditText txtsign = (EditText) findViewById(R.id.txt_signature_data);
+            String hex_to_sign = (String) txtsign.getText().toString();
+            EditText txtresult = (EditText) findViewById(R.id.txt_signature_result);
+            String hex_result = (String) txtresult.getText().toString();
+            EditText txtpubK = (EditText) findViewById(R.id.txt_signature_pubK);
+            String hex_pubK = (String) txtpubK.getText().toString();
+
+            //we sign a hash!
+            byte[]  hsh= Crypto.hashData(Hex.decode(hex_to_sign));
+
+            boolean res = Crypto.verify_ed25519_signature(Hex.decode(hex_pubK),hsh , Hex.decode(hex_result));
+
+            if (res == true) {
+                Utility.displayMesssage("Signature is valid", new AlertDialog.Builder((this)));
+            } else {
+                Utility.displayMesssage("Signature is invalid", new AlertDialog.Builder((this)));
+            }
+        }
+        else
+        {
+            Utility.displayMesssage("Unsupported curve", new AlertDialog.Builder((this)));
         }
 
 

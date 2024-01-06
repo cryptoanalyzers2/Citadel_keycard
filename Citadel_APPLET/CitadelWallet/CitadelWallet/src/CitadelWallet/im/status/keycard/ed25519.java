@@ -182,24 +182,28 @@ public class ed25519 {
 	public short SignData( byte [] DataToSign, short DataToSignOffset, short DataToSignLength, byte[] SignatureBuffer, short SignatureOffset)
 	{
 		short SigLen = CryptoBaseX.sign(eccPriKey, CryptoBaseX.ALG_ED25519PH_SHA_512, DataToSign, DataToSignOffset, DataToSignLength, SignatureBuffer, SignatureOffset);
-		BigToLittleEndian(SignatureBuffer, (short)0,(short)32);
-		BigToLittleEndian(SignatureBuffer, (short)32,(short)32);	
+		BigToLittleEndian(SignatureBuffer, (short)SignatureOffset,(short)32);
+		BigToLittleEndian(SignatureBuffer, (short)((short)32+(short)SignatureOffset),(short)32);	
 		return SigLen;
 	}
+	
+	
 	
 	public short Hedera_SignData( byte [] DataToSign, short DataToSignOffset, short DataToSignLength, byte[] SignatureBuffer, short SignatureOffset)
 	{
 		short SigLen = CryptoBaseX.sign(ecc_Hedera_PriKey, CryptoBaseX.ALG_ED25519PH_SHA_512, DataToSign, DataToSignOffset, DataToSignLength, SignatureBuffer, SignatureOffset);
-		BigToLittleEndian(SignatureBuffer, (short)0,(short)32);
-		BigToLittleEndian(SignatureBuffer, (short)32,(short)32);	
+		BigToLittleEndian(SignatureBuffer, (short)SignatureOffset,(short)32);
+		BigToLittleEndian(SignatureBuffer, (short)((short)32+(short)SignatureOffset),(short)32);	
+		
 		return SigLen;
 	}
 
 	public short SignData( ECPrivateKeyWithPredefinedParameters privatekey, byte [] DataToSign, short DataToSignOffset, short DataToSignLength, byte[] SignatureBuffer, short SignatureOffset)
 	{
 		short SigLen = CryptoBaseX.sign(privatekey, CryptoBaseX.ALG_ED25519PH_SHA_512, DataToSign, DataToSignOffset, DataToSignLength, SignatureBuffer, SignatureOffset);
-		BigToLittleEndian(SignatureBuffer, (short)0,(short)32);
-		BigToLittleEndian(SignatureBuffer, (short)32,(short)32);	
+		BigToLittleEndian(SignatureBuffer, (short)SignatureOffset,(short)32);
+		BigToLittleEndian(SignatureBuffer, (short)((short)32+(short)SignatureOffset),(short)32);	
+			
 		return SigLen;
 	}
 	

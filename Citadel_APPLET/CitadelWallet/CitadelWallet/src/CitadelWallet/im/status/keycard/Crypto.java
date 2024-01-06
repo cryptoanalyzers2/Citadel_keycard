@@ -20,6 +20,8 @@ public class Crypto {
   final static short KEY_SECRET_SIZE_ED = 32;
   final static short KEY_PUB_SIZE_ED = 32;
   final static short SIGNATURE_SIZE_ED = 64;
+  final static short SIGNATURE_SIZE_ED_R=32;
+  final static short SIGNATURE_SIZE_ED_S=32;
   
 
   final static private byte[] MAX_S = { (byte) 0x7F, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0xFF, (byte) 0x5D, (byte) 0x57, (byte) 0x6E, (byte) 0x73, (byte) 0x57, (byte) 0xA4, (byte) 0x50, (byte) 0x1D, (byte) 0xDF, (byte) 0xE9, (byte) 0x2F, (byte) 0x46, (byte) 0x68, (byte) 0x1B, (byte) 0x20, (byte) 0xA0 };

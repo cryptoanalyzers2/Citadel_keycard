@@ -10,6 +10,8 @@ import static javacard.framework.ISO7816.OFFSET_P1;
  */
 public class KeycardApplet extends Applet {
   static final short APPLICATION_VERSION = (short) 0x0301;
+  
+  static final byte TLV_ECDSA_TEMPLATE=0x30;
 
   static final byte INS_GET_STATUS = (byte) 0xF2;
   static final byte INS_INIT = (byte) 0xFE;
@@ -78,7 +80,7 @@ public class KeycardApplet extends Applet {
   static final byte SIGN_P1_DERIVE_AND_MAKE_CURRENT = 0x02;
   static final byte SIGN_P1_PINLESS = 0x03;
   
-  static final byte SIGN_P1_ED25519_TEST= 0x20;
+  static final byte SIGN_P1_ED25519= 0x20;
   
   static final byte SIGN_P1_CURRENT_KEY_ED = 0x10;
   static final byte SIGN_P1_DERIVE_ED = 0x11;
@@ -1238,15 +1240,14 @@ public class KeycardApplet extends Applet {
     byte[] apduBuffer = apdu.getBuffer();
     boolean usePinless = false;
     boolean makeCurrent = false;
-    boolean test_ed25519 = false;
+    boolean sign_ed25519 = false;
     
     byte derivationSource = (byte) (apduBuffer[OFFSET_P1] & DERIVE_P1_SOURCE_MASK);
     
 //special case for Ed25519
-if((byte) (apduBuffer[OFFSET_P1]) == SIGN_P1_ED25519_TEST)
+if((byte) (apduBuffer[OFFSET_P1]) == SIGN_P1_ED25519)
 {
-		
-		test_ed25519= true;
+		sign_ed25519= true;
 }
 else
 {
@@ -1295,8 +1296,8 @@ else
     }
     
     
-    /// TEST FOR ED25519
-    if(test_ed25519 == true)
+    ///FOR ED25519
+    if(sign_ed25519 == true)
     {
     	 apduBuffer[SecureChannel.SC_OUT_OFFSET] = TLV_SIGNATURE_TEMPLATE;
 		 apduBuffer[(short)(SecureChannel.SC_OUT_OFFSET + 3)] = TLV_PUB_KEY;
@@ -1308,12 +1309,31 @@ else
     
     	curve25519.GetPublicKey(apduBuffer, (short) (SecureChannel.SC_OUT_OFFSET + 5));
     	
-    	curve25519.SignData(apduBuffer, ISO7816.OFFSET_CDATA, apduBuffer[ISO7816.OFFSET_LC], apduBuffer, sigOff);
+    	curve25519.SignData(apduBuffer, ISO7816.OFFSET_CDATA, apduBuffer[ISO7816.OFFSET_LC], apduBuffer,(short)( sigOff+4));
+	    apduBuffer[sigOff]=TLV_ECDSA_TEMPLATE;
+	    apduBuffer[sigOff+1]=(short)(Crypto.SIGNATURE_SIZE_ED+4);
+	    apduBuffer[sigOff+2]=TLV_INT;
+	    apduBuffer[sigOff+3]=(short)(Crypto.SIGNATURE_SIZE_ED_R);
 	    
-	    outLen+=Crypto.SIGNATURE_SIZE_ED;
+	    /*
+	    for(short i=(short)(sigOff+3+Crypto.SIGNATURE_SIZE_ED);i>(short)(sigOff+3+Crypto.SIGNATURE_SIZE_ED_R);i--)
+			{
+				
+			}
+			*/
+   Util.arrayCopy(apduBuffer, (short)(sigOff+4+Crypto.SIGNATURE_SIZE_ED_R), apduBuffer, (short)(sigOff+4+Crypto.SIGNATURE_SIZE_ED_R+2), Crypto.SIGNATURE_SIZE_ED_S);
+	    apduBuffer[sigOff+2+Crypto.SIGNATURE_SIZE_ED_R+2]=TLV_INT;
+	    apduBuffer[sigOff+3+Crypto.SIGNATURE_SIZE_ED_R+2]=(short)(Crypto.SIGNATURE_SIZE_ED_S);
+	    
+	    outLen+=Crypto.SIGNATURE_SIZE_ED+6;
 	    
 	     apduBuffer[(short)(SecureChannel.SC_OUT_OFFSET + 1)] = (byte) 0x81;
 		 apduBuffer[(short)(SecureChannel.SC_OUT_OFFSET + 2)] = (byte) (outLen - 3);
+	    
+	    if(apduBuffer[SecureChannel.SC_OUT_OFFSET] != TLV_SIGNATURE_TEMPLATE)
+	    	{
+		    	ISOException.throwIt(ISO7816.SW_DATA_INVALID);
+	    	}
 	    
 	    if (secureChannel.isOpen()) {
       secureChannel.respond(apdu, outLen, ISO7816.SW_NO_ERROR);
@@ -1339,6 +1359,8 @@ else
     signature.init(secp256k1.tmpECPrivateKey, Signature.MODE_SIGN);
 
     outLen += signature.signPreComputedHash(apduBuffer, ISO7816.OFFSET_CDATA, MessageDigest.LENGTH_SHA_256, apduBuffer, sigOff);
+    //TEST if signature becomes valid (from 'pure' ECDSA point of view without that
+    //does not change anything
     outLen += crypto.fixS(apduBuffer, sigOff);
 
     apduBuffer[(short)(SecureChannel.SC_OUT_OFFSET + 1)] = (byte) 0x81;

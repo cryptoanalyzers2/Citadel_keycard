@@ -30,7 +30,8 @@ import im.status.keycard.io.CardListener;
 
 public class CardFunctions {
     private static final byte LOAD_KEY_ED25519_P1 = (byte)0x11 ;
-    private static final byte SIGN_P1_ED25519_TEST= (byte)0x20;
+    private static final byte SIGN_P1_ED25519= (byte)0x20;
+
 
     private static final byte DERIVE_P1_SOURCE_ED25519= (byte)0x47;
     private static NfcAdapter nfcAdapter;
@@ -735,32 +736,11 @@ public class CardFunctions {
             APDUResponse response=null;
             byte[] sign_hash=null;
             byte[] pubK=null;
-            RecoverableSignature signature;
-            if(curve==2)
+
+            if(curve==0)
             {
-                /*
-                response = cmdSet.sign(hsh,0x20);
 
-                byte[] res= response.getData();
-                pubK=subArray(res,5,5+31);
-                sign_hash=subArray(res,5+32,5+32+63);
-                 */
-
-                 signature = new RecoverableSignature(hsh, cmdSet.sign(hsh,0x20).checkOK().getData());
-
-            }
-            else {
-
-                /*
-                response = cmdSet.sign(hsh);
-
-                byte[] res= response.getData();
-                pubK=subArray(res,5,5+64);
-                sign_hash=subArray(res,5+65,5+65+63);
-                 */
-
-                 signature = new RecoverableSignature(hsh, cmdSet.sign(hsh).checkOK().getData());
-            }
+                RecoverableSignature signature = new RecoverableSignature(hsh, cmdSet.sign(hsh).checkOK().getData());
 
                 Log.i(TAG, "Signed hash: " + Hex.toHexString(hsh));
                 msg0 = getMsg0() + "\n" + "Signed hash: " + Hex.toHexString(hsh);
@@ -768,7 +748,7 @@ public class CardFunctions {
                 msg0 = getMsg0() + "\n" + "Recovery ID: " + signature.getRecId();
                 Log.i(TAG, "R: " + Hex.toHexString(signature.getR()));
                 msg0 = getMsg0() + "\n" + "R: " + Hex.toHexString(signature.getR());
-               Log.i(TAG, "S: " + Hex.toHexString(signature.getS()));
+                Log.i(TAG, "S: " + Hex.toHexString(signature.getS()));
                 msg0 = getMsg0() + "\n" + "S: " + Hex.toHexString(signature.getS());
 
                 ByteBuffer buffer = ByteBuffer.allocate(64);
@@ -778,6 +758,39 @@ public class CardFunctions {
 
                 pubK=signature.getPublicKey();
 
+
+            }
+            else if (curve ==2){
+
+
+
+                byte[] tlv_data= cmdSet.sign(hsh,SIGN_P1_ED25519).checkOK().getData();
+
+
+                Crypto.ED25519Signature  signature = new Crypto.ED25519Signature(hsh,tlv_data);
+
+
+                Log.i(TAG, "Signed hash: " + Hex.toHexString(hsh));
+                msg0 = getMsg0() + "\n" + "Signed hash: " + Hex.toHexString(hsh);
+
+                Log.i(TAG, "R: " + Hex.toHexString(signature.getR()));
+                msg0 = getMsg0() + "\n" + "R: " + Hex.toHexString(signature.getR());
+                Log.i(TAG, "S: " + Hex.toHexString(signature.getS()));
+                msg0 = getMsg0() + "\n" + "S: " + Hex.toHexString(signature.getS());
+
+                ByteBuffer buffer = ByteBuffer.allocate(64);
+                buffer.put(signature.getR());
+                buffer.put(signature.getS());
+                sign_hash=buffer.array();
+
+                pubK=signature.getPublicKey();
+
+
+            }
+            else {
+                msg0 = getMsg0() + "\n"+"curve not supported";
+                return null;
+            }
 
 
 
